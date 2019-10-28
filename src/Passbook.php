@@ -52,9 +52,9 @@ abstract class Passbook
     private $logoText;
 
     /**
-     * @var Barcode[]|null
+     * @var Barcode[]
      */
-    private $barcodes;
+    private $barcodes = [];
 
     /**
      * @var DateTimeImmutable|null
@@ -136,19 +136,19 @@ abstract class Passbook
      */
     private $backFields = [];
 
-    public function __construct(
-        UuidInterface $serialNumber,
-        string $organizationName,
-        string $description
-    ) {
+    public function __construct(UuidInterface $serialNumber)
+    {
         $this->serialNumber = $serialNumber;
-        $this->organizationName = $organizationName;
-        $this->description = $description;
     }
 
-    public function voided(): void
+    public function setOrganizationName(string $organizationName): void
     {
-        $this->voided = true;
+        $this->organizationName = $organizationName;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     public function setPassTypeIdentifier(string $passTypeIdentifier): void
@@ -227,9 +227,14 @@ abstract class Passbook
         $this->secondaryFields[] = $field;
     }
 
-    public function addBackFields(Field $field): void
+    public function addBackField(Field $field): void
     {
         $this->backFields[] = $field;
+    }
+
+    public function voided(): void
+    {
+        $this->voided = true;
     }
 
     abstract public function getData(): array;
@@ -273,7 +278,6 @@ abstract class Passbook
             foreach ($this->barcodes as $barcode) {
                 $data['barcodes'][] = $barcode->toArray();
             }
-            $data['barcodes'][0]['voided'] = true;
         }
 
         if ($this->relevantDate) {

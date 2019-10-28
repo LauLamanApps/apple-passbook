@@ -26,7 +26,7 @@ class Field
     private $label;
 
     /**
-     * @var DataDetector|null
+     * @var DataDetector[]|null
      */
     private $dataDetectorTypes;
 
@@ -88,7 +88,7 @@ class Field
         }
 
         if ($this->dataDetectorTypes) {
-            $data['dataDetectorTypes'] = $this->dataDetectorTypes->getValue();
+            $data['dataDetectorTypes'] = [$this->dataDetectorTypes->getValue()];
         }
 
         if ($this->changeMessage) {
