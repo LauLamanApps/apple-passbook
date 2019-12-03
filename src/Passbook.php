@@ -140,7 +140,7 @@ abstract class Passbook
      */
     private $backFields = [];
 
-    public function __construct(UuidInterface $serialNumber)
+    public function __construct(string $serialNumber)
     {
         $this->serialNumber = $serialNumber;
     }
@@ -271,13 +271,13 @@ abstract class Passbook
         $data = [
             'formatVersion' => $this->formatVersion,
             'passTypeIdentifier' => $this->passTypeIdentifier,
-            'serialNumber' => $this->serialNumber->toString(),
+            'serialNumber' => $this->serialNumber,
             'teamIdentifier' => $this->teamIdentifier,
             'organizationName' => $this->organizationName,
             'description' => $this->description,
         ];
 
-        if ($this->logoText) {
+        if ($this->logoText !== null) {
             $data['logoText'] = $this->logoText;
         }
 
@@ -289,25 +289,25 @@ abstract class Passbook
             }
         }
 
-        if ($this->relevantDate) {
+        if ($this->relevantDate !== null) {
             $data['relevantDate'] = $this->relevantDate->format(DateTimeInterface::W3C);
         }
 
-        if ($this->expirationDate) {
+        if ($this->expirationDate !== null) {
             $data['expirationDate'] = $this->expirationDate->format(DateTimeInterface::W3C);
         }
 
-        if ($this->voided) {
-            $data['voided'] = $this->voided;
+        if ($this->voided === true) {
+            $data['voided'] = true;
         }
 
-        if ($this->locations) {
+        if ($this->locations !== null) {
             foreach ($this->locations as $location) {
                 $data['locations'][] = $location->toArray();
             }
         }
 
-        if ($this->maxDistance) {
+        if ($this->maxDistance !== null) {
             $data['maxDistance'] = $this->maxDistance;
         }
 
@@ -316,15 +316,15 @@ abstract class Passbook
             $data['authenticationToken'] = $this->authenticationToken;
         }
 
-        if ($this->foregroundColor) {
+        if ($this->foregroundColor !== null) {
             $data['foregroundColor'] = $this->foregroundColor->toString();
         }
 
-        if ($this->backgroundColor) {
+        if ($this->backgroundColor !== null) {
             $data['backgroundColor'] = $this->backgroundColor->toString();
         }
 
-        if ($this->labelColor) {
+        if ($this->labelColor !== null) {
             $data['labelColor'] = $this->labelColor->toString();
         }
 

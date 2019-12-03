@@ -28,7 +28,7 @@ final class GenericPassbookTest extends TestCase
      */
     public function testDefaults(): void
     {
-        $passbook = $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = $passbook = new GenericPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');
@@ -426,7 +426,7 @@ final class GenericPassbookTest extends TestCase
      */
     public function testHasPassTypeIdentifier(): void
     {
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());
@@ -442,7 +442,7 @@ final class GenericPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
         ;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
@@ -462,7 +462,7 @@ final class GenericPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the PassTypeIdentifier before requesting the manifest data.');
 
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
         $passbook->getData();
     }
 
@@ -474,7 +474,7 @@ final class GenericPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the TeamIdentifier before requesting the manifest data.');
 
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->getData();
     }
@@ -487,7 +487,7 @@ final class GenericPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the OrganizationName before requesting the manifest data.');
 
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->getData();
@@ -501,7 +501,7 @@ final class GenericPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the Description before requesting the manifest data.');
 
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('My Awesome organization');
@@ -510,7 +510,7 @@ final class GenericPassbookTest extends TestCase
 
     private function getValidPassbook(): GenericPassbook
     {
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        $passbook = new GenericPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');

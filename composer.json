@@ -34,7 +34,6 @@
     },
     "require": {
         "php": ">=7.1",
-        "ramsey/uuid": "^3.7",
         "werkspot/enum": "^2.1",
         "ext-json": "*",
         "ext-openssl": "*",

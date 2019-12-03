@@ -25,7 +25,7 @@ final class BoardingPassbookTest extends TestCase
 
     public function testDefaults(): void
     {
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');
@@ -425,7 +425,7 @@ final class BoardingPassbookTest extends TestCase
      */
     public function testHasPassTypeIdentifier(): void
     {
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());
@@ -441,7 +441,7 @@ final class BoardingPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         ;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
@@ -461,7 +461,7 @@ final class BoardingPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the PassTypeIdentifier before requesting the manifest data.');
 
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->getData();
     }
 
@@ -473,7 +473,7 @@ final class BoardingPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the TeamIdentifier before requesting the manifest data.');
 
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->getData();
     }
@@ -486,7 +486,7 @@ final class BoardingPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the OrganizationName before requesting the manifest data.');
 
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->getData();
@@ -500,7 +500,7 @@ final class BoardingPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the Description before requesting the manifest data.');
 
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('My Awesome organization');
@@ -512,7 +512,7 @@ final class BoardingPassbookTest extends TestCase
         $this->expectException(MissingRequiredDataException::class);
         $this->expectExceptionMessage('Please specify the TransitType before requesting the manifest data.');
 
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setPassTypeIdentifier('pass.com.klm.mobile.iphone.klmmobile.boardingpass');
         $passbook->setOrganizationName('My Awesome organization');
@@ -522,7 +522,7 @@ final class BoardingPassbookTest extends TestCase
 
     public function testPassbook():void
     {
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setPassTypeIdentifier('pass.com.klm.mobile.iphone.klmmobile.boardingpass');
         $passbook->setTransitType(TransitType::air());
@@ -776,7 +776,7 @@ final class BoardingPassbookTest extends TestCase
 
     private function getValidPassbook(): BoardingPassbook
     {
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        $passbook = new BoardingPassbook(self::UUID);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');

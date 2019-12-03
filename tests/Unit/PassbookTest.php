@@ -524,13 +524,13 @@ final class PassbookTest extends TestCase
 
     private function getAnonymousPassbook(): Passbook
     {
-        return new class(Uuid::fromString(self::UUID)) extends Passbook {
+        return new class(self::UUID) extends Passbook {
         };
     }
 
     private function getAnonymousPassbookWithConst(): Passbook
     {
-        $passbook = new class(Uuid::fromString(self::UUID)) extends Passbook {
+        $passbook = new class(self::UUID) extends Passbook {
             protected const TYPE = PassbookTest::ANONYMOUS_PASSBOOK_TYPE;
         };
 
