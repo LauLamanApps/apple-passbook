@@ -40,7 +40,8 @@
         "ext-zip": "*"
     },
     "suggest": {
-        "ext-exif": "*"
+        "ext-exif": "*",
+        "laulamanapps/apple-passbook-bundle": "^1.0"
     },
     "config": {
         "bin-dir": "bin"
