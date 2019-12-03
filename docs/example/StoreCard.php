@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use LauLamanApps\ApplePassbook\BoardingPassbook;
 use LauLamanApps\ApplePassbook\Build\Compiler;
 use LauLamanApps\ApplePassbook\Build\Compressor;
 use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
@@ -56,8 +55,6 @@ $deal->setLabel('Deal of the Day');
 $deal->setValue('Lemons');
 $passbook->addAuxiliaryField($deal);
 
-$passbook->addImage(new LocalImage(__DIR__ . '/files/StoreCard/background.png'));
-$passbook->addImage(new LocalImage(__DIR__ . '/files/StoreCard/background@2x.png'));
 $passbook->addImage(new LocalImage(__DIR__ . '/files/StoreCard/icon.png'));
 $passbook->addImage(new LocalImage(__DIR__ . '/files/StoreCard/icon@2x.png'));
 $passbook->addImage(new LocalImage(__DIR__ . '/files/StoreCard/logo.png'));
@@ -67,6 +64,6 @@ $passbook->addImage(new LocalImage(__DIR__ . '/files/StoreCard/strip@2x.png'));
 //-- Send data too the browser
 header('Content-Description: File Transfer');
 header('Content-Type: application/vnd.apple.pkpass');
-header('Content-Disposition: filename="boardingpass.pkpass"');
+header('Content-Disposition: filename="storecard.pkpass"');
 
 echo $compiler->compile($passbook);

@@ -66,6 +66,6 @@ $passbook->addImage(new LocalImage(__DIR__ . '/files/Event/thumbnail@2x.png'));
 //-- Send data too the browser
 header('Content-Description: File Transfer');
 header('Content-Type: application/vnd.apple.pkpass');
-header('Content-Disposition: filename="boardingpass.pkpass"');
+header('Content-Disposition: filename="event.pkpass"');
 
 echo $compiler->compile($passbook);
