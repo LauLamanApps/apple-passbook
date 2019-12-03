@@ -74,7 +74,6 @@ class Field
         $this->value = $value;
     }
 
-
     public function setLabel(string $label): void
     {
         $this->label = $label;

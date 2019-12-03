@@ -9,14 +9,15 @@ help:
 coverage:
 	rm -rf coverage; bin/phpunit-8.4.3.phar --coverage-html=coverage/ --coverage-clover=coverage/clover.xml
 
-unit-tests:
+tests-unit:
 	bin/phpunit-8.4.3.phar --testsuite unit
 
-integration-tests:
+tests-integration:
 	bin/phpunit-8.4.3.phar --testsuite integration
 
-infection-tests:
+tests-infection:
 	./bin/infection.phar
 
 cs-fix:
 	./bin/php-cs-fixer fix --verbose
+LauLamanApps\ApplePassbook\Tests\Unit\BoardingPassbookTest::testDefaults

@@ -20,13 +20,22 @@ class NumberField extends Field
      */
     private $numberStyle;
 
-    public function __construct(string $key, $value, ?string $label = null)
+    public function __construct(?string $key = null, $value = null, ?string $label = null)
+    {
+        parent::__construct($key, null, $label);
+
+        if ($value !== null) {
+            $this->setValue($value);
+        }
+    }
+
+    public function setValue($value): void
     {
         if (!is_numeric($value)) {
             throw new InvalidArgumentException('Value should be numeric.');
         }
 
-        parent::__construct($key, $value, $label);
+        parent::setValue($value);
     }
 
     public function setCurrencyCode(string $currencyCode): void

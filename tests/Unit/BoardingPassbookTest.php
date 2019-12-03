@@ -39,8 +39,9 @@ final class BoardingPassbookTest extends TestCase
             'teamIdentifier' => '9X3HHK8VXA',
             'organizationName' => 'LauLaman Apps',
             'description' => 'Pass for LauLaman Apps',
-            'transitType' => TransitType::air()->getValue(),
-            'boardingPass' => [],
+            'boardingPass' => [
+                'transitType' => TransitType::air()->getValue(),
+            ],
         ];
 
         self::assertEquals($expected, $passbook->getData());
@@ -522,253 +523,184 @@ final class BoardingPassbookTest extends TestCase
 
     public function testPassbook():void
     {
-        $passbook = new BoardingPassbook(self::UUID);
-        $passbook->setTeamIdentifier('9X3HHK8VXA');
-        $passbook->setPassTypeIdentifier('pass.com.klm.mobile.iphone.klmmobile.boardingpass');
+        $passbook = new BoardingPassbook('gT6zrHkaW');
+        $passbook->setTeamIdentifier('A93A5CM278');
+        $passbook->setPassTypeIdentifier('pass.com.apple.devpubs.example');
         $passbook->setTransitType(TransitType::air());
-        $passbook->setOrganizationName('KLM');
-        $passbook->setDescription('KLM Boarding Pass');
-        $passbook->addLocation(new Location(52.308333, 4.768056));
-        $passbook->setForegroundColor(new Hex('031e2F'));
-        $passbook->setBackgroundColor(new Rgb(255, 255, 255));
-        $passbook->setLabelColor(new Hex('031e2F'));
-        $passbook->setRelevantDate(DateTimeImmutable::createFromFormat(DateTimeImmutable::W3C, '2019-11-08T15:55:00Z'));
-        $passbook->setWebService('https://apiams.airfranceklm.com/wallet', 'KL07424264229561');
+        $passbook->setOrganizationName('Skyport Airways');
+        $passbook->setDescription('Skyport Boarding Pass');
+        $passbook->setLogoText('Skyport Airways');
+        $passbook->addLocation(new Location(37.6189722, -122.3748889));
+        $passbook->setForegroundColor(new Rgb(22, 55, 110));
+        $passbook->setBackgroundColor(new Rgb(50, 91, 185));
+        $passbook->setRelevantDate(new DateTimeImmutable( '2012-07-22T14:25-08:00'));
+        $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
 
         $barcode = new Barcode();
-        $barcode->setFormat(BarcodeFormat::aztec());
-        $barcode->setMessage('M1LAMAN/LAURENS       EM3QJPJ AMSBCNKL 1675 312M021B0029 31F>60B  M     KL 0E07424264229560');
-        $barcode->setAltText('SEC.KL1675: 029');
+        $barcode->setFormat(BarcodeFormat::pdf417());
+        $barcode->setMessage('SFOJFK JOHN APPLESEED LH451 2012-07-22T14:25-08:00');
         $passbook->setBarcode($barcode);
-
-        $date = new Field();
-        $date->setKey('date');
-        $date->setLabel('Date');
-        $date->setValue('08 Nov');
-        $date->setTextAlignment(TextAlignment::left());
-        $passbook->addHeaderField($date);
 
         $gate = new Field();
         $gate->setKey('gate');
-        $gate->setLabel('Gate');
-        $gate->setValue('D79');
-        $gate->setTextAlignment(TextAlignment::left());
+        $gate->setLabel('GATE');
+        $gate->setValue('23');
+        $gate->setChangeMessage('Gate changed to %@.');
         $passbook->addHeaderField($gate);
-
-        $booking = new Field();
-        $booking->setKey('booking');
-        $booking->setLabel('Booking');
-        $booking->setValue('M3QJPJ');
-        $booking->setTextAlignment(TextAlignment::left());
-        $passbook->addBackField($booking);
-
-        $ticket = new Field();
-        $ticket->setKey('ticket');
-        $ticket->setLabel('Ticket');
-        $ticket->setValue('074 2426422956');
-        $ticket->setTextAlignment(TextAlignment::left());
-        $passbook->addBackField($ticket);
-
-        $class = new Field();
-        $class->setKey('class');
-        $class->setLabel('Class');
-        $class->setValue('ECONOMY');
-        $class->setTextAlignment(TextAlignment::left());
-        $passbook->addBackField($class);
-
-        $contact = new Field();
-        $contact->setKey('contact');
-        $contact->setLabel('Contact us');
-        $contact->setValue('https://www.klm.com/travel/nl_nl/customer_support/customer_support/contact/about/checkin_online.htm');
-        $contact->setAttributedValue('<a href=\'https://www.klm.com/travel/nl_nl/customer_support/customer_support/contact/about/checkin_online.htm\'>We are happy to help you! Contact us 24/7</a>');
-        $contact->setTextAlignment(TextAlignment::left());
-        $passbook->addBackField($contact);
-
-        $origin = new Field();
-        $origin->setKey('origin');
-        $origin->setLabel('Amsterdam');
-        $origin->setValue('AMS');
-        $origin->setTextAlignment(TextAlignment::left());
-        $passbook->addPrimaryField($origin);
-
-        $destination = new Field();
-        $destination->setKey('destination');
-        $destination->setLabel('Barcelona');
-        $destination->setValue('BCN');
-        $destination->setTextAlignment(TextAlignment::left());
-        $passbook->addPrimaryField($destination);
-
-        $passenger = new Field();
-        $passenger->setKey('passenger');
-        $passenger->setLabel('Passenger');
-        $passenger->setValue('LAURENS LAMAN');
-        $passenger->setTextAlignment(TextAlignment::left());
-        $passbook->addPrimaryField($passenger);
-
-        $seat = new Field();
-        $seat->setKey('seat');
-        $seat->setLabel('Seat');
-        $seat->setValue('21B');
-        $seat->setTextAlignment(TextAlignment::natural());
-        $passbook->addPrimaryField($seat);
-
-        $class = new Field();
-        $class->setKey('class');
-        $class->setLabel('Class');
-        $class->setValue('M');
-        $class->setTextAlignment(TextAlignment::right());
-        $passbook->addPrimaryField($class);
-
-        $flightNumber = new Field();
-        $flightNumber->setKey('flightNumber');
-        $flightNumber->setLabel('Flight');
-        $flightNumber->setValue('KL1675');
-        $flightNumber->setTextAlignment(TextAlignment::left());
-        $passbook->addAuxiliaryField($flightNumber);
-
-        $board = new Field();
-        $board->setKey('board');
-        $board->setLabel('Board');
-        $board->setValue('16:27');
-        $board->setTextAlignment(TextAlignment::left());
-        $passbook->addAuxiliaryField($board);
 
         $depart = new Field();
         $depart->setKey('depart');
-        $depart->setLabel('Depart');
-        $depart->setValue('16:55');
-        $depart->setTextAlignment(TextAlignment::left());
-        $passbook->addAuxiliaryField($depart);
+        $depart->setLabel('SAN FRANCISCO');
+        $depart->setValue('SFO');
+        $passbook->addPrimaryField($depart);
+
+        $arrive = new Field();
+        $arrive->setKey('arrive');
+        $arrive->setLabel('NEW YORK');
+        $arrive->setValue('JFK');
+        $passbook->addPrimaryField($arrive);
+
+        $passenger = new Field();
+        $passenger->setKey('passenger');
+        $passenger->setLabel('PASSENGER');
+        $passenger->setValue('John Appleseed');
+        $passbook->addSecondaryField($passenger);
+
+        $boardingTime = new Field();
+        $boardingTime->setKey('boardingTime');
+        $boardingTime->setLabel('DEPART');
+        $boardingTime->setValue('2:25 PM');
+        $boardingTime->setChangeMessage('Boarding time changed to %@.');
+        $passbook->addAuxiliaryField($boardingTime);
+
+        $flightNewName = new Field();
+        $flightNewName->setKey('flightNewName');
+        $flightNewName->setLabel('FLIGHT');
+        $flightNewName->setValue('815');
+        $flightNewName->setChangeMessage('Flight number changed to %@');
+        $passbook->addAuxiliaryField($flightNewName);
+
+        $class = new Field();
+        $class->setKey('class');
+        $class->setLabel('DESIG.');
+        $class->setValue('Coach');
+        $passbook->addAuxiliaryField($class);
+
+        $date = new Field();
+        $date->setKey('date');
+        $date->setLabel('DATE');
+        $date->setValue('7/22');
+        $passbook->addAuxiliaryField($date);
+
+        $passport = new Field();
+        $passport->setKey('passport');
+        $passport->setLabel('PASSPORT');
+        $passport->setValue('Canadian/Canadien');
+        $passbook->addBackField($passport);
+
+        $residence = new Field();
+        $residence->setKey('residence');
+        $residence->setLabel('RESIDENCE');
+        $residence->setValue('999 Infinite Loop, Apartment 42, Cupertino CA');
+        $passbook->addBackField($residence);
 
         $expected = [
-            'formatVersion' => 1,
-            'passTypeIdentifier' => 'pass.com.klm.mobile.iphone.klmmobile.boardingpass',
-            'serialNumber' => 'f8c4a300-151d-4fb3-b879-1b553d83ccf6',
-            'teamIdentifier' => '9X3HHK8VXA',
-            'organizationName' => 'KLM',
-            'description' => 'KLM Boarding Pass',
-            'transitType' => 'PKTransitTypeAir',
-            'barcode' => [
-                'format' => 'PKBarcodeFormatAztec',
-                'message' => 'M1LAMAN/LAURENS       EM3QJPJ AMSBCNKL 1675 312M021B0029 31F>60B  M     KL 0E07424264229560',
-                'messageEncoding' => 'iso-8859-1',
-                'altText' => 'SEC.KL1675: 029',
-            ],
-            'barcodes' => [
+            "formatVersion" => 1,
+            "passTypeIdentifier" => "pass.com.apple.devpubs.example",
+            "serialNumber" => "gT6zrHkaW",
+            "teamIdentifier" => "A93A5CM278",
+            "webServiceURL" => "https://example.com/passes/",
+            "authenticationToken" => "vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc",
+            "relevantDate" => "2012-07-22T14:25:00-08:00",
+            "locations" => [
                 [
-                    'format' => 'PKBarcodeFormatAztec',
-                    'message' => 'M1LAMAN/LAURENS       EM3QJPJ AMSBCNKL 1675 312M021B0029 31F>60B  M     KL 0E07424264229560',
-                    'messageEncoding' => 'iso-8859-1',
-                    'altText' => 'SEC.KL1675: 029',
-                ],
+                    "longitude" => -122.3748889,
+                    "latitude" => 37.6189722
+                ]
             ],
-            'relevantDate' => '2019-11-08T15:55:00+00:00',
-            'locations' => [
+            "barcode" => [
+                "message" => "SFOJFK JOHN APPLESEED LH451 2012-07-22T14:25-08:00",
+                "format" => "PKBarcodeFormatPDF417",
+                "messageEncoding" => "iso-8859-1"
+            ],
+            "barcodes" =>[
                 [
-                    'latitude' => 52.308333,
-                    'longitude' => 4.768056,
+                    "message" => "SFOJFK JOHN APPLESEED LH451 2012-07-22T14:25-08:00",
+                    "format" => "PKBarcodeFormatPDF417",
+                    "messageEncoding" => "iso-8859-1"
                 ],
             ],
-            'webServiceURL' => 'https://apiams.airfranceklm.com/wallet',
-            'authenticationToken' => 'KL07424264229561',
-            'foregroundColor' => '#031e2f',
-            'backgroundColor' => 'rgb(255, 255, 255)',
-            'labelColor' => '#031e2f',
-            'boardingPass' => [
-                'headerFields' => [
+            "organizationName" => "Skyport Airways",
+            "description" => "Skyport Boarding Pass",
+            "logoText" => "Skyport Airways",
+            "foregroundColor" => "rgb(22, 55, 110)",
+            "backgroundColor" => "rgb(50, 91, 185)",
+            "boardingPass" => [
+                'transitType' => 'PKTransitTypeAir',
+                "headerFields" => [
                     [
-                        'key' => 'date',
-                        'value' => '08 Nov',
-                        'label' => 'Date',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
-                    [
-                        'key' => 'gate',
-                        'value' => 'D79',
-                        'label' => 'Gate',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
+                        "label" => "GATE",
+                        "key" => "gate",
+                        "value" => "23",
+                        "changeMessage" => "Gate changed to %@."
+                    ]
                 ],
-                'primaryFields' => [
+                "primaryFields" => [
                     [
-                        'key' => 'origin',
-                        'value' => 'AMS',
-                        'label' => 'Amsterdam',
-                        'textAlignment' => 'PKTextAlignmentLeft',
+                        "key" => "depart",
+                        "label" => "SAN FRANCISCO",
+                        "value" => "SFO"
                     ],
                     [
-                        'key' => 'destination',
-                        'value' => 'BCN',
-                        'label' => 'Barcelona',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
-                    [
-                        'key' => 'passenger',
-                        'value' => 'LAURENS LAMAN',
-                        'label' => 'Passenger',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
-                    [
-                        'key' => 'seat',
-                        'value' => '21B',
-                        'label' => 'Seat',
-                        'textAlignment' => 'PKTextAlignmentNatural',
-                    ],
-                    [
-                        'key' => 'class',
-                        'value' => 'M',
-                        'label' => 'Class',
-                        'textAlignment' => 'PKTextAlignmentRight',
-                    ],
+                        "key" => "arrive",
+                        "label" => "NEW YORK",
+                        "value" => "JFK"
+                    ]
                 ],
-                'auxiliaryFields' => [
+                "secondaryFields" => [
                     [
-                        'key' => 'flightNumber',
-                        'value' => 'KL1675',
-                        'label' => 'Flight',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
-                    [
-                        'key' => 'board',
-                        'value' => '16:27',
-                        'label' => 'Board',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
-                    [
-                        'key' => 'depart',
-                        'value' => '16:55',
-                        'label' => 'Depart',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                    ],
+                        "key" => "passenger",
+                        "label" => "PASSENGER",
+                        "value" => "John Appleseed"
+                    ]
                 ],
-                'backFields' => [
+                "auxiliaryFields" => [
                     [
-                        'key' => 'booking',
-                        'value' => 'M3QJPJ',
-                        'label' => 'Booking',
-                        'textAlignment' => 'PKTextAlignmentLeft',
+                        "label" => "DEPART",
+                        "key" => "boardingTime",
+                        "value" =>  "2:25 PM",
+                        "changeMessage" => "Boarding time changed to %@."
                     ],
                     [
-                        'key' => 'ticket',
-                        'value' => '074 2426422956',
-                        'label' => 'Ticket',
-                        'textAlignment' => 'PKTextAlignmentLeft',
+                        "label" => "FLIGHT",
+                        "key" => "flightNewName",
+                        "value" => "815",
+                        "changeMessage" => "Flight number changed to %@"
                     ],
                     [
-                        'key' => 'class',
-                        'value' => 'ECONOMY',
-                        'label' => 'Class',
-                        'textAlignment' => 'PKTextAlignmentLeft',
+                        "key" => "class",
+                        "label" => "DESIG.",
+                        "value" => "Coach"
                     ],
                     [
-                        'key' => 'contact',
-                        'value' => 'https://www.klm.com/travel/nl_nl/customer_support/customer_support/contact/about/checkin_online.htm',
-                        'label' => 'Contact us',
-                        'textAlignment' => 'PKTextAlignmentLeft',
-                        'attributedValue' => '<a href=\'https://www.klm.com/travel/nl_nl/customer_support/customer_support/contact/about/checkin_online.htm\'>We are happy to help you! Contact us 24/7</a>',
-                    ],
+                        "key" => "date",
+                        "label" => "DATE",
+                        "value" =>  "7/22",
+                    ]
                 ],
-            ],
+                "backFields" => [
+                    [
+                        "key" => "passport",
+                        "label" => "PASSPORT",
+                        "value" => "Canadian/Canadien"
+                    ],
+                    [
+                        "key" => "residence",
+                        "label" => "RESIDENCE",
+                        "value" => "999 Infinite Loop, Apartment 42, Cupertino CA"
+                    ]
+                ]
+            ]
         ];
 
         self::assertEquals($expected, $passbook->getData());

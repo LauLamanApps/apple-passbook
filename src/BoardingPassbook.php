@@ -37,7 +37,8 @@ class BoardingPassbook extends Passbook
     public function getData(): array
     {
         $data = parent::getData();
+        $data[static::TYPE]['transitType'] = $this->transitType->getValue();
 
-        return array_merge(['transitType' => $this->transitType->getValue()], $data);
+        return $data;
     }
 }
