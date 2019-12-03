@@ -17,7 +17,7 @@ With [composer](http://packagist.org), add:
 $ composer require laulamanapps/apple-passbook
 ```
 
-Or if your useing Symfony:
+Or if your using Symfony:
 
 ```bash
 $ composer require laulamanapps/apple-passbook-bundle
