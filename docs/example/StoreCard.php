@@ -8,11 +8,11 @@ use LauLamanApps\ApplePassbook\Build\Compressor;
 use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
 use LauLamanApps\ApplePassbook\Build\Signer;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
-use LauLamanApps\ApplePassbook\MetaData\BoardingPass\TransitType;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Field\NumberField;
 use LauLamanApps\ApplePassbook\MetaData\Image\LocalImage;
 use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\StoreCardPassbook;
 use LauLamanApps\ApplePassbook\Style\BarcodeFormat;
 use LauLamanApps\ApplePassbook\Style\Color\Rgb;
 
@@ -26,10 +26,9 @@ $compressor = new Compressor(new ZipArchive());
 $compiler = new Compiler($manifestGenerator, $signer, $compressor);
 
 //-- Build pass
-$passbook = new BoardingPassbook('p69f2J');
+$passbook = new StoreCardPassbook('p69f2J');
 $passbook->setTeamIdentifier('<TeamId>');
 $passbook->setPassTypeIdentifier('<PassTypeId>');
-$passbook->setTransitType(TransitType::air());
 $passbook->setOrganizationName('Organic Produce');
 $passbook->setDescription('Organic Produce Loyalty Card');
 $passbook->setLogoText('Organic Produce');

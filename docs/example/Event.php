@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-use LauLamanApps\ApplePassbook\BoardingPassbook;
 use LauLamanApps\ApplePassbook\Build\Compiler;
 use LauLamanApps\ApplePassbook\Build\Compressor;
 use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
 use LauLamanApps\ApplePassbook\Build\Signer;
+use LauLamanApps\ApplePassbook\EventTicketPassbook;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
-use LauLamanApps\ApplePassbook\MetaData\BoardingPass\TransitType;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image\LocalImage;
 use LauLamanApps\ApplePassbook\MetaData\Location;
@@ -25,10 +24,9 @@ $compressor = new Compressor(new ZipArchive());
 $compiler = new Compiler($manifestGenerator, $signer, $compressor);
 
 //-- Build pass
-$passbook = new BoardingPassbook('nmyuxofgna');
+$passbook = new EventTicketPassbook('nmyuxofgna');
 $passbook->setTeamIdentifier('<TeamId>');
 $passbook->setPassTypeIdentifier('<PassTypeId>');
-$passbook->setTransitType(TransitType::air());
 $passbook->setOrganizationName('Apple Inc.');
 $passbook->setDescription('Apple Event Ticket');
 $passbook->setRelevantDate(new DateTimeImmutable('2011-12-08T13:00-08:00'));

@@ -156,7 +156,8 @@ final class NumberFieldTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Value should be numeric.');
 
-        new NumberField('some_key', $type);
+        $field = new NumberField('some_key');
+        $field->setValue($type);
     }
 
     public function getNumeric(): array

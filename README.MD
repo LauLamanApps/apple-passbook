@@ -59,33 +59,48 @@ $compiler = new Compiler($manifestGenerator, $signer, $compressor);
 Create Passbook
 ---
 ```php
-use LauLamanApps\ApplePassbook\GenericPassbook;
+use LauLamanApps\ApplePassbook\EventTicketPassbook;
+use LauLamanApps\ApplePassbook\MetaData\Barcode;
+use LauLamanApps\ApplePassbook\MetaData\Field\Field;
+use LauLamanApps\ApplePassbook\MetaData\Image\LocalImage;
+use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\Style\BarcodeFormat;
+use LauLamanApps\ApplePassbook\Style\Color\Rgb;
 
-$passbook = new GenericPassbook('<SerialNumber>');
+$passbook = new EventTicketPassbook('nmyuxofgna');
 $passbook->setTeamIdentifier('<TeamId>');
 $passbook->setPassTypeIdentifier('<PassTypeId>');
-$passbook->setOrganizationName('KLM');
-$passbook->setDescription('KLM Boarding Pass');
+$passbook->setOrganizationName('Apple Inc.');
+$passbook->setDescription('Apple Event Ticket');
+$passbook->setRelevantDate(new DateTimeImmutable('2011-12-08T13:00-08:00'));
+$passbook->setForegroundColor(new Rgb(255, 255, 255));
+$passbook->setBackgroundColor(new Rgb(60, 65, 76));
+$passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
+
+$passbook->addLocation(new Location(37.6189722, -122.3748889));
+$passbook->addLocation(new Location(37.33182, -122.03118));
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::aztec());
-$barcode->setMessage('123456');
-$barcode->setAltText('123 456');
+$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setMessage('123456789');
 $passbook->setBarcode($barcode);
 
-$date = new Field();
-$date->setKey('name');
-$date->setLabel('Date');
-$date->setValue('12 Nov');
-$date->setTextAlignment(TextAlignment::left());
-$passbook->addHeaderField($date);
+$event = new Field();
+$event->setKey('event');
+$event->setLabel('EVENT');
+$event->setValue('The Beat Goes On');
+$passbook->addPrimaryField($event);
 
-$gate = new Field();
-$gate->setKey('gate');
-$gate->setLabel('Gate');
-$gate->setValue('D79');
-$gate->setTextAlignment(TextAlignment::left());
-$passbook->addHeaderField($gate);
+$loc = new Field();
+$loc->setKey('loc');
+$loc->setLabel('LOCATION');
+$loc->setValue('Moscone West');
+$passbook->addSecondaryField($loc);
+
+$passbook->addImage(new LocalImage('/files/Event/background.png'));
+$passbook->addImage(new LocalImage('/files/Event/icon.png'));
+$passbook->addImage(new LocalImage('/files/Event/logo.png'));
+$passbook->addImage(new LocalImage('/files/Event/thumbnail.png'));
 
 ```
 

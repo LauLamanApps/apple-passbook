@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-use LauLamanApps\ApplePassbook\BoardingPassbook;
 use LauLamanApps\ApplePassbook\Build\Compiler;
 use LauLamanApps\ApplePassbook\Build\Compressor;
 use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
 use LauLamanApps\ApplePassbook\Build\Signer;
+use LauLamanApps\ApplePassbook\CouponPassbook;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
-use LauLamanApps\ApplePassbook\MetaData\BoardingPass\TransitType;
 use LauLamanApps\ApplePassbook\MetaData\Field\DateField;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image\LocalImage;
@@ -27,10 +26,9 @@ $compressor = new Compressor(new ZipArchive());
 $compiler = new Compiler($manifestGenerator, $signer, $compressor);
 
 //-- Build pass
-$passbook = new BoardingPassbook('E5982H-I2');
+$passbook = new CouponPassbook('E5982H-I2');
 $passbook->setTeamIdentifier('<TeamId>');
 $passbook->setPassTypeIdentifier('<PassTypeId>');
-$passbook->setTransitType(TransitType::air());
 $passbook->setOrganizationName('Paw Planet');
 $passbook->setDescription('Paw Planet Coupon');
 $passbook->setLogoText('Paw Planet');
