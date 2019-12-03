@@ -2,7 +2,7 @@ Apple Passbook
 ===============
 This package provides a simple OOP integration of the [Apple Passbook API][ApplePassbookApi] for your PHP project.
 
-[![GithubCi](https://github.com/LauLamanApps/apple-passbook/workflows/CI/badge.svg?name=lol)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/?branch=master)
+[![GithubCi](https://github.com/LauLamanApps/apple-passbook/workflows/CI/badge.svg)](https://github.com/LauLamanApps/apple-passbook/actions?query=workflow%3ACI)
 [![Build Status](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/build.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/?branch=master)
