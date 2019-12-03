@@ -116,7 +116,7 @@ echo $compiler->compile($passbook);
 
 Examples
 ---
-For the examples to work place the certificate P12 file in the `/certificates` folder and fill out the required information:
+For the examples to work place the certificate P12 file in the `/certificates` folder and fill out the required information in the example scripts:
 `<CertificatePassword>`, `<TeamId>`, `<PassTypeId>`
 
 
