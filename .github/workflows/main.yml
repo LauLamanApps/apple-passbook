@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Run PHPUnit unit tests
+        run: php7.3 bin/phpunit --testsuite=Unit
+
+  build-infection:
+    name: Infection tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Run PHPUnit integration tests
+        run: php7.3 bin/infection  --min-msi=70 --show-mutations
