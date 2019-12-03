@@ -6,8 +6,8 @@ This package provides a simple OOP integration of the [Apple Passbook API][Apple
 [![Build Status](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/build.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/laulamanapps/apple-passbook-bundle/v/stable)](https://packagist.org/packages/laulamanapps/apple-passbook-bundle)
-[![License](https://poser.pugx.org/laulamanapps/apple-passbook-bundle/license)](https://packagist.org/packages/laulamanapps/apple-passbook-bundle)
+[![Latest Stable Version](https://poser.pugx.org/laulamanapps/apple-passbook/v/stable)](https://packagist.org/packages/laulamanapps/apple-passbook)
+[![License](https://poser.pugx.org/laulamanapps/apple-passbook/license)](https://packagist.org/packages/laulamanapps/apple-passbook)
 
 Installation
 ---
