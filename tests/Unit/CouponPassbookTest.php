@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\Tests\Unit;
 
 use DateTimeImmutable;
-use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\CouponPassbook;
+use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
@@ -19,7 +19,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * @coversDefaultClass \LauLamanApps\ApplePassbook\CouponPassbook
  */
-final class CouponPassbookTest  extends TestCase
+final class CouponPassbookTest extends TestCase
 {
     private const UUID = 'fd39b6b4-7181-4253-969e-5df02687c617';
 
@@ -442,7 +442,8 @@ final class CouponPassbookTest  extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new CouponPassbook(Uuid::fromString(self::UUID));;
+        $passbook = new CouponPassbook(Uuid::fromString(self::UUID));
+        ;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());
@@ -518,4 +519,3 @@ final class CouponPassbookTest  extends TestCase
         return $passbook;
     }
 }
-

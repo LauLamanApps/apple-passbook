@@ -8,5 +8,4 @@ use LauLamanApps\ApplePassbook\Exception\PassbookException;
 
 final class OutOfRangeException extends \OutOfRangeException implements PassbookException
 {
-
 }

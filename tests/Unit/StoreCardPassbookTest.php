@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\Tests\Unit;
 
 use DateTimeImmutable;
-use LauLamanApps\ApplePassbook\StoreCardPassbook;
 use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\StoreCardPassbook;
 use LauLamanApps\ApplePassbook\Style\BarcodeFormat;
 use LauLamanApps\ApplePassbook\Style\Color\Hex;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * @coversDefaultClass \LauLamanApps\ApplePassbook\StoreCardPassbook
  */
-final class StoreCardPassbookTest  extends TestCase
+final class StoreCardPassbookTest extends TestCase
 {
     private const UUID = 'fd39b6b4-7181-4253-969e-5df02687c617';
 
@@ -442,7 +442,8 @@ final class StoreCardPassbookTest  extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new StoreCardPassbook(Uuid::fromString(self::UUID));;
+        $passbook = new StoreCardPassbook(Uuid::fromString(self::UUID));
+        ;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());

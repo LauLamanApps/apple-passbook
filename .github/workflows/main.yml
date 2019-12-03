@@ -32,5 +32,5 @@ jobs:
       - name: Install composer dependencies
         run: composer install --prefer-dist --ignore-platform-reqs
 
-      - name: Run PHPUnit integration tests
+      - name: Run Infection
         run: php7.3 bin/infection  --min-msi=70 --show-mutations

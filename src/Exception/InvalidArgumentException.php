@@ -6,5 +6,4 @@ namespace LauLamanApps\ApplePassbook\Exception;
 
 final class InvalidArgumentException extends \InvalidArgumentException implements PassbookException
 {
-
 }

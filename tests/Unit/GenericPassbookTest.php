@@ -19,7 +19,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * @coversDefaultClass \LauLamanApps\ApplePassbook\GenericPassbook
  */
-final class GenericPassbookTest  extends TestCase
+final class GenericPassbookTest extends TestCase
 {
     private const UUID = 'fd39b6b4-7181-4253-969e-5df02687c617';
 
@@ -442,7 +442,8 @@ final class GenericPassbookTest  extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));;
+        $passbook = new GenericPassbook(Uuid::fromString(self::UUID));
+        ;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());

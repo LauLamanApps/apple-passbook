@@ -441,7 +441,8 @@ final class BoardingPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));;
+        $passbook = new BoardingPassbook(Uuid::fromString(self::UUID));
+        ;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());
