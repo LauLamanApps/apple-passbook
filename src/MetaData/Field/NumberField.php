@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\MetaData\Field;
 
+use LauLamanApps\ApplePassbook\Exception\InvalidArgumentException;
 use LauLamanApps\ApplePassbook\Style\NumberStyle;
 use LogicException;
 
-final class NumberField extends Field
+class NumberField extends Field
 {
     /**
      * @var string|null
@@ -22,7 +23,7 @@ final class NumberField extends Field
     public function __construct(string $key, $value, ?string $label = null)
     {
         if (!is_numeric($value)) {
-            throw new LogicException('Value should be numeric.');
+            throw new InvalidArgumentException('Value should be numeric.');
         }
 
         parent::__construct($key, $value, $label);
@@ -54,7 +55,7 @@ final class NumberField extends Field
         }
 
         if ($this->numberStyle) {
-            $data['numberStyle'] = $this->numberStyle;
+            $data['numberStyle'] = $this->numberStyle->getValue();
         }
 
         return $data;

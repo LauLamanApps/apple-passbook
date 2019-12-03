@@ -16,7 +16,7 @@ use Werkspot\Enum\AbstractEnum;
  * @method static self calendarEvent()
  * @method bool isCalendarEvent()
  */
-final class DataDetector extends AbstractEnum
+class DataDetector extends AbstractEnum
 {
     private const PHONE_NUMBER = 'PKDataDetectorTypePhoneNumber';
     private const LINK = 'PKDataDetectorTypeLink';

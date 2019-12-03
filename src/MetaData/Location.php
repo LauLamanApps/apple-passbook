@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\MetaData;
 
-final class Location
+class Location
 {
     /**
      * @var float
@@ -26,22 +26,32 @@ final class Location
      */
     private $relevantText;
 
-    public function __construct(float $latitude, float $longitude, ?string $relevantText = null, ?float $altitude = null)
+    public function __construct(float $latitude, float $longitude, ?float $altitude = null, ?string $relevantText = null)
     {
         $this->latitude = $latitude;
         $this->longitude = $longitude;
-        $this->relevantText = $relevantText;
         $this->altitude = $altitude;
+        $this->relevantText = $relevantText;
+    }
+
+    public function setAltitude(float $altitude): void
+    {
+        $this->altitude = $altitude;
+    }
+
+    public function setRelevantText(string $relevantText): void
+    {
+        $this->relevantText = $relevantText;
     }
 
     public function toArray(): array
     {
         $data = [
             'latitude' => $this->latitude,
-            'longitude' => $this->latitude,
+            'longitude' => $this->longitude,
         ];
 
-        if ($this->altitude) {
+        if ($this->altitude !== null) {
             $data['altitude'] = $this->altitude;
         }
 

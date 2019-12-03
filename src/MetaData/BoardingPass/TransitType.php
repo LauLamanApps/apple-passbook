@@ -18,7 +18,7 @@ use Werkspot\Enum\AbstractEnum;
  * @method static self train()
  * @method bool isTrain()
  */
-final class TransitType extends AbstractEnum
+class TransitType extends AbstractEnum
 {
     private const GENERIC = 'PKTransitTypeGeneric';
     private const AIR = 'PKTransitTypeAir';

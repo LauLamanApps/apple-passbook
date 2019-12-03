@@ -5,3 +5,5 @@ composer.lock
 .php_cs.cache
 vendor/
 bin/
+.phpunit.result.cache
+infection.log

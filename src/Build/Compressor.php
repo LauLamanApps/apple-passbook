@@ -4,29 +4,43 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Build;
 
+use LauLamanApps\ApplePassbook\Build\Exception\ZipException;
 use LauLamanApps\ApplePassbook\Passbook;
-use LogicException;
 use ZipArchive;
 
-final class Compressor
+class Compressor
 {
     public const FILENAME = 'pass.pkpass';
 
+    /**
+     * @var ZipArchive
+     */
+    private $zipArchive;
+
+    public function __construct(ZipArchive $zipArchive)
+    {
+        $this->zipArchive = $zipArchive;
+    }
+
+    /**
+     * @throws ZipException
+     */
     public function compress(Passbook $passbook, string $temporaryDirectory): void
     {
-        $zip = new ZipArchive();
-        if (!$zip->open($temporaryDirectory . self::FILENAME, ZipArchive::CREATE)) {
-            throw new LogicException(sprintf('Could not open %s with ZipArchive extension.', self::FILENAME));
+        $file = $temporaryDirectory . self::FILENAME;
+
+        if (($errorCode = $this->zipArchive->open($file, ZipArchive::CREATE)) !== true) {
+            throw ZipException::canNotOpenZip($file, $errorCode);
         }
 
-        $zip->addFile($temporaryDirectory . Signer::FILENAME, Signer::FILENAME);
-        $zip->addFile($temporaryDirectory . ManifestGenerator::FILENAME, ManifestGenerator::FILENAME);
-        $zip->addFromString(Compiler::PASS_DATA_FILE, json_encode($passbook->getData()));
+        $this->zipArchive->addFile($temporaryDirectory . Signer::FILENAME, Signer::FILENAME);
+        $this->zipArchive->addFile($temporaryDirectory . ManifestGenerator::FILENAME, ManifestGenerator::FILENAME);
+        $this->zipArchive->addFromString(Compiler::PASS_DATA_FILE, json_encode($passbook->getData()));
 
         foreach ($passbook->getImages() as $image) {
-            $zip->addFile($image->getPath(), $image->getFilename());
+            $this->zipArchive->addFile($image->getPath(), $image->getFilename());
         }
 
-        $zip->close();
+        $this->zipArchive->close();
     }
 }

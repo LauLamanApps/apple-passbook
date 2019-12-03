@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\MetaData\Field;
 
+use LauLamanApps\ApplePassbook\Exception\InvalidArgumentException;
 use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
-use LogicException;
 
 class Field
 {
@@ -45,20 +45,44 @@ class Field
      */
     private $attributedValue;
 
-    public function __construct(string $key, $value, ?string $label = null)
+    public function __construct(?string $key = null, $value = null, ?string $label = null)
     {
-        if (!is_scalar($value)) {
-            throw new LogicException('Value should be a scalar type.');
+        if ($key !== null) {
+            $this->setKey($key);
         }
 
+        if ($value !== null) {
+            $this->setValue($value);
+        }
+
+        if ($label !== null) {
+            $this->setLabel($label);
+        }
+    }
+
+    public function setKey(string $key): void
+    {
         $this->key = $key;
+    }
+
+    public function setValue($value): void
+    {
+        if (!is_scalar($value)) {
+            throw new InvalidArgumentException('Value should be a scalar type.');
+        }
+
         $this->value = $value;
+    }
+
+
+    public function setLabel(string $label): void
+    {
         $this->label = $label;
     }
 
-    public function setDataDetectorTypes(DataDetector $dataDetectorTypes): void
+    public function addDataDetectorType(DataDetector $dataDetector): void
     {
-        $this->dataDetectorTypes = $dataDetectorTypes;
+        $this->dataDetectorTypes[$dataDetector->getValue()] = $dataDetector;
     }
 
     public function setChangeMessage(string $changeMessage): void
@@ -88,7 +112,9 @@ class Field
         }
 
         if ($this->dataDetectorTypes) {
-            $data['dataDetectorTypes'] = [$this->dataDetectorTypes->getValue()];
+            foreach ($this->dataDetectorTypes as $dataDetector) {
+                $data['dataDetectorTypes'][] = $dataDetector->getValue();
+            }
         }
 
         if ($this->changeMessage) {

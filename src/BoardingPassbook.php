@@ -4,29 +4,40 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook;
 
+use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\BoardingPass\TransitType;
-use Ramsey\Uuid\UuidInterface;
 
-final class BoardingPassbook extends Passbook
+class BoardingPassbook extends Passbook
 {
+    protected const TYPE = 'boardingPass';
+
     /**
      * @var TransitType
      */
     private $transitType;
 
-    public function __construct(UuidInterface $serialNumber, TransitType $transitType, string $organizationName, string $description)
+    public function setTransitType(TransitType $transitType): void
     {
-        parent::__construct($serialNumber, $organizationName, $description);
         $this->transitType = $transitType;
     }
 
+    /**
+     * @throws MissingRequiredDataException
+     */
+    public function validate(): void
+    {
+        parent::validate();
+
+        if ($this->transitType === null) {
+            throw new MissingRequiredDataException('Please specify the TransitType before requesting the manifest data.');
+        }
+    }
+
+
     public function getData(): array
     {
-        $data = [
-            'boardingPass' => $this->getFieldsData(),
-            'transitType' => $this->transitType->getValue(),
-        ];
+        $data = parent::getData();
 
-        return array_merge($data, $this->getGenericData());
+        return array_merge(['transitType' => $this->transitType->getValue()], $data);
     }
 }

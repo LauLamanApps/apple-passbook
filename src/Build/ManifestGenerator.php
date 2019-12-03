@@ -6,7 +6,7 @@ namespace LauLamanApps\ApplePassbook\Build;
 
 use LauLamanApps\ApplePassbook\Passbook;
 
-final class ManifestGenerator
+class ManifestGenerator
 {
     public const FILENAME = 'manifest.json';
 
@@ -15,7 +15,7 @@ final class ManifestGenerator
         $manifest = [Compiler::PASS_DATA_FILE => $this->hash(json_encode($passbook->getData()))];
 
         foreach ($passbook->getImages() as $file) {
-            $manifest[$file->getFilename()] = $this->hash(file_get_contents($file->getPath()));
+            $manifest[$file->getFilename()] = $this->hash($file->getContents());
         }
 
         file_put_contents($temporaryDirectory . self::FILENAME, json_encode($manifest));

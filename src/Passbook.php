@@ -6,8 +6,10 @@ namespace LauLamanApps\ApplePassbook;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
+use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Image\LocalImage;
 use LauLamanApps\ApplePassbook\MetaData\Location;
 use LauLamanApps\ApplePassbook\Style\Color;
@@ -16,6 +18,8 @@ use Ramsey\Uuid\UuidInterface;
 
 abstract class Passbook
 {
+    protected const TYPE = null;
+
     /**
      * @var int
      */
@@ -161,22 +165,22 @@ abstract class Passbook
         $this->teamIdentifier = $teamIdentifier;
     }
 
-    final public function setLogoText(string $logoText): void
+    public function setLogoText(string $logoText): void
     {
         $this->logoText = $logoText;
     }
 
-    final public function setRelevantDate(DateTimeImmutable $relevantDate): void
+    public function setRelevantDate(DateTimeImmutable $relevantDate): void
     {
         $this->relevantDate = $relevantDate;
     }
 
-    public function addBarcode(Barcode $barcode): void
+    public function setBarcode(Barcode $barcode): void
     {
         $this->barcodes[] = $barcode;
     }
 
-    final public function addLocation(Location $location): void
+    public function addLocation(Location $location): void
     {
         $this->locations[] = $location;
     }
@@ -186,23 +190,28 @@ abstract class Passbook
         $this->maxDistance = $maxDistance;
     }
 
-    final public function setWebService($url, $authenticationToken): void
+    public function setWebService($url, $authenticationToken): void
     {
         $this->webServiceURL = $url;
         $this->authenticationToken = $authenticationToken;
     }
 
-    final public function setForegroundColor($foregroundColor): void
+    public function setForegroundColor(Color $foregroundColor): void
     {
         $this->foregroundColor = $foregroundColor;
     }
 
-    final public function setBackgroundColor($backgroundColor): void
+    public function setBackgroundColor(Color $backgroundColor): void
     {
         $this->backgroundColor = $backgroundColor;
     }
 
-    public function addImage(LocalImage $image): void
+    public function setLabelColor(Color $labelColor): void
+    {
+        $this->labelColor = $labelColor;
+    }
+
+    public function addImage(Image $image): void
     {
         $this->images[] = $image;
     }
@@ -237,8 +246,6 @@ abstract class Passbook
         $this->voided = true;
     }
 
-    abstract public function getData(): array;
-
     public function hasPassTypeIdentifier(): bool
     {
         return $this->passTypeIdentifier !== null;
@@ -249,20 +256,22 @@ abstract class Passbook
         return $this->teamIdentifier !== null;
     }
 
-    final protected function getGenericData(): array
+    public function getData(): array
     {
-        if ($this->passTypeIdentifier === null) {
-            throw new LogicException('Please set the PassTypeIdentifier before requesting the manifest.');
-        }
+        $this->validate();
 
-        if ($this->teamIdentifier === null) {
-            throw new LogicException('Please set the TeamIdentifier before requesting the manifest.');
-        }
+        $data = $this->getGenericData();
+        $data[static::TYPE] = $this->getFieldsData();
 
+        return $data;
+    }
+
+    private function getGenericData(): array
+    {
         $data = [
             'formatVersion' => $this->formatVersion,
             'passTypeIdentifier' => $this->passTypeIdentifier,
-            'serialNumber' => $this->serialNumber,
+            'serialNumber' => $this->serialNumber->toString(),
             'teamIdentifier' => $this->teamIdentifier,
             'organizationName' => $this->organizationName,
             'description' => $this->description,
@@ -322,7 +331,7 @@ abstract class Passbook
         return $data;
     }
 
-    public function getFieldsData(): array
+    private function getFieldsData(): array
     {
         $data = [];
 
@@ -346,10 +355,37 @@ abstract class Passbook
     }
 
     /**
-     * @return LocalImage[]
+     * @return Image[]
      */
-    final public function getImages(): array
+    public function getImages(): array
     {
         return $this->images;
+    }
+
+    /**
+     * @throws LogicException
+     * @throws MissingRequiredDataException
+     */
+    public function validate(): void
+    {
+        if (static::TYPE === null) {
+            throw new LogicException('Please implement protected const TYPE in class.');
+        }
+
+        if ($this->passTypeIdentifier === null) {
+            throw new MissingRequiredDataException('Please specify the PassTypeIdentifier before requesting the manifest data.');
+        }
+
+        if ($this->teamIdentifier === null) {
+            throw new MissingRequiredDataException('Please specify the TeamIdentifier before requesting the manifest data.');
+        }
+
+        if ($this->organizationName === null) {
+            throw new MissingRequiredDataException('Please specify the OrganizationName before requesting the manifest data.');
+        }
+
+        if ($this->description === null) {
+            throw new MissingRequiredDataException('Please specify the Description before requesting the manifest data.');
+        }
     }
 }

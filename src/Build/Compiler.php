@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Build;
 
+use LauLamanApps\ApplePassbook\Build\Exception\ZipException;
+use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\Passbook;
-use LogicException;
 use Ramsey\Uuid\Uuid;
 
-final class Compiler
+class Compiler
 {
     public const PASS_DATA_FILE = 'pass.json';
 
@@ -61,6 +62,10 @@ final class Compiler
         $this->teamIdentifier = $teamIdentifier;
     }
 
+    /**
+     * @throws MissingRequiredDataException
+     * @throws ZipException
+     */
     public function compile(Passbook $passbook): string
     {
         $this->validate($passbook);
@@ -77,25 +82,26 @@ final class Compiler
 
         try {
             $this->manifestGenerator->generate($passbook, $temporaryDirectory);
-            $this->signer->sign($passbook, $temporaryDirectory);
+            $this->signer->sign($temporaryDirectory);
             $this->compressor->compress($passbook, $temporaryDirectory);
 
-            $compiled = file_get_contents($temporaryDirectory . Compressor::FILENAME);
+            return file_get_contents($temporaryDirectory . Compressor::FILENAME);
         } finally {
             $this->cleanup($temporaryDirectory);
         }
-
-        return $compiled;
     }
 
+    /**
+     * @throws MissingRequiredDataException
+     */
     private function validate(Passbook $passbook): void
     {
         if ($this->passTypeIdentifier === null && $passbook->hasPassTypeIdentifier() === false) {
-            throw new LogicException('PassTypeIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
+            throw new MissingRequiredDataException('PassTypeIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
         }
 
         if ($this->teamIdentifier === null && $passbook->hasTeamIdentifier() === false) {
-            throw new LogicException('TeamIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
+            throw new MissingRequiredDataException('TeamIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
         }
     }
 

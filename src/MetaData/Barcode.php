@@ -6,7 +6,7 @@ namespace LauLamanApps\ApplePassbook\MetaData;
 
 use LauLamanApps\ApplePassbook\Style\BarcodeFormat;
 
-final class Barcode
+class Barcode
 {
     /**
      * @var string
@@ -28,10 +28,25 @@ final class Barcode
      */
     private $messageEncoding = 'iso-8859-1';
 
-    public function __construct(BarcodeFormat $format, string $message, ?string $altText = null)
+    public function __construct(?BarcodeFormat $format = null, ?string $message = null, ?string $altText = null)
     {
         $this->format = $format;
         $this->message = $message;
+        $this->altText = $altText;
+    }
+
+    public function setFormat(BarcodeFormat $format): void
+    {
+        $this->format = $format;
+    }
+
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    public function setAltText(string $altText): void
+    {
         $this->altText = $altText;
     }
 

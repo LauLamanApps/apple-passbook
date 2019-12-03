@@ -16,7 +16,7 @@ use Werkspot\Enum\AbstractEnum;
  * @method static self natural()
  * @method bool isNatural()
  */
-final class TextAlignment extends AbstractEnum
+class TextAlignment extends AbstractEnum
 {
     private const LEFT = 'PKTextAlignmentLeft';
     private const CENTER = 'PKTextAlignmentCenter';

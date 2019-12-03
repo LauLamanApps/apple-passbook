@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Build;
 
-use LauLamanApps\ApplePassbook\Passbook;
-use LogicException;
+use LauLamanApps\ApplePassbook\Build\Exception\CertificateException;
 
-final class Signer
+class Signer
 {
     public const FILENAME = 'signature';
 
@@ -26,6 +25,9 @@ final class Signer
      */
     private $appleWWDRCA;
 
+    /**
+     * @throws CertificateException
+     */
     public function __construct(?string $certificatePath = null, ?string $password = null)
     {
         if ($certificatePath !== null && $password !== null) {
@@ -35,48 +37,41 @@ final class Signer
         $this->setAppleWWDRCA(__DIR__ . '/../../certificates/AppleWWDRCA.pem');
     }
 
+    /**
+     * @throws CertificateException
+     */
     public function setCertificate(string $path, string $password): void
     {
         if (!file_exists($path)) {
-            throw new LogicException(
-                sprintf(
-                    'Could not load certificate file \'%s\'. Either it does not exist or the system had no rights to the file.',
-                    $path
-                )
-            );
+            throw CertificateException::fileDoesNotExist($path);
         }
 
         $data = [];
         if (!openssl_pkcs12_read(file_get_contents($path), $data, $password)) {
-            throw new LogicException(
-                sprintf(
-                    'Invalid certificate file \'%s\'. Make sure you have a P12 certificate that also contains a private key, and you have specified the correct password!',
-                    $path
-                )
-            );
+            throw CertificateException::failedToReadPkcs12($path);
         }
 
         $this->certificate = openssl_x509_read($data['cert']);
         $this->privateKey = openssl_pkey_get_private($data['pkey'], $password);
     }
 
+    /**
+     * @throws CertificateException
+     */
     public function setAppleWWDRCA(string $path): void
     {
         if (!file_exists($path)) {
-            throw new LogicException(
-                sprintf(
-                    'Could not load certificate file \'%s\'. Either it does not exist or the system had no rights to the file.',
-                    $path
-                )
-            );
+            throw CertificateException::fileDoesNotExist($path);
         }
         $this->appleWWDRCA = $path;
     }
 
-    public function sign(Passbook $passbook, string $temporaryDirectory): void
+    public function sign(string $temporaryDirectory): void
     {
+        $manifestFile = $temporaryDirectory . ManifestGenerator::FILENAME;
+
         $openSslArguments = [
-            $temporaryDirectory . ManifestGenerator::FILENAME,
+            $manifestFile,
             $temporaryDirectory . self::FILENAME,
             $this->certificate,
             $this->privateKey,

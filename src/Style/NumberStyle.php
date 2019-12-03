@@ -16,7 +16,7 @@ use Werkspot\Enum\AbstractEnum;
  * @method static self spellOut()
  * @method bool isSpellOut()
  */
-final class NumberStyle extends AbstractEnum
+class NumberStyle extends AbstractEnum
 {
     private const DECIMAL = 'PKNumberStyleDecimal';
     private const PERCENT = 'PKNumberStylePercent';

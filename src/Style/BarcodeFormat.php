@@ -16,7 +16,7 @@ use Werkspot\Enum\AbstractEnum;
  * @method static self code128()
  * @method bool isCode128()
  */
-final class BarcodeFormat extends AbstractEnum
+class BarcodeFormat extends AbstractEnum
 {
     private const QR = 'PKBarcodeFormatQR';
     private const PDF417 = 'PKBarcodeFormatPDF417';

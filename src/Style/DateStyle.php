@@ -18,7 +18,7 @@ use Werkspot\Enum\AbstractEnum;
  * @method static self full()
  * @method bool isFull()
  */
-final class DateStyle extends AbstractEnum
+class DateStyle extends AbstractEnum
 {
     private const NONE ='PKDateStyleNone';
     private const SHORT ='PKDateStyleShort';

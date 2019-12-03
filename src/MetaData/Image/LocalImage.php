@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\MetaData\Image;
 
-use const IMAGETYPE_PNG;
+use LauLamanApps\ApplePassbook\MetaData\Image;
 use LogicException;
 
-final class LocalImage
+class LocalImage implements Image
 {
     private $path;
 
@@ -27,6 +27,16 @@ final class LocalImage
 
         $this->path = $path;
         $this->filename = $filename ?? basename($path);
+    }
+
+    public function setFilename(string $filename): void
+    {
+        $this->filename = $filename;
+    }
+
+    public function getContents(): string
+    {
+        return file_get_contents($this->path);
     }
 
     public function getPath(): string

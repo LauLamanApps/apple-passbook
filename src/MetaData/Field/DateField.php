@@ -7,7 +7,7 @@ namespace LauLamanApps\ApplePassbook\MetaData\Field;
 use DateTimeImmutable;
 use LauLamanApps\ApplePassbook\Style\DateStyle;
 
-final class DateField extends Field
+class DateField extends Field
 {
     /**
      * @var DateStyle|null

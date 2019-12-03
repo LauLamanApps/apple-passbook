@@ -15,5 +15,8 @@ unit-tests:
 integration-tests:
 	bin/phpunit --testsuite integration
 
+infection-tests:
+	./bin/infection
+
 cs-fix:
 	./bin/php-cs-fixer fix --verbose
