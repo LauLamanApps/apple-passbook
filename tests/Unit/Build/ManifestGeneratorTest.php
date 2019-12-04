@@ -30,7 +30,7 @@ final class ManifestGeneratorTest extends TestCase
         $generator = new ManifestGenerator();
         $generator->generate($passbook, $tempDir);
 
-        $file = $tempDir . ManifestGenerator::FILENAME;
+        $file = $tempDir . '/' . ManifestGenerator::FILENAME;
 
         $file = file_get_contents($file);
         $manifest = json_decode($file, true);
@@ -60,7 +60,7 @@ final class ManifestGeneratorTest extends TestCase
         $generator = new ManifestGenerator();
         $generator->generate($passbook, $tempDir);
 
-        $file = $tempDir . ManifestGenerator::FILENAME;
+        $file = $tempDir . '/' . ManifestGenerator::FILENAME;
 
         $file = file_get_contents($file);
         $manifest = json_decode($file, true);
