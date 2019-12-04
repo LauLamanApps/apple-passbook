@@ -49,7 +49,7 @@ final class ManifestGeneratorTest extends TestCase
         $image1 = new LocalImage(__DIR__ . '/../../files/MetaData/Image/valid_1px_red.png', 'icon.png');
         $image2 = new LocalImage(__DIR__ . '/../../files/MetaData/Image/valid_1px_blue.png', 'logo.png');
 
-        $passbook = new GenericPassbook(Uuid::fromString('f4217280-be57-479f-a335-58a7fe695fe7'));
+        $passbook = new GenericPassbook('f4217280-be57-479f-a335-58a7fe695fe7');
         $passbook->setPassTypeIdentifier('pass.com.test.laulamanapps');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('My Awesome Organization');
