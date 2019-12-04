@@ -18,7 +18,7 @@ class ManifestGenerator
             $manifest[$file->getFilename()] = $this->hash($file->getContents());
         }
 
-        file_put_contents($temporaryDirectory . self::FILENAME, json_encode($manifest));
+        file_put_contents($temporaryDirectory . '/' . self::FILENAME, json_encode($manifest));
     }
 
     private function hash($data): string
