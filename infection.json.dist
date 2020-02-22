@@ -1,5 +1,8 @@
 {
     "timeout": 10,
+    "phpUnit": {
+        "customPath": ".\/bin\/phpunit-8.4.3.phar"
+    },
     "source": {
         "directories": [
             "src"
