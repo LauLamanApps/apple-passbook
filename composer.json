@@ -37,7 +37,8 @@
         "werkspot/enum": "^2.1",
         "ext-json": "*",
         "ext-openssl": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ramsey/uuid": "^3.9"
     },
     "suggest": {
         "ext-exif": "*",
