@@ -22,15 +22,15 @@ jobs:
       - name: Run PHPUnit unit tests
         run: php7.3 bin/phpunit-8.4.3.phar --testsuite=unit
 
-  build-infection:
-    name: Infection tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Install composer dependencies
-        run: composer install --prefer-dist --ignore-platform-reqs
-
-      - name: Run Infection
-        run: php7.3 bin/infection.phar  --min-msi=70 --show-mutations
+#  build-infection:
+#    name: Infection tests
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v1
+#
+#      - name: Install composer dependencies
+#        run: composer install --prefer-dist --ignore-platform-reqs
+#
+#      - name: Run Infection
+#        run: php7.3 bin/infection.phar  --min-msi=70 --show-mutations
