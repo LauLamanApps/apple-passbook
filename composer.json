@@ -33,12 +33,12 @@
         }
     },
     "require": {
-        "php": ">=7.1",
-        "werkspot/enum": "^2.1",
+        "php": ">=7.3",
+        "werkspot/enum": "^3.0",
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-zip": "*",
-        "ramsey/uuid": "^3.9"
+        "ramsey/uuid": "^3 || ^4"
     },
     "suggest": {
         "ext-exif": "*",
