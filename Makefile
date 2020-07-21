@@ -20,4 +20,4 @@ tests-infection:
 
 cs-fix:
 	./bin/php-cs-fixer fix --verbose
-LauLamanApps\ApplePassbook\Tests\Unit\BoardingPassbookTest::testDefaults
+
