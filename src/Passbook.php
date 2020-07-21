@@ -66,6 +66,21 @@ abstract class Passbook
     private $relevantDate;
 
     /**
+     * @var string|null
+     */
+    private $appLaunchURL;
+
+    /**
+     * @var array|null
+     */
+    private $associatedStoreIdentifiers;
+
+    /**
+     * @var string|null
+     */
+    private $userInfo;
+
+    /**
      * @var DateTimeImmutable|null
      */
     private $expirationDate;
@@ -241,6 +256,21 @@ abstract class Passbook
         $this->backFields[] = $field;
     }
 
+    public function setAppLaunchURL(string $appLaunchURL): void
+    {
+        $this->appLaunchURL = $appLaunchURL;
+    }
+
+    public function addAssociatedStoreIdentifiers(int $associatedStoreIdentifiers): void
+    {
+        $this->associatedStoreIdentifiers[] = $associatedStoreIdentifiers;
+    }
+
+    public function setUserInfo(string $userInfo): void
+    {
+        $this->userInfo = $userInfo;
+    }
+
     public function voided(): void
     {
         $this->voided = true;
@@ -295,6 +325,18 @@ abstract class Passbook
 
         if ($this->expirationDate !== null) {
             $data['expirationDate'] = $this->expirationDate->format(DateTimeInterface::W3C);
+        }
+
+        if ($this->appLaunchURL !== null) {
+            $data['appLaunchURL'] = $this->appLaunchURL;
+        }
+
+        if ($this->associatedStoreIdentifiers !== null) {
+            $data['associatedStoreIdentifiers'] = $this->associatedStoreIdentifiers;
+        }
+
+        if ($this->userInfo !== null) {
+            $data['userInfo'] = $this->userInfo;
         }
 
         if ($this->voided === true) {

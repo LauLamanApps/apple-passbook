@@ -67,6 +67,62 @@ final class PassbookTest extends TestCase
     }
 
     /**
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setAppLaunchURL
+     */
+    public function testSetAppLaunchURL(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('appLaunchURL', $data);
+
+        $passbook->setAppLaunchURL('app://your.app.url');
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('appLaunchURL', $data);
+        self::assertSame('app://your.app.url', $data['appLaunchURL']);
+    }
+
+    /**
+     * @covers \LauLamanApps\ApplePassbook\Passbook::addAssociatedStoreIdentifiers
+     */
+    public function testAddAssociatedStoreIdentifiers(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('associatedStoreIdentifiers', $data);
+
+        $passbook->addAssociatedStoreIdentifiers(123);
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('associatedStoreIdentifiers', $data);
+        self::assertSame([123], $data['associatedStoreIdentifiers']);
+
+        $passbook->addAssociatedStoreIdentifiers(987);
+
+        $data = $passbook->getData();
+        self::assertSame([123, 987], $data['associatedStoreIdentifiers']);
+    }
+
+    /**
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setUserInfo
+     */
+    public function testSetUserInfo(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('userInfo', $data);
+
+        $passbook->setUserInfo('{"jsonData":"your data"}');
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('userInfo', $data);
+        self::assertSame('{"jsonData":"your data"}', $data['userInfo']);
+    }
+
+    /**
      * @covers \LauLamanApps\ApplePassbook\Passbook::setRelevantDate
      */
     public function testSetRelevantDate(): void
