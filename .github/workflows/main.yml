@@ -20,17 +20,31 @@ jobs:
         run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Run PHPUnit unit tests
-        run: php7.3 bin/phpunit-8.4.3.phar --testsuite=unit
+        run: php7.4 bin/phpunit --testsuite=unit
 
-#  build-infection:
-#    name: Infection tests
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v1
-#
-#      - name: Install composer dependencies
-#        run: composer install --prefer-dist --ignore-platform-reqs
-#
-#      - name: Run Infection
-#        run: php7.3 bin/infection.phar  --min-msi=70 --show-mutations
+  build-infection:
+    name: Infection tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Run Infection
+        run: php7.4 bin/infection.phar  --min-msi=70 --show-mutations
+
+  build-phpstan:
+    name: PHP Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Run Static Analysis
+        run: php7.4 bin/phpstan analyse -c phpstan.neon
+

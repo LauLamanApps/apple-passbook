@@ -10,20 +10,9 @@ class Signer
 {
     public const FILENAME = 'signature';
 
-    /**
-     * @var string
-     */
-    private $certificate;
-
-    /**
-     * @var string
-     */
-    private $privateKey;
-
-    /**
-     * @var string
-     */
-    private $appleWWDRCA;
+    private string $certificate;
+    private string $privateKey;
+    private string $appleWWDRCA;
 
     /**
      * @throws CertificateException
@@ -47,12 +36,12 @@ class Signer
         }
 
         $data = [];
-        if (!openssl_pkcs12_read(file_get_contents($path), $data, $password)) {
+        if (!openssl_pkcs12_read((string) file_get_contents($path), $data, $password)) {
             throw CertificateException::failedToReadPkcs12($path);
         }
 
-        $this->certificate = openssl_x509_read($data['cert']);
-        $this->privateKey = openssl_pkey_get_private($data['pkey'], $password);
+        $this->certificate = (string) openssl_x509_read($data['cert']);
+        $this->privateKey = (string) openssl_pkey_get_private($data['pkey'], $password);
     }
 
     /**
@@ -85,7 +74,7 @@ class Signer
 
         call_user_func_array('openssl_pkcs7_sign', $openSslArguments);
 
-        $signature = file_get_contents($temporaryDirectory . self::FILENAME);
+        $signature = (string) file_get_contents($temporaryDirectory . self::FILENAME);
         $signature = $this->convertPEMtoDER($signature);
         file_put_contents($temporaryDirectory . self::FILENAME, $signature);
     }
@@ -96,7 +85,7 @@ class Signer
         $end = '------';
         $signature = substr($signature, strpos($signature, $begin) + strlen($begin));
 
-        $signature = substr($signature, 0, strpos($signature, $end));
+        $signature = substr($signature, 0, (int) strpos($signature, $end));
         $signature = trim($signature);
         $signature = base64_decode($signature);
 

@@ -33,18 +33,24 @@
         }
     },
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "werkspot/enum": "^3.0",
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-zip": "*",
-        "ramsey/uuid": "^3 || ^4"
+        "ramsey/uuid": "^3 || ^4",
+        "ext-exif": "*"
     },
     "suggest": {
         "ext-exif": "*",
-        "laulamanapps/apple-passbook-bundle": "^1.0"
+        "laulamanapps/apple-passbook-bundle": "^2.0"
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.42",
+        "phpstan/extension-installer": "^1.0",
+        "phpunit/phpunit": "^9.3"
     }
 }

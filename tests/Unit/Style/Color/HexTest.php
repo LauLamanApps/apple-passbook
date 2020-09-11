@@ -33,27 +33,11 @@ final class HexTest extends TestCase
         new Hex('GH785');
     }
 
-    public function testSetRedNonHexThrowsException(): void
+    public function testSetNonHexThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('GH is not a valid hex code for red.');
+        $this->expectExceptionMessage('Please specify a valid hex. (without the #)');
 
         new Hex('GH7856');
-    }
-
-    public function testSetGreenNonHexThrowsException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('IJ is not a valid hex code for green.');
-
-        new Hex('00IJ00');
-    }
-
-    public function testSetBlueNonHexThrowsException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('YZ is not a valid hex code for blue.');
-
-        new Hex('0000YZ');
     }
 }

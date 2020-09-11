@@ -10,41 +10,19 @@ use LauLamanApps\ApplePassbook\Style\TextAlignment;
 
 class Field
 {
-    /**
-     * @var string
-     */
-    private $key;
-
-    /**
-     * @var string|int|bool
-     */
+    private string $key;
+    /** @var string|int|bool */
     private $value;
+    private string $label;
+    /** @var DataDetector[]|null */
+    private ?array $dataDetectorTypes;
+    private string $changeMessage;
+    private TextAlignment $textAlignment;
+    private string $attributedValue;
 
     /**
-     * @var string|null
+     * @param string|int|bool $value
      */
-    private $label;
-
-    /**
-     * @var DataDetector[]|null
-     */
-    private $dataDetectorTypes;
-
-    /**
-     * @var string|null
-     */
-    private $changeMessage;
-
-    /**
-     * @var TextAlignment|null
-     */
-    private $textAlignment;
-
-    /**
-     * @var string|null
-     */
-    private $attributedValue;
-
     public function __construct(?string $key = null, $value = null, ?string $label = null)
     {
         if ($key !== null) {
@@ -65,6 +43,9 @@ class Field
         $this->key = $key;
     }
 
+    /**
+     * @param string|int|bool $value
+     */
     public function setValue($value): void
     {
         if (!is_scalar($value)) {
@@ -99,6 +80,9 @@ class Field
         $this->attributedValue = $attributedValue;
     }
 
+    /**
+     * @return array<string, array<int, string>|bool|int|string>
+     */
     public function getMetadata(): array
     {
         $data = [
@@ -106,25 +90,25 @@ class Field
             'value'=> $this->value,
         ];
 
-        if ($this->label) {
+        if (isset($this->label)) {
             $data['label'] = $this->label;
         }
 
-        if ($this->dataDetectorTypes) {
+        if (isset($this->dataDetectorTypes)) {
             foreach ($this->dataDetectorTypes as $dataDetector) {
-                $data['dataDetectorTypes'][] = $dataDetector->getValue();
+                $data['dataDetectorTypes'][] = (string) $dataDetector->getValue();
             }
         }
 
-        if ($this->changeMessage) {
+        if (isset($this->changeMessage)) {
             $data['changeMessage'] = $this->changeMessage;
         }
 
-        if ($this->textAlignment) {
-            $data['textAlignment'] = $this->textAlignment->getValue();
+        if (isset($this->textAlignment)) {
+            $data['textAlignment'] = (string) $this->textAlignment->getValue();
         }
 
-        if ($this->attributedValue) {
+        if (isset($this->attributedValue)) {
             $data['attributedValue'] = $this->attributedValue;
         }
 
