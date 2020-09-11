@@ -9,9 +9,8 @@ use LogicException;
 
 class LocalImage implements Image
 {
-    private $path;
-
-    private $filename;
+    private string $path;
+    private string $filename;
 
     public function __construct(string $path, ?string $filename = null)
     {
@@ -19,10 +18,8 @@ class LocalImage implements Image
             throw new LogicException(sprintf('Image %s does not exist.', $path));
         }
 
-        if (function_exists('exif_imagetype')) {
-            if (exif_imagetype($path) !== IMAGETYPE_PNG) {
-                throw new LogicException('Image should be of type PNG.');
-            }
+        if (exif_imagetype($path) !== IMAGETYPE_PNG) {
+            throw new LogicException('Image should be of type PNG.');
         }
 
         $this->path = $path;
@@ -36,7 +33,7 @@ class LocalImage implements Image
 
     public function getContents(): string
     {
-        return file_get_contents($this->path);
+        return (string) file_get_contents($this->path);
     }
 
     public function getPath(): string
@@ -44,7 +41,7 @@ class LocalImage implements Image
         return $this->path;
     }
 
-    public function getFilename(): ?string
+    public function getFilename(): string
     {
         return $this->filename;
     }

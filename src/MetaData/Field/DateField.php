@@ -10,25 +10,10 @@ use LauLamanApps\ApplePassbook\Style\DateStyle;
 
 class DateField extends Field
 {
-    /**
-     * @var DateStyle|null
-     */
-    private $dateStyle;
-
-    /**
-     * @var DateStyle|null;
-     */
-    private $timeStyle;
-
-    /**
-     * @var bool
-     */
-    private $ignoresTimeZone = false;
-
-    /**
-     * @var bool
-     */
-    private $isRelative = false;
+    private DateStyle $dateStyle;
+    private DateStyle $timeStyle;
+    private bool $ignoresTimeZone = false;
+    private bool $isRelative = false;
 
     public function __construct(?string $key = null, ?DateTimeImmutable $date = null, ?string $label = null)
     {
@@ -64,15 +49,18 @@ class DateField extends Field
         $this->isRelative = true;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getMetadata(): array
     {
         $data = parent::getMetadata();
 
-        if ($this->dateStyle) {
+        if (isset($this->dateStyle)) {
             $data['dateStyle'] = $this->dateStyle->getValue();
         }
 
-        if ($this->timeStyle) {
+        if (isset($this->timeStyle)) {
             $data['timeStyle'] = $this->timeStyle->getValue();
         }
 

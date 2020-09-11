@@ -20,140 +20,42 @@ abstract class Passbook
 {
     protected const TYPE = null;
 
-    /**
-     * @var int
-     */
-    private $formatVersion = 1;
-
-    /**
-     * @var string
-     */
-    private $passTypeIdentifier;
-
-    /**
-     * @var string
-     */
-    private $serialNumber;
-
-    /**
-     * @var string
-     */
-    private $teamIdentifier;
-
-    /**
-     * @var string
-     */
-    private $organizationName;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string|null
-     */
-    private $logoText;
-
-    /**
-     * @var Barcode[]
-     */
-    private $barcodes = [];
-
-    /**
-     * @var DateTimeImmutable|null
-     */
-    private $relevantDate;
-
-    /**
-     * @var string|null
-     */
-    private $appLaunchURL;
-
-    /**
-     * @var array|null
-     */
-    private $associatedStoreIdentifiers;
-
-    /**
-     * @var string|null
-     */
-    private $userInfo;
-
-    /**
-     * @var DateTimeImmutable|null
-     */
-    private $expirationDate;
-
-    /**
-     * @var boolean|null
-     */
-    private $voided;
-
-    /**
-     * @var Location[]|null
-     */
-    private $locations;
-
-    /**
-     * @var int|null
-     */
-    private $maxDistance;
-
-    /**
-     * @var string|null
-     */
-    private $webServiceURL;
-
-    /**
-     * @var string|null
-     */
-    private $authenticationToken;
-
-    /**
-     * @var Color|null
-     */
-    private $foregroundColor;
-
-    /**
-     * @var Color|null
-     */
-    private $backgroundColor;
-
-    /**
-     * @var Color|null
-     */
-    private $labelColor;
-
-    /**
-     * @var LocalImage[]
-     */
-    private $images = [];
-
-    /**
-     * @var Field[]
-     */
-    private $headerFields = [];
-
-    /**
-     * @var Field[]
-     */
-    private $primaryFields = [];
-
-    /**
-     * @var Field[]
-     */
-    private $auxiliaryFields = [];
-
-    /**
-     * @var Field[]
-     */
-    private $secondaryFields = [];
-
-    /**
-     * @var Field[]
-     */
-    private $backFields = [];
+    private int $formatVersion = 1;
+    private string $passTypeIdentifier;
+    private string $serialNumber;
+    private string $teamIdentifier;
+    private string $organizationName;
+    private string$description;
+    private string $logoText;
+    /** @var Barcode[] */
+    private array $barcodes = [];
+    private DateTimeImmutable $relevantDate;
+    private string $appLaunchURL;
+    /** @var int[] */
+    private array $associatedStoreIdentifiers = [];
+    private string $userInfo;
+    private DateTimeImmutable $expirationDate;
+    private bool $voided;
+    /** @var Location[] */
+    private array $locations = [];
+    private int $maxDistance;
+    private string $webServiceURL;
+    private string $authenticationToken;
+    private Color $foregroundColor;
+    private Color $backgroundColor;
+    private Color $labelColor;
+    /** @var Image[] */
+    private array $images = [];
+    /** @var Field[] */
+    private array $headerFields = [];
+    /** @var Field[]*/
+    private array $primaryFields = [];
+    /** @var Field[] */
+    private array $auxiliaryFields = [];
+    /** @var Field[]*/
+    private array $secondaryFields = [];
+    /** @var Field[] */
+    private array $backFields = [];
 
     public function __construct(string $serialNumber)
     {
@@ -205,7 +107,7 @@ abstract class Passbook
         $this->maxDistance = $maxDistance;
     }
 
-    public function setWebService($url, $authenticationToken): void
+    public function setWebService(string $url, string $authenticationToken): void
     {
         $this->webServiceURL = $url;
         $this->authenticationToken = $authenticationToken;
@@ -276,16 +178,25 @@ abstract class Passbook
         $this->voided = true;
     }
 
+    public function isVoided(): bool
+    {
+        return isset($this->voided);
+    }
+
     public function hasPassTypeIdentifier(): bool
     {
-        return $this->passTypeIdentifier !== null;
+        return isset($this->passTypeIdentifier);
     }
 
     public function hasTeamIdentifier(): bool
     {
-        return $this->teamIdentifier !== null;
+        return isset($this->teamIdentifier);
     }
 
+    /**
+     * @return array<int|string,array<string, array<array<array<int, string>|bool|int|string>|string>|string>|string>
+     * @throws MissingRequiredDataException
+     */
     public function getData(): array
     {
         $this->validate();
@@ -296,6 +207,9 @@ abstract class Passbook
         return $data;
     }
 
+    /**
+     * @return array<string, string|array<string, string|array<string|array<string>>>>
+     */
     private function getGenericData(): array
     {
         $data = [
@@ -307,7 +221,7 @@ abstract class Passbook
             'description' => $this->description,
         ];
 
-        if ($this->logoText !== null) {
+        if (isset($this->logoText)) {
             $data['logoText'] = $this->logoText;
         }
 
@@ -319,60 +233,63 @@ abstract class Passbook
             }
         }
 
-        if ($this->relevantDate !== null) {
+        if (isset($this->relevantDate)) {
             $data['relevantDate'] = $this->relevantDate->format(DateTimeInterface::W3C);
         }
 
-        if ($this->expirationDate !== null) {
+        if (isset($this->expirationDate)) {
             $data['expirationDate'] = $this->expirationDate->format(DateTimeInterface::W3C);
         }
 
-        if ($this->appLaunchURL !== null) {
+        if (isset($this->appLaunchURL)) {
             $data['appLaunchURL'] = $this->appLaunchURL;
         }
 
-        if ($this->associatedStoreIdentifiers !== null) {
+        if (count($this->associatedStoreIdentifiers) > 0) {
             $data['associatedStoreIdentifiers'] = $this->associatedStoreIdentifiers;
         }
 
-        if ($this->userInfo !== null) {
+        if (isset($this->userInfo)) {
             $data['userInfo'] = $this->userInfo;
         }
 
-        if ($this->voided === true) {
+        if (isset($this->voided)) {
             $data['voided'] = true;
         }
 
-        if ($this->locations !== null) {
+        if (isset($this->locations)) {
             foreach ($this->locations as $location) {
                 $data['locations'][] = $location->toArray();
             }
         }
 
-        if ($this->maxDistance !== null) {
+        if (isset($this->maxDistance)) {
             $data['maxDistance'] = $this->maxDistance;
         }
 
-        if ($this->webServiceURL && $this->authenticationToken) {
+        if (isset($this->webServiceURL) && isset($this->authenticationToken)) {
             $data['webServiceURL'] = $this->webServiceURL;
             $data['authenticationToken'] = $this->authenticationToken;
         }
 
-        if ($this->foregroundColor !== null) {
+        if (isset($this->foregroundColor)) {
             $data['foregroundColor'] = $this->foregroundColor->toString();
         }
 
-        if ($this->backgroundColor !== null) {
+        if (isset($this->backgroundColor)) {
             $data['backgroundColor'] = $this->backgroundColor->toString();
         }
 
-        if ($this->labelColor !== null) {
+        if (isset($this->labelColor)) {
             $data['labelColor'] = $this->labelColor->toString();
         }
 
         return $data;
     }
 
+    /**
+     * @return array<string, array<int, array<string, array<int, string>|bool|int|string>>>
+     */
     private function getFieldsData(): array
     {
         $data = [];
@@ -414,19 +331,19 @@ abstract class Passbook
             throw new LogicException('Please implement protected const TYPE in class.');
         }
 
-        if ($this->passTypeIdentifier === null) {
+        if (!isset($this->passTypeIdentifier)) {
             throw new MissingRequiredDataException('Please specify the PassTypeIdentifier before requesting the manifest data.');
         }
 
-        if ($this->teamIdentifier === null) {
+        if (!isset($this->teamIdentifier)) {
             throw new MissingRequiredDataException('Please specify the TeamIdentifier before requesting the manifest data.');
         }
 
-        if ($this->organizationName === null) {
+        if (!isset($this->organizationName)) {
             throw new MissingRequiredDataException('Please specify the OrganizationName before requesting the manifest data.');
         }
 
-        if ($this->description === null) {
+        if (!isset($this->description)) {
             throw new MissingRequiredDataException('Please specify the Description before requesting the manifest data.');
         }
     }

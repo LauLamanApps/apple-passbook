@@ -9,43 +9,40 @@ use LauLamanApps\ApplePassbook\Style\Color\Exception\OutOfRangeException;
 
 class Rgb implements Color
 {
-    /**
-     * @var int
-     */
-    private $red;
+    private int $red = 0;
+    private int $green = 0;
+    private int $blue = 0;
 
-    /**
-     * @var int
-     */
-    private $green;
-
-    /**
-     * @var int
-     */
-    private $blue;
-
-    public function __construct(?int $red = 0, ?int $green = 0, ?int $blue = 0)
+    public function __construct(int $red = null, int $green = null, int $blue = null)
     {
-        $this->setRed($red);
-        $this->setGreen($green);
-        $this->setBlue($blue);
+        if ($red) {
+            $this->setRed($red);
+        }
+
+        if ($green) {
+            $this->setGreen($green);
+        }
+
+        if ($blue) {
+            $this->setBlue($blue);
+        }
     }
 
     public function setRed(int $red): void
     {
-        $this->isValidValue($red);
+        $this->isValid($red);
         $this->red = $red;
     }
 
     public function setGreen(int $green): void
     {
-        $this->isValidValue($green);
+        $this->isValid($green);
         $this->green = $green;
     }
 
     public function setBlue(int $blue): void
     {
-        $this->isValidValue($blue);
+        $this->isValid($blue);
         $this->blue = $blue;
     }
 
@@ -54,19 +51,10 @@ class Rgb implements Color
         return sprintf('rgb(%s, %s, %s)', $this->red, $this->green, $this->blue);
     }
 
-    private function isValidValue(int $value): void
+    private function isValid(int $value): void
     {
-        if ($value < 0) {
-            $this->throwInvalidArgumentException();
+        if ($value < 0 || $value > 255 ) {
+            throw new OutOfRangeException('Value out of range (0-255).');
         }
-
-        if ($value > 255) {
-            $this->throwInvalidArgumentException();
-        }
-    }
-
-    private function throwInvalidArgumentException()
-    {
-        throw new OutOfRangeException('Value out of range (0-255).');
     }
 }

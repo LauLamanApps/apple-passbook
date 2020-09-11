@@ -13,30 +13,11 @@ class Compiler
 {
     public const PASS_DATA_FILE = 'pass.json';
 
-    /**
-     * @var ManifestGenerator
-     */
-    private $manifestGenerator;
-
-    /**
-     * @var Signer
-     */
-    private $signer;
-
-    /**
-     * @var Compressor
-     */
-    private $compressor;
-
-    /**
-     * @var string
-     */
-    private $passTypeIdentifier;
-
-    /**
-     * @var string
-     */
-    private $teamIdentifier;
+    private ManifestGenerator $manifestGenerator;
+    private Signer $signer;
+    private Compressor $compressor;
+    private string $passTypeIdentifier;
+    private string $teamIdentifier;
 
     public function __construct(
         ManifestGenerator $manifestGenerator,
@@ -48,8 +29,14 @@ class Compiler
         $this->manifestGenerator = $manifestGenerator;
         $this->signer = $signer;
         $this->compressor = $compressor;
-        $this->passTypeIdentifier = $passTypeIdentifier;
-        $this->teamIdentifier = $teamIdentifier;
+
+        if ($passTypeIdentifier) {
+            $this->passTypeIdentifier = $passTypeIdentifier;
+        }
+
+        if ($teamIdentifier) {
+            $this->teamIdentifier = $teamIdentifier;
+        }
     }
 
     public function setPassTypeIdentifier(string $passTypeIdentifier): void
@@ -70,11 +57,11 @@ class Compiler
     {
         $this->validate($passbook);
 
-        if (!$passbook->hasPassTypeIdentifier()) {
+        if (!$passbook->hasPassTypeIdentifier() && isset($this->passTypeIdentifier)) {
             $passbook->setPassTypeIdentifier($this->passTypeIdentifier);
         }
 
-        if (!$passbook->hasTeamIdentifier()) {
+        if (!$passbook->hasTeamIdentifier() && isset($this->teamIdentifier)) {
             $passbook->setTeamIdentifier($this->teamIdentifier);
         }
 
@@ -85,7 +72,7 @@ class Compiler
             $this->signer->sign($temporaryDirectory);
             $this->compressor->compress($passbook, $temporaryDirectory);
 
-            return file_get_contents($temporaryDirectory . Compressor::FILENAME);
+            return (string) file_get_contents($temporaryDirectory . Compressor::FILENAME);
         } finally {
             $this->cleanup($temporaryDirectory);
         }
@@ -96,11 +83,11 @@ class Compiler
      */
     private function validate(Passbook $passbook): void
     {
-        if ($this->passTypeIdentifier === null && $passbook->hasPassTypeIdentifier() === false) {
+        if (isset($this->passTypeIdentifier) && $passbook->hasPassTypeIdentifier() === false) {
             throw new MissingRequiredDataException('PassTypeIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
         }
 
-        if ($this->teamIdentifier === null && $passbook->hasTeamIdentifier() === false) {
+        if (isset($this->teamIdentifier) && $passbook->hasTeamIdentifier() === false) {
             throw new MissingRequiredDataException('TeamIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
         }
     }
@@ -116,7 +103,7 @@ class Compiler
 
     private function cleanup(string $temporaryDirectory): void
     {
-        $files = array_diff(scandir($temporaryDirectory), ['..', '.']);
+        $files = array_diff((array) scandir($temporaryDirectory), ['..', '.']);
         foreach ($files as $file) {
             unlink($temporaryDirectory . $file);
         }

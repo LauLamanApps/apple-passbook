@@ -25,7 +25,7 @@ final class BoardingPassbookTest extends TestCase
 
     public function testDefaults(): void
     {
-        $passbook = new BoardingPassbook(self::UUID);
+        $passbook = new BoardingPassbook(self::UUID, TransitType::air());
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');

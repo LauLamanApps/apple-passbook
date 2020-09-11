@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\Build;
 
 use LauLamanApps\ApplePassbook\Build\Exception\ZipException;
+use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\Passbook;
 use ZipArchive;
 
@@ -12,10 +13,7 @@ class Compressor
 {
     public const FILENAME = 'pass.pkpass';
 
-    /**
-     * @var ZipArchive
-     */
-    private $zipArchive;
+    private ZipArchive $zipArchive;
 
     public function __construct(ZipArchive $zipArchive)
     {
@@ -35,9 +33,10 @@ class Compressor
 
         $this->zipArchive->addFile($temporaryDirectory . Signer::FILENAME, Signer::FILENAME);
         $this->zipArchive->addFile($temporaryDirectory . ManifestGenerator::FILENAME, ManifestGenerator::FILENAME);
-        $this->zipArchive->addFromString(Compiler::PASS_DATA_FILE, json_encode($passbook->getData()));
+        $this->zipArchive->addFromString(Compiler::PASS_DATA_FILE, (string) json_encode($passbook->getData()));
 
         foreach ($passbook->getImages() as $image) {
+            /** @var Image $image */
             $this->zipArchive->addFile($image->getPath(), $image->getFilename());
         }
 

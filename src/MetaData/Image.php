@@ -7,8 +7,6 @@ namespace LauLamanApps\ApplePassbook\MetaData;
 interface Image
 {
     public function getPath(): string;
-
     public function getContents(): string;
-
-    public function getFilename(): ?string;
+    public function getFilename(): string;
 }
