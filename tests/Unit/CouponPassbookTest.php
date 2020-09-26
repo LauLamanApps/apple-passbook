@@ -74,6 +74,7 @@ final class CouponPassbookTest extends TestCase
         $data = $passbook->getData();
         self::assertArrayNotHasKey('relevantDate', $data);
 
+        /** @phpstan-ignore-next-line Ignore false return type */
         $passbook->setRelevantDate(DateTimeImmutable::createFromFormat(DateTimeImmutable::W3C, '2019-11-08T15:55:00Z'));
 
         $data = $passbook->getData();

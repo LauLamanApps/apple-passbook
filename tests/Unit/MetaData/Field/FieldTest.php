@@ -108,6 +108,8 @@ final class FieldTest extends TestCase
 
     /**
      * @dataProvider getScalars
+     *
+     * @param mixed $type
      */
     public function testAcceptsScalarTypes($type): void
     {
@@ -123,6 +125,8 @@ final class FieldTest extends TestCase
 
     /**
      * @dataProvider getNonScalars
+     *
+     * @param mixed $type
      */
     public function testDoesNotAcceptNonScalarTypes($type): void
     {
@@ -133,6 +137,9 @@ final class FieldTest extends TestCase
         $field->setValue($type);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getScalars(): array
     {
         return [
@@ -144,6 +151,9 @@ final class FieldTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getNonScalars(): array
     {
         return [
