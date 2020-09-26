@@ -41,7 +41,7 @@ class BoardingPassbook extends Passbook
     }
 
     /**
-     * @return array<int|string,array<string, array<array<array<int, string>|bool|int|string>|string>|string>|string>
+     * @return array<int|string, mixed>
      */
     public function getData(): array
     {

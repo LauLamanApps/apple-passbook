@@ -194,7 +194,7 @@ abstract class Passbook
     }
 
     /**
-     * @return array<int|string,array<string, array<array<array<int, string>|bool|int|string>|string>|string>|string>
+     * @return array<int|string, mixed>
      * @throws MissingRequiredDataException
      */
     public function getData(): array
@@ -208,7 +208,7 @@ abstract class Passbook
     }
 
     /**
-     * @return array<string, string|array<string, string|array<string|array<string>>>>
+     * @return array<int|string, mixed>
      */
     private function getGenericData(): array
     {
@@ -288,7 +288,7 @@ abstract class Passbook
     }
 
     /**
-     * @return array<string, array<int, array<string, array<int, string>|bool|int|string>>>
+     * @return array<int|string, mixed>
      */
     private function getFieldsData(): array
     {

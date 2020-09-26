@@ -32,7 +32,10 @@ final class ManifestGeneratorTest extends TestCase
 
         $file = $tempDir . '/' . ManifestGenerator::FILENAME;
 
-        $file = file_get_contents($file);
+        if (!$file = file_get_contents($file)) {
+            throw new \Exception('Error loading file');
+        }
+
         $manifest = json_decode($file, true);
 
         self::assertSame('97d170e1550eee4afc0af065b78cda302a97674c', $manifest[Compiler::PASS_DATA_FILE]);
@@ -62,7 +65,10 @@ final class ManifestGeneratorTest extends TestCase
 
         $file = $tempDir . '/' . ManifestGenerator::FILENAME;
 
-        $file = file_get_contents($file);
+        if (!$file = file_get_contents($file)) {
+            throw new \Exception('Error loading file');
+        }
+
         $manifest = json_decode($file, true);
 
         self::assertSame('6904316624dff99eeaf763eebde9d788118233e4', $manifest[Compiler::PASS_DATA_FILE]);

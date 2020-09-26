@@ -135,6 +135,8 @@ final class NumberFieldTest extends TestCase
 
     /**
      * @dataProvider getNumeric
+     *
+     * @param mixed $type
      */
     public function testAcceptsNumericTypes($type): void
     {
@@ -150,6 +152,8 @@ final class NumberFieldTest extends TestCase
 
     /**
      * @dataProvider getNonNumeric
+     *
+     * @param mixed $type
      */
     public function testDoesNotAcceptNonNumericTypes($type): void
     {
@@ -160,6 +164,9 @@ final class NumberFieldTest extends TestCase
         $field->setValue($type);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getNumeric(): array
     {
         return [
@@ -170,6 +177,9 @@ final class NumberFieldTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getNonNumeric(): array
     {
         return [
