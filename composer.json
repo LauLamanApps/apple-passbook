@@ -34,12 +34,12 @@
     },
     "require": {
         "php": "^7.4|^8.0",
-        "werkspot/enum": "^2.1 || ^3.0",
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-zip": "*",
+        "ext-exif": "*",
         "ramsey/uuid": "^3 || ^4",
-        "ext-exif": "*"
+        "werkspot/enum": "^2.1 || ^3.0"
     },
     "suggest": {
         "ext-exif": "*",
