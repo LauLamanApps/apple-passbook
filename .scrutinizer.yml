@@ -1,18 +1,20 @@
 filter:
-    excluded_paths: [tests/*]
+    excluded_paths:
+        - 'tests/*'
 checks:
-    php:
-        code_rating: true
-        duplication: true
-
+    php: true
 build:
     environment:
         php:
             version: 7.4
+    dependencies:
+        before:
+            # When updating the phpunit version make sure to also update it in the github workflow
+            - composer require phpunit/phpunit:^9.5 --dev --ignore-platform-reqs
     tests:
         override:
             -
-                command: 'make coverage'
+                command: bin/phpunit --coverage-clover=.phpunit.cache/code-coverage/clover.xml
                 coverage:
-                    file: 'coverage/clover.xml'
-                    format: 'php-clover'
+                    file: .phpunit.cache/code-coverage/clover.xml
+                    format: php-clover
