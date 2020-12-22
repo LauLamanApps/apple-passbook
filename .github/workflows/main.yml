@@ -35,5 +35,5 @@ jobs:
       - name: Run PHPStan
         run: phpstan analyse src
 
-#      - name: Run Infection
-#        run: infection --min-msi=70 --show-mutations
+      - name: Run Infection
+        run: infection --logger-github --git-diff-filter=AM --min-msi=69 --show-mutations

@@ -44,6 +44,20 @@ final class ManifestGeneratorTest extends TestCase
     /**
      * @covers \LauLamanApps\ApplePassbook\Build\ManifestGenerator::generate
      * @covers \LauLamanApps\ApplePassbook\Build\ManifestGenerator::hash
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Image\LocalImage::__construct
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Image\LocalImage::getContents
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Image\LocalImage::getFilename
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::addImage
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getImages
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testGenerateWithFiles(): void
     {
