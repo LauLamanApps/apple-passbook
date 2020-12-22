@@ -21,6 +21,7 @@ final class CompressorTest extends TestCase
 {
     /**
      * @covers \LauLamanApps\ApplePassbook\Build\Compressor::compress
+     * @covers \LauLamanApps\ApplePassbook\Build\Compressor::__construct
      */
     public function testCompress(): void
     {
@@ -50,6 +51,8 @@ final class CompressorTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\Build\Compressor::compress
+     * @covers \LauLamanApps\ApplePassbook\Build\Compressor::__construct
+     * @covers \LauLamanApps\ApplePassbook\Build\Exception\ZipException::canNotOpenZip
      */
     public function testCantOpenZipArchiveThrowsException(): void
     {

@@ -10,7 +10,7 @@ build:
     dependencies:
         before:
             # When updating the phpunit version make sure to also update it in the github workflow
-            - composer require phpunit/phpunit:^9.5 --dev --ignore-platform-reqs
+            - composer require phpunit/phpunit:^8.4 --dev --ignore-platform-reqs
     tests:
         override:
             -

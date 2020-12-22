@@ -42,7 +42,6 @@
         "werkspot/enum": "^2.1 || ^3.0"
     },
     "suggest": {
-        "ext-exif": "*",
         "laulamanapps/apple-passbook-bundle": "^2.0"
     },
     "config": {

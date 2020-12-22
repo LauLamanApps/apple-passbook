@@ -25,6 +25,14 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
      */
     public function testDefaults(): void
     {
@@ -49,6 +57,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setLogoText
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testSetLogoText(): void
     {
@@ -66,6 +83,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setRelevantDate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testSetRelevantDate(): void
     {
@@ -84,6 +110,20 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setBarcode
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Barcode::__construct
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Barcode::setFormat
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Barcode::setMessage
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Barcode::toArray
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Barcode::validate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testSetBarcode(): void
     {
@@ -113,6 +153,17 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addLocation
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Location::__construct
+     * @covers \LauLamanApps\ApplePassbook\MetaData\Location::toArray
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testAddLocation(): void
     {
@@ -148,6 +199,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setMaxDistance
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testSetMaxDistance(): void
     {
@@ -165,6 +225,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setWebService
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testSetWebService(): void
     {
@@ -185,6 +254,17 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setForegroundColor
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Style\Color\Hex::__construct
+     * @covers \LauLamanApps\ApplePassbook\Style\Color\Hex::toString
      */
     public function testSetForegroundColor(): void
     {
@@ -202,6 +282,17 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setBackgroundColor
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Style\Color\Hex::__construct
+     * @covers \LauLamanApps\ApplePassbook\Style\Color\Hex::toString
      */
     public function testSetBackgroundColor(): void
     {
@@ -219,6 +310,17 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::setLabelColor
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Style\Color\Hex::__construct
+     * @covers \LauLamanApps\ApplePassbook\Style\Color\Hex::toString
      */
     public function testSetLabelColor(): void
     {
@@ -237,6 +339,11 @@ final class GenericPassbookTest extends TestCase
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addImage
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::getImages
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
      */
     public function testAddImage(): void
     {
@@ -257,6 +364,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addHeaderField
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testAddHeaderField(): void
     {
@@ -287,6 +403,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addPrimaryField
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testAddPrimaryField(): void
     {
@@ -317,6 +442,16 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addHeaderField
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::addAuxiliaryField
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testAddAuxiliaryField(): void
     {
@@ -347,6 +482,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addSecondaryField
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testAddSecondaryField(): void
     {
@@ -377,6 +521,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::addBackField
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testAddBackField(): void
     {
@@ -407,6 +560,15 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::voided
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
      */
     public function testVoided(): void
     {
@@ -424,6 +586,9 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::hasPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::hasTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
      */
     public function testHasPassTypeIdentifier(): void
     {
@@ -440,6 +605,9 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::hasTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::hasPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
      */
     public function testHasTeamIdentifier(): void
     {
@@ -457,6 +625,8 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
      */
     public function testMissingPassTypeIdentifierThrowsException(): void
     {
@@ -469,6 +639,9 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
      */
     public function testMissingTeamIdentifierThrowsException(): void
     {
@@ -482,6 +655,10 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
      */
     public function testMissingOrganizationNameThrowsException(): void
     {
@@ -496,6 +673,11 @@ final class GenericPassbookTest extends TestCase
 
     /**
      * @covers \LauLamanApps\ApplePassbook\GenericPassbook::validate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
      */
     public function testMissingDescriptionThrowsException(): void
     {
