@@ -1,8 +1,5 @@
 {
     "timeout": 10,
-    "phpUnit": {
-        "customPath": ".\/bin\/phpunit"
-    },
     "source": {
         "directories": [
             "src"

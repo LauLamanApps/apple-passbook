@@ -9,42 +9,30 @@ on:
       - master
 
 jobs:
-  build-unit:
-    name: Unit tests
+  run:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: [ '7.4', '8.0', '8.1' ]
+    name: PHP ${{ matrix.php-versions }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Install composer dependencies
-        run: composer install --prefer-dist --ignore-platform-reqs
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2, phpunit:9.5, phpstan:0.12, infection:0.20
 
-      - name: Run PHPUnit unit tests
-        run: php7.4 bin/phpunit --testsuite=unit
+      - name: Composer install
+        run: composer install
 
-  build-infection:
-    name: Infection tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
+      - name: Run PHPUnit Unit tests
+        run: phpunit --testsuite=unit
 
-      - name: Install composer dependencies
-        run: composer install --prefer-dist --ignore-platform-reqs
+      - name: Run PHPStan
+        run: phpstan analyse src
 
-      - name: Run Infection
-        run: php7.4 bin/infection.phar  --min-msi=70 --show-mutations
-
-  build-phpstan:
-    name: PHP Static Analysis
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Install composer dependencies
-        run: composer install --prefer-dist --ignore-platform-reqs
-
-      - name: Run Static Analysis
-        run: php7.4 bin/phpstan analyse -c phpstan.neon
-
+#      - name: Run Infection
+#        run: infection --min-msi=70 --show-mutations
