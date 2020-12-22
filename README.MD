@@ -25,12 +25,10 @@ $ composer require laulamanapps/apple-passbook-bundle
 
 Run Tests
 ---
-To make sure everything works you can run tests:
+We use [act][act] to run tests which runs github actions locally: 
 
 ```bash
-$ make tests-unit 
-$ make tests-integration 
-$ make tests-infection 
+$ act -P ubuntu-latest=shivammathur/node:latest
 ```
 
 Get certificate
@@ -134,6 +132,7 @@ Credits
 
 This package has been developed by [LauLaman][LauLaman].
 
+[act]: https://github.com/nektos/act
 [ApplePassbookApi]: https://developer.apple.com/documentation/passkit
 [AppleDeveloperPortal]: https://developer.apple.com/account/resources/certificates/list
 [LauLaman]: https://github.com/LauLaman
