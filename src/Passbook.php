@@ -92,6 +92,11 @@ abstract class Passbook
         $this->relevantDate = $relevantDate;
     }
 
+    public function setExpirationDate(DateTimeImmutable $expirationDate): void
+    {
+        $this->expirationDate = $expirationDate;
+    }
+
     public function setBarcode(Barcode $barcode): void
     {
         $this->barcodes[] = $barcode;
