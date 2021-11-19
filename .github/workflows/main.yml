@@ -24,7 +24,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # When updating the phpunit version make sure to also update it in the scrutinizer config
-          tools: composer:v2, phpunit:9.5, phpstan:0.12, infection:0.20
+          tools: composer:v2, phpunit:9.5, phpstan:1.2, infection:0.25
 
       - name: Composer install
         run: composer install
