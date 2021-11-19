@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\Tests\Unit;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use LauLamanApps\ApplePassbook\BoardingPassbook;
 use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
@@ -25,12 +26,12 @@ final class BoardingPassbookTest extends TestCase
 
     public function testDefaults(): void
     {
-        $passbook = new BoardingPassbook(self::UUID, TransitType::air());
+        $passbook = new BoardingPassbook(self::UUID, TransitType::air);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');
         $passbook->setDescription('Pass for LauLaman Apps');
-        $passbook->setTransitType(TransitType::air());
+        $passbook->setTransitType(TransitType::air);
 
         $expected = [
             'formatVersion' => 1,
@@ -40,7 +41,7 @@ final class BoardingPassbookTest extends TestCase
             'organizationName' => 'LauLaman Apps',
             'description' => 'Pass for LauLaman Apps',
             'boardingPass' => [
-                'transitType' => TransitType::air()->getValue(),
+                'transitType' => TransitType::air->value,
             ],
         ];
 
@@ -101,7 +102,7 @@ final class BoardingPassbookTest extends TestCase
         self::assertArrayNotHasKey('relevantDate', $data);
 
         /** @phpstan-ignore-next-line Ignore false return type */
-        $passbook->setRelevantDate(DateTimeImmutable::createFromFormat(DateTimeImmutable::W3C, '2019-11-08T15:55:00Z'));
+        $passbook->setRelevantDate(DateTimeImmutable::createFromFormat(DateTimeInterface::W3C, '2019-11-08T15:55:00Z'));
 
         $data = $passbook->getData();
         self::assertArrayHasKey('relevantDate', $data);
@@ -139,7 +140,7 @@ final class BoardingPassbookTest extends TestCase
 
         $barcode = new Barcode();
         $barcode->setMessage('barcode');
-        $barcode->setFormat(BarcodeFormat::code128());
+        $barcode->setFormat(BarcodeFormat::code128);
 
         $passbook->setBarcode($barcode);
 
@@ -147,7 +148,7 @@ final class BoardingPassbookTest extends TestCase
         self::assertArrayHasKey('barcode', $data);
 
         $expectedBarcodeData = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::code128->value,
             'message' => 'barcode',
             'messageEncoding' => 'iso-8859-1',
         ];
@@ -667,7 +668,7 @@ final class BoardingPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new BoardingPassbook(self::UUID);;
+        $passbook = new BoardingPassbook(self::UUID);
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());
@@ -780,7 +781,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook = new BoardingPassbook('gT6zrHkaW');
         $passbook->setTeamIdentifier('A93A5CM278');
         $passbook->setPassTypeIdentifier('pass.com.apple.devpubs.example');
-        $passbook->setTransitType(TransitType::air());
+        $passbook->setTransitType(TransitType::air);
         $passbook->setOrganizationName('Skyport Airways');
         $passbook->setDescription('Skyport Boarding Pass');
         $passbook->setLogoText('Skyport Airways');
@@ -791,7 +792,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
 
         $barcode = new Barcode();
-        $barcode->setFormat(BarcodeFormat::pdf417());
+        $barcode->setFormat(BarcodeFormat::pdf417);
         $barcode->setMessage('SFOJFK JOHN APPLESEED LH451 2012-07-22T14:25-08:00');
         $passbook->setBarcode($barcode);
 
@@ -967,7 +968,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');
         $passbook->setDescription('Pass for LauLaman Apps');
-        $passbook->setTransitType(TransitType::air());
+        $passbook->setTransitType(TransitType::air);
 
         return $passbook;
     }

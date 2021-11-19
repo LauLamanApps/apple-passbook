@@ -63,7 +63,7 @@ class NumberField extends Field
         }
 
         if (isset($this->numberStyle)) {
-            $data['numberStyle'] = (string) $this->numberStyle->getValue();
+            $data['numberStyle'] = (string) $this->numberStyle->value;
         }
 
         return $data;

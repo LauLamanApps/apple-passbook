@@ -79,7 +79,7 @@ $passbook->addLocation(new Location(37.6189722, -122.3748889));
 $passbook->addLocation(new Location(37.33182, -122.03118));
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setFormat(BarcodeFormat::pdf417);
 $barcode->setMessage('123456789');
 $passbook->setBarcode($barcode);
 

@@ -4,22 +4,10 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Style;
 
-use Werkspot\Enum\AbstractEnum;
-
-/**
- * @method static self phoneNumber()
- * @method bool isPhoneNumber()
- * @method static self link()
- * @method bool isLink()
- * @method static self address()
- * @method bool isAddress()
- * @method static self calendarEvent()
- * @method bool isCalendarEvent()
- */
-class DataDetector extends AbstractEnum
+enum DataDetector: string
 {
-    private const PHONE_NUMBER = 'PKDataDetectorTypePhoneNumber';
-    private const LINK = 'PKDataDetectorTypeLink';
-    private const ADDRESS = 'PKDataDetectorTypeAddress';
-    private const CALENDAR_EVENT = 'PKDataDetectorTypeCalendarEvent';
+    case phoneNumber = 'PKDataDetectorTypePhoneNumber';
+    case link = 'PKDataDetectorTypeLink';
+    case address = 'PKDataDetectorTypeAddress';
+    case calendarEvent = 'PKDataDetectorTypeCalendarEvent';
 }
