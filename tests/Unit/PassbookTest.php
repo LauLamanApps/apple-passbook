@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\Tests\Unit;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
@@ -817,5 +818,34 @@ final class PassbookTest extends TestCase
         $passbook->setDescription('Pass for LauLaman Apps');
 
         return $passbook;
+    }
+
+    /**
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setExpirationDate
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
+     */
+    public function testSetExpirationDate(): void
+    {
+
+        $expirationDate = new DateTimeImmutable('now');
+
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('expirationDate', $data[self::ANONYMOUS_PASSBOOK_TYPE]);
+
+        $passbook->setExpirationDate($expirationDate);
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('expirationDate', $data);
+        self::assertSame($expirationDate->format(DateTimeInterface::W3C), $data['expirationDate']);
     }
 }

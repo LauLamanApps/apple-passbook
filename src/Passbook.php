@@ -25,7 +25,7 @@ abstract class Passbook
     private string $serialNumber;
     private string $teamIdentifier;
     private string $organizationName;
-    private string$description;
+    private string $description;
     private string $logoText;
     /** @var Barcode[] */
     private array $barcodes = [];
