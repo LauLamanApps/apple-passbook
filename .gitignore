@@ -7,7 +7,7 @@ vendor/
 bin/
 !bin/infection.phar
 !bin/phpunit-8.4.3.phar
-.phpunit.result.cache
+.phpunit.cache
 infection.log
 certificates/*
 !certificates/AppleWWDRCA.pem
