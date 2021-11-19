@@ -38,7 +38,7 @@ $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfU
 $passbook->addLocation(new Location(37.6189722, -122.3748889));
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setFormat(BarcodeFormat::pdf417);
 $barcode->setMessage('123456789');
 $passbook->setBarcode($barcode);
 

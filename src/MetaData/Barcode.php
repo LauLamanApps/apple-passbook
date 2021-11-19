@@ -16,7 +16,7 @@ class Barcode
 
     public function __construct(?BarcodeFormat $format = null, ?string $message = null, ?string $altText = null)
     {
-        $this->format = $format ?? BarcodeFormat::pdf417();
+        $this->format = $format ?? BarcodeFormat::pdf417;
 
         if ($message) {
             $this->message = $message;
@@ -55,7 +55,7 @@ class Barcode
         $this->validate();
 
         $data = [
-            'format' => (string) $this->format->getValue(),
+            'format' => $this->format->value,
             'message' => $this->message,
             'messageEncoding' => $this->messageEncoding,
         ];

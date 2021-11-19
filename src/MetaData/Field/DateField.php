@@ -57,11 +57,11 @@ class DateField extends Field
         $data = parent::getMetadata();
 
         if (isset($this->dateStyle)) {
-            $data['dateStyle'] = $this->dateStyle->getValue();
+            $data['dateStyle'] = $this->dateStyle->value;
         }
 
         if (isset($this->timeStyle)) {
-            $data['timeStyle'] = $this->timeStyle->getValue();
+            $data['timeStyle'] = $this->timeStyle->value;
         }
 
         if ($this->ignoresTimeZone) {

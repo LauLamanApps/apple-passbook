@@ -220,7 +220,7 @@ final class PassbookTest extends TestCase
 
         $barcode =  new Barcode();
         $barcode->setMessage('barcode');
-        $barcode->setFormat(BarcodeFormat::code128());
+        $barcode->setFormat(BarcodeFormat::code128);
 
         $passbook->setBarcode($barcode);
 
@@ -228,7 +228,7 @@ final class PassbookTest extends TestCase
         self::assertArrayHasKey('barcode', $data);
 
         $expectedBarcodeData = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::code128->value,
             'message' => 'barcode',
             'messageEncoding' => 'iso-8859-1',
         ];

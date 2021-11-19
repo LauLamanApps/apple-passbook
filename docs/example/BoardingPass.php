@@ -28,7 +28,7 @@ $compiler = new Compiler($manifestGenerator, $signer, $compressor);
 $passbook = new BoardingPassbook('gT6zrHkaW');
 $passbook->setTeamIdentifier('<TeamId>');
 $passbook->setPassTypeIdentifier('<PassTypeId>');
-$passbook->setTransitType(TransitType::air());
+$passbook->setTransitType(TransitType::air);
 $passbook->setOrganizationName('Skyport Airways');
 $passbook->setDescription('Skyport Boarding Pass');
 $passbook->setLogoText('Skyport Airways');
@@ -39,7 +39,7 @@ $passbook->setRelevantDate(new DateTimeImmutable( '2012-07-22T14:25-08:00'));
 $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setFormat(BarcodeFormat::pdf417);
 $barcode->setMessage('SFOJFK JOHN APPLESEED LH451 2012-07-22T14:25-08:00');
 $passbook->setBarcode($barcode);
 
@@ -111,7 +111,7 @@ $passbook->addImage(new LocalImage(__DIR__ . '/files/BoardingPass/icon@2x.png'))
 $passbook->addImage(new LocalImage(__DIR__ . '/files/BoardingPass/logo.png'));
 $passbook->addImage(new LocalImage(__DIR__ . '/files/BoardingPass/logo@2x.png'));
 
-//-- Send data too the browser
+//-- Send data to the browser
 header('Content-Description: File Transfer');
 header('Content-Type: application/vnd.apple.pkpass');
 header('Content-Disposition: filename="boardingpass.pkpass"');

@@ -12,10 +12,10 @@ final class BarcodeTest extends TestCase
 {
     public function testToArray(): void
     {
-        $barcode = new Barcode(BarcodeFormat::code128(), '12345678');
+        $barcode = new Barcode(BarcodeFormat::code128, '12345678');
 
         $expected = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::code128->value,
             'message' => '12345678',
             'messageEncoding' => 'iso-8859-1',
         ];
@@ -25,10 +25,10 @@ final class BarcodeTest extends TestCase
 
     public function testSetAltText(): void
     {
-        $barcode = new Barcode(BarcodeFormat::code128(), '12345678', 'barcodeId');
+        $barcode = new Barcode(BarcodeFormat::code128, '12345678', 'barcodeId');
 
         $expected = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::code128->value,
             'message' => '12345678',
             'messageEncoding' => 'iso-8859-1',
             'altText' => 'barcodeId',
@@ -39,7 +39,7 @@ final class BarcodeTest extends TestCase
         $barcode->setAltText('shortCode');
 
         $expected = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::code128->value,
             'message' => '12345678',
             'messageEncoding' => 'iso-8859-1',
             'altText' => 'shortCode',
@@ -50,11 +50,11 @@ final class BarcodeTest extends TestCase
 
     public function testSetMessageEncoding(): void
     {
-        $barcode = new Barcode(BarcodeFormat::code128(), '12345678');
+        $barcode = new Barcode(BarcodeFormat::code128, '12345678');
         $barcode->setMessageEncoding('iso-8859-1:1987');
 
         $expected = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::code128->value,
             'message' => '12345678',
             'messageEncoding' => 'iso-8859-1:1987',
         ];

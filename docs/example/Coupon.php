@@ -55,7 +55,7 @@ $expires->setKey('expires');
 $expires->setLabel('EXPIRES');
 $expires->setDate(new DateTimeImmutable('2013-04-24T10:00-05:00'));
 $expires->isRelative();
-$expires->setDateStyle(DateStyle::short());
+$expires->setDateStyle(DateStyle::short);
 $passbook->addAuxiliaryField($expires);
 
 $passbook->addImage(new LocalImage(__DIR__ . '/files/Coupon/icon.png'));
@@ -63,7 +63,7 @@ $passbook->addImage(new LocalImage(__DIR__ . '/files/Coupon/icon@2x.png'));
 $passbook->addImage(new LocalImage(__DIR__ . '/files/Coupon/logo.png'));
 $passbook->addImage(new LocalImage(__DIR__ . '/files/Coupon/logo@2x.png'));
 
-//-- Send data too the browser
+//-- Send data to the browser
 header('Content-Description: File Transfer');
 header('Content-Type: application/vnd.apple.pkpass');
 header('Content-Disposition: filename="coupon.pkpass"');

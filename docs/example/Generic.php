@@ -43,7 +43,7 @@ $passbook->addLocation(new Location(37.6189722, -122.3748889));
 $passbook->addLocation(new Location(37.33182, -122.03118));
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setFormat(BarcodeFormat::pdf417);
 $barcode->setMessage('123456789');
 $passbook->setBarcode($barcode);
 
@@ -62,14 +62,14 @@ $favorite = new Field();
 $favorite->setKey('favorite');
 $favorite->setLabel('FAVORITE TOY');
 $favorite->setValue('Bucky Ball Magnets');
-$favorite->setTextAlignment(TextAlignment::right());
+$favorite->setTextAlignment(TextAlignment::right);
 $passbook->addAuxiliaryField($favorite);
 
 $numberStyle = new NumberField();
 $numberStyle->setKey('numberStyle');
 $numberStyle->setLabel('spelled out TOY');
 $numberStyle->setValue(200);
-$numberStyle->setNumberStyle(NumberStyle::spellOut());
+$numberStyle->setNumberStyle(NumberStyle::spellOut);
 $passbook->addBackField($numberStyle);
 
 $currency = new NumberField();
@@ -83,29 +83,29 @@ $dateFull = new DateField();
 $dateFull->setKey('dateFull');
 $dateFull->setLabel('full date');
 $dateFull->setDate(new DateTimeImmutable('1980-05-07T10:00-05:00'));
-$dateFull->setDateStyle(DateStyle::full());
+$dateFull->setDateStyle(DateStyle::full);
 $passbook->addBackField($dateFull);
 
 $timeFull = new DateField();
 $timeFull->setKey('timeFull');
 $timeFull->setLabel('full time');
 $timeFull->setDate(new DateTimeImmutable('1980-05-07T10:00-05:00'));
-$timeFull->setTimeStyle(DateStyle::full());
+$timeFull->setTimeStyle(DateStyle::full);
 $passbook->addBackField($timeFull);
 
 $dateTime = new DateField();
 $dateTime->setKey('dateTime');
 $dateTime->setLabel('short date and time');
 $dateTime->setDate(new DateTimeImmutable('1980-05-07T10:00-05:00'));
-$dateTime->setDateStyle(DateStyle::short());
-$timeFull->setTimeStyle(DateStyle::short());
+$dateTime->setDateStyle(DateStyle::short);
+$timeFull->setTimeStyle(DateStyle::short);
 $passbook->addBackField($dateTime);
 
 $relStyle = new DateField();
 $relStyle->setKey('relStyle');
 $relStyle->setLabel('relative date');
 $relStyle->setDate(new DateTimeImmutable('1980-05-07T10:00-05:00'));
-$relStyle->setDateStyle(DateStyle::short());
+$relStyle->setDateStyle(DateStyle::short);
 $relStyle->isRelative();
 $passbook->addBackField($relStyle);
 

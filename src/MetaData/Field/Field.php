@@ -62,7 +62,7 @@ class Field
 
     public function addDataDetectorType(DataDetector $dataDetector): void
     {
-        $this->dataDetectorTypes[$dataDetector->getValue()] = $dataDetector;
+        $this->dataDetectorTypes[$dataDetector->value] = $dataDetector;
     }
 
     public function setChangeMessage(string $changeMessage): void
@@ -96,7 +96,7 @@ class Field
 
         if (isset($this->dataDetectorTypes)) {
             foreach ($this->dataDetectorTypes as $dataDetector) {
-                $data['dataDetectorTypes'][] = (string) $dataDetector->getValue();
+                $data['dataDetectorTypes'][] = (string) $dataDetector->value;
             }
         }
 
@@ -105,7 +105,7 @@ class Field
         }
 
         if (isset($this->textAlignment)) {
-            $data['textAlignment'] = (string) $this->textAlignment->getValue();
+            $data['textAlignment'] = (string) $this->textAlignment->value;
         }
 
         if (isset($this->attributedValue)) {

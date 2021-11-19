@@ -53,12 +53,12 @@ final class FieldTest extends TestCase
     public function testSetDataDetectorTypes(): void
     {
         $field = new Field('some_key', 'Some value');
-        $field->addDataDetectorType(DataDetector::address());
+        $field->addDataDetectorType(DataDetector::address);
 
         $expected = [
             'key' => 'some_key',
             'value' => 'Some value',
-            'dataDetectorTypes' => [DataDetector::address()->getValue()]
+            'dataDetectorTypes' => [DataDetector::address->value]
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -81,12 +81,12 @@ final class FieldTest extends TestCase
     public function testSetTextAlignment(): void
     {
         $field = new Field('some_key', 'Some value');
-        $field->setTextAlignment(TextAlignment::center());
+        $field->setTextAlignment(TextAlignment::center);
 
         $expected = [
             'key' => 'some_key',
             'value' => 'Some value',
-            'textAlignment' => TextAlignment::center()->getValue()
+            'textAlignment' => TextAlignment::center->value
         ];
 
         self::assertSame($expected, $field->getMetadata());
