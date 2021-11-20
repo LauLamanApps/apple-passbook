@@ -10,11 +10,10 @@ use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
-use LauLamanApps\ApplePassbook\MetaData\Image\LocalImage;
 use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 use LauLamanApps\ApplePassbook\Style\Color;
 use LogicException;
-use Ramsey\Uuid\UuidInterface;
 
 abstract class Passbook
 {
@@ -25,7 +24,7 @@ abstract class Passbook
     private string $serialNumber;
     private string $teamIdentifier;
     private string $organizationName;
-    private string $description;
+    private string$description;
     private string $logoText;
     /** @var Barcode[] */
     private array $barcodes = [];
@@ -48,14 +47,17 @@ abstract class Passbook
     private array $images = [];
     /** @var Field[] */
     private array $headerFields = [];
-    /** @var Field[]*/
+    /** @var Field[] */
     private array $primaryFields = [];
     /** @var Field[] */
     private array $auxiliaryFields = [];
-    /** @var Field[]*/
+    /** @var Field[] */
     private array $secondaryFields = [];
     /** @var Field[] */
     private array $backFields = [];
+
+    /** @var SemanticTag[] */
+    private array $semantics;
 
     public function __construct(string $serialNumber)
     {
@@ -173,6 +175,11 @@ abstract class Passbook
         $this->associatedStoreIdentifiers[] = $associatedStoreIdentifiers;
     }
 
+    public function addSemanticTag(SemanticTag $semanticTag): void
+    {
+        $this->semantics[] = $semanticTag;
+    }
+
     public function setUserInfo(string $userInfo): void
     {
         $this->userInfo = $userInfo;
@@ -287,6 +294,12 @@ abstract class Passbook
 
         if (isset($this->labelColor)) {
             $data['labelColor'] = $this->labelColor->toString();
+        }
+
+        if (isset($this->semantics)) {
+            foreach ($this->semantics as $tag) {
+                $data['semantics'][$tag->getKey()] = $tag->getValue();
+            }
         }
 
         return $data;

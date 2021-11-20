@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\MetaData\Field;
 
 use LauLamanApps\ApplePassbook\Exception\InvalidArgumentException;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
 
@@ -19,6 +20,9 @@ class Field
     private string $changeMessage;
     private TextAlignment $textAlignment;
     private string $attributedValue;
+
+    /** @var SemanticTag[] */
+    private array $semantics;
 
     /**
      * @param string|int|bool $value
@@ -80,6 +84,11 @@ class Field
         $this->attributedValue = $attributedValue;
     }
 
+    public function addSemanticTag(SemanticTag $semanticTag): void
+    {
+        $this->semantics[] = $semanticTag;
+    }
+
     /**
      * @return array<string, array<int, string>|bool|int|string>
      */
@@ -110,6 +119,12 @@ class Field
 
         if (isset($this->attributedValue)) {
             $data['attributedValue'] = $this->attributedValue;
+        }
+
+        if (isset($this->semantics)) {
+            foreach ($this->semantics as $tag) {
+                $data['semantics'][$tag->getKey()] = $tag->getValue();
+            }
         }
 
         return $data;
