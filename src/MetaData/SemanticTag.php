@@ -7,5 +7,6 @@ namespace LauLamanApps\ApplePassbook\MetaData;
 interface SemanticTag
 {
     public function getKey(): string;
+    /** @return mixed */
     public function getValue();
 }

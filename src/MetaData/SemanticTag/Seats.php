@@ -20,7 +20,9 @@ class Seats implements SemanticTag
     {
         return 'seats';
     }
-
+    /**
+     * @return array<array<string, string>>
+     */
     public function getValue(): array
     {
         $seats = [];

@@ -8,6 +8,7 @@ use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 
 class ArtistIDs implements SemanticTag
 {
+    /** @var array<string> */
     private array $artistIDs = [];
 
     public function addArtistId(string $artistID): void
@@ -20,6 +21,9 @@ class ArtistIDs implements SemanticTag
         return 'artistIDs';
     }
 
+    /**
+     * @return array<string>
+     */
     public function getValue(): array
     {
         return $this->artistIDs;

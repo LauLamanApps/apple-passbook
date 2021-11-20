@@ -56,6 +56,9 @@ class PassengerName implements SemanticTag
         return 'passengerName';
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getValue(): array
     {
         $data = [];

@@ -21,6 +21,9 @@ class WifiAccess implements SemanticTag
         return 'wifiAccess';
     }
 
+    /**
+     * @return array<array<string, string>>
+     */
     public function getValue(): array
     {
         $wifiNetworks = [];
