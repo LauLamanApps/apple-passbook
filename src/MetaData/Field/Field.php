@@ -90,7 +90,7 @@ class Field
     }
 
     /**
-     * @return array<string, array<int, string>|bool|int|string>
+     * @return  array<string, array<int|string, mixed>|bool|int|string>
      */
     public function getMetadata(): array
     {

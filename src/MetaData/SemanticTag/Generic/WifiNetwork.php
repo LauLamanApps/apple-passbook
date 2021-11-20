@@ -17,6 +17,9 @@ class WifiNetwork
         $this->password = $password;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getValue(): array
     {
         return [

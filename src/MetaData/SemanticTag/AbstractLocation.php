@@ -19,6 +19,9 @@ abstract class AbstractLocation implements SemanticTag
         $this->longitude = $longitude;
     }
 
+    /**
+     * @return array<string, float>
+     */
     public function getValue(): array
     {
         return [

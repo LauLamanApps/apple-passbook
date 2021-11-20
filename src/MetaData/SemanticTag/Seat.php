@@ -29,7 +29,10 @@ class Seat
         $this->type = $type;
     }
 
-    public function getValue()
+    /**
+     * @return array<string, string>
+     */
+    public function getValue(): array
     {
         $data = [];
 

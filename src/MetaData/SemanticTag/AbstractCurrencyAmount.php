@@ -24,6 +24,9 @@ abstract class AbstractCurrencyAmount implements SemanticTag
         return 'totalPrice';
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getValue(): array
     {
         return [
