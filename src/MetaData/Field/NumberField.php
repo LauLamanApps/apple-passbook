@@ -22,10 +22,7 @@ class NumberField extends Field
         }
     }
 
-    /**
-     * @param string|int|bool $value
-     */
-    public function setValue($value): void
+    public function setValue(mixed $value): void
     {
         if (!is_numeric($value)) {
             throw new InvalidArgumentException('Value should be numeric.');

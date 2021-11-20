@@ -25,7 +25,7 @@ final class BarcodeTest extends TestCase
 
     public function testSetAltText(): void
     {
-        $barcode = new Barcode(BarcodeFormat::code128, '12345678', 'barcodeId');
+        $barcode = new Barcode(BarcodeFormat::code128, '12345678', 'iso-8859-1', 'barcodeId');
 
         $expected = [
             'format' => BarcodeFormat::code128->value,

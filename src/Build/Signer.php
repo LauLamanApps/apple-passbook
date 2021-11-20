@@ -5,22 +5,15 @@ declare(strict_types=1);
 namespace LauLamanApps\ApplePassbook\Build;
 
 use LauLamanApps\ApplePassbook\Build\Exception\CertificateException;
+use OpenSSLAsymmetricKey;
+use OpenSSLCertificate;
 
 class Signer
 {
     public const FILENAME = 'signature';
 
-    /**
-     * @var mixed
-     * in PHP 7.4 this is a resource, in PHP 8.0 this is a OpenSSLCertificate
-     */
-    private $certificate;
-
-    /**
-     * @var mixed
-     * in PHP 7.4 this is a resource, in PHP 8.0 this is a OpenSSLAsymmetricKey
-     */
-    private $privateKey;
+    private OpenSSLCertificate $certificate;
+    private OpenSSLAsymmetricKey $privateKey;
     private string $appleWWDRCA;
 
     /**
@@ -61,6 +54,7 @@ class Signer
         if (!file_exists($path)) {
             throw CertificateException::fileDoesNotExist($path);
         }
+
         $this->appleWWDRCA = $path;
     }
 

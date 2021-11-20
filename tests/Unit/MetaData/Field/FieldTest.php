@@ -15,6 +15,7 @@ use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use TypeError;
 
 final class FieldTest extends TestCase
 {
@@ -135,8 +136,7 @@ final class FieldTest extends TestCase
      */
     public function testDoesNotAcceptNonScalarTypes($type): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Value should be a scalar type.');
+        $this->expectException(TypeError::class);
 
         $field = new Field();
         $field->setValue($type);

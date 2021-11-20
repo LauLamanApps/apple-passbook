@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use LauLamanApps\ApplePassbook\Build\Compiler;
-use LauLamanApps\ApplePassbook\Build\Compressor;
-use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
 use LauLamanApps\ApplePassbook\Build\Signer;
 use LauLamanApps\ApplePassbook\EventTicketPassbook;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
@@ -17,11 +15,9 @@ use LauLamanApps\ApplePassbook\Style\Color\Rgb;
 require_once '../../vendor/autoload.php';
 
 //-- Set up compiler and its dependencies
-$manifestGenerator = new ManifestGenerator();
 $signer = new Signer(__DIR__ . '/../../certificates/certificate.p12', '<CertificatePassword>');
-$compressor = new Compressor(new ZipArchive());
 
-$compiler = new Compiler($manifestGenerator, $signer, $compressor);
+$compiler = new Compiler($signer);
 
 //-- Build pass
 $passbook = new EventTicketPassbook('nmyuxofgna');

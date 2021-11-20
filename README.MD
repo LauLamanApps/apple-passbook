@@ -42,15 +42,11 @@ Setup Compiler
 ---
 ```php
 use LauLamanApps\ApplePassbook\Build\Compiler;
-use LauLamanApps\ApplePassbook\Build\Compressor;
-use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
 use LauLamanApps\ApplePassbook\Build\Signer;
 
-$manifestGenerator = new ManifestGenerator();
 $signer = new Signer('<PathToCertificate>', '<CertificatePassword>');
-$compressor = new Compressor(new ZipArchive());
 
-$compiler = new Compiler($manifestGenerator, $signer, $compressor);
+$compiler = new Compiler($signer);
 
 ```
 

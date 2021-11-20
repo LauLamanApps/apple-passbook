@@ -13,11 +13,9 @@ class Compressor
 {
     public const FILENAME = 'pass.pkpass';
 
-    private ZipArchive $zipArchive;
-
-    public function __construct(ZipArchive $zipArchive)
-    {
-        $this->zipArchive = $zipArchive;
+    public function __construct(
+        private ZipArchive $zipArchive = new ZipArchive()
+    ) {
     }
 
     /**

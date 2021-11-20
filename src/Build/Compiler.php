@@ -13,22 +13,16 @@ class Compiler
 {
     public const PASS_DATA_FILE = 'pass.json';
 
-    private ManifestGenerator $manifestGenerator;
-    private Signer $signer;
-    private Compressor $compressor;
     private string $passTypeIdentifier;
     private string $teamIdentifier;
 
     public function __construct(
-        ManifestGenerator $manifestGenerator,
-        Signer $signer,
-        Compressor $compressor,
+        private Signer $signer,
+        private ManifestGenerator $manifestGenerator = new ManifestGenerator(),
+        private Compressor $compressor = new Compressor(),
         ?string $passTypeIdentifier = null,
         ?string $teamIdentifier = null
     ) {
-        $this->manifestGenerator = $manifestGenerator;
-        $this->signer = $signer;
-        $this->compressor = $compressor;
 
         if ($passTypeIdentifier) {
             $this->passTypeIdentifier = $passTypeIdentifier;

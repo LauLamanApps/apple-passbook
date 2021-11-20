@@ -11,32 +11,22 @@ use LauLamanApps\ApplePassbook\Style\TextAlignment;
 
 class Field
 {
-    private string $key;
-    /** @var string|int|bool */
-    private $value;
-    private string $label;
     /** @var DataDetector[]|null */
     private ?array $dataDetectorTypes;
     private string $changeMessage;
     private TextAlignment $textAlignment;
     private string $attributedValue;
-
     /** @var SemanticTag[] */
     private array $semantics;
 
     /**
      * @param string|int|bool $value
      */
-    public function __construct(?string $key = null, $value = null, ?string $label = null)
-    {
-        if ($key !== null) {
-            $this->setKey($key);
-        }
-
-        if ($value !== null) {
-            $this->setValue($value);
-        }
-
+    public function __construct(
+        private ?string $key = null,
+        private null|string|int|bool|float $value = null,
+        private ?string $label = null
+    ) {
         if ($label !== null) {
             $this->setLabel($label);
         }
@@ -47,15 +37,8 @@ class Field
         $this->key = $key;
     }
 
-    /**
-     * @param string|int|bool $value
-     */
-    public function setValue($value): void
+    public function setValue(string|int|bool|float $value): void
     {
-        if (!is_scalar($value)) {
-            throw new InvalidArgumentException('Value should be a scalar type.');
-        }
-
         $this->value = $value;
     }
 
@@ -105,7 +88,7 @@ class Field
 
         if (isset($this->dataDetectorTypes)) {
             foreach ($this->dataDetectorTypes as $dataDetector) {
-                $data['dataDetectorTypes'][] = (string) $dataDetector->value;
+                $data['dataDetectorTypes'][] = $dataDetector->value;
             }
         }
 
@@ -114,7 +97,7 @@ class Field
         }
 
         if (isset($this->textAlignment)) {
-            $data['textAlignment'] = (string) $this->textAlignment->value;
+            $data['textAlignment'] = $this->textAlignment->value;
         }
 
         if (isset($this->attributedValue)) {

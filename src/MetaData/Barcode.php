@@ -9,22 +9,12 @@ use LogicException;
 
 class Barcode
 {
-    private string $altText;
-    private BarcodeFormat $format;
-    private string $message;
-    private string $messageEncoding = 'iso-8859-1';
-
-    public function __construct(?BarcodeFormat $format = null, ?string $message = null, ?string $altText = null)
-    {
-        $this->format = $format ?? BarcodeFormat::pdf417;
-
-        if ($message) {
-            $this->message = $message;
-        }
-
-        if ($altText) {
-            $this->altText = $altText;
-        }
+    public function __construct(
+        private BarcodeFormat $format = BarcodeFormat::pdf417,
+        private ?string $message = null,
+        private string $messageEncoding = 'iso-8859-1',
+        private ?string $altText = null
+    ) {
     }
 
     public function setFormat(BarcodeFormat $format): void

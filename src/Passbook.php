@@ -185,6 +185,11 @@ abstract class Passbook
         $this->userInfo = $userInfo;
     }
 
+    public function prohibitSharing(): void
+    {
+        $this->sharingProhibited = true;
+    }
+
     public function voided(): void
     {
         $this->voided = true;
@@ -275,6 +280,12 @@ abstract class Passbook
             }
         }
 
+        if (isset($this->semantics)) {
+            foreach ($this->semantics as $tag) {
+                $data['semantics'][$tag->getKey()] = $tag->getValue();
+            }
+        }
+
         if (isset($this->maxDistance)) {
             $data['maxDistance'] = $this->maxDistance;
         }
@@ -294,12 +305,6 @@ abstract class Passbook
 
         if (isset($this->labelColor)) {
             $data['labelColor'] = $this->labelColor->toString();
-        }
-
-        if (isset($this->semantics)) {
-            foreach ($this->semantics as $tag) {
-                $data['semantics'][$tag->getKey()] = $tag->getValue();
-            }
         }
 
         return $data;
