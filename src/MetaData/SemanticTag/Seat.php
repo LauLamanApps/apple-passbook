@@ -14,12 +14,12 @@ class Seat
     private ?string $type;
 
     public function __construct(
-        ?string $description,
-        ?string $identifier,
-        ?string $number,
-        ?string $row,
-        ?string $section,
-        ?string $type
+        ?string $description = null,
+        ?string $identifier = null,
+        ?string $number = null,
+        ?string $row = null,
+        ?string $section = null,
+        ?string $type = null
     ) {
         $this->description = $description;
         $this->identifier = $identifier;

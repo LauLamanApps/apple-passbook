@@ -11,6 +11,13 @@ class Seats implements SemanticTag
     /** @var Seat[]  */
     private array $seats = [];
 
+    public function __construct(Seat $seat = null)
+    {
+        if (isset($seat)){
+            $this->addSeat($seat);
+        }
+    }
+
     public function addSeat(Seat $seat): void
     {
         $this->seats[] = $seat;
