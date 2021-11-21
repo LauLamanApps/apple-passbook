@@ -12,6 +12,7 @@ use LauLamanApps\ApplePassbook\MetaData\Beacon;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\MetaData\Nfc;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 use LauLamanApps\ApplePassbook\Style\Color;
 use LogicException;
@@ -46,6 +47,7 @@ abstract class Passbook
     private array $locations = [];
     private string $logoText;
     private int $maxDistance;
+    private ?Nfc $nfc = null;
     private string $organizationName;
     private string $passTypeIdentifier;
     /** @var Field[] */
@@ -56,6 +58,7 @@ abstract class Passbook
     /** @var SemanticTag[] */
     private array $semantics;
     private string $serialNumber;
+    private bool $sharingProhibited = false;
     private string $teamIdentifier;
     private string $userInfo;
     private bool $voided = false;
@@ -119,6 +122,15 @@ abstract class Passbook
     public function setMaxDistance(int $maxDistance): void
     {
         $this->maxDistance = $maxDistance;
+    }
+
+    public function setNfc(Nfc $nfc): void
+    {
+        $this->nfc = $nfc;
+
+        if ($nfc->requiresAuthentication()) {
+            $this->prohibitSharing();
+        }
     }
 
     public function setWebService(string $url, string $authenticationToken): void
@@ -197,6 +209,11 @@ abstract class Passbook
         $this->voided = true;
     }
 
+    public function prohibitSharing(): void
+    {
+        $this->sharingProhibited = true;
+    }
+
     public function isVoided(): bool
     {
         return $this->voided;
@@ -213,8 +230,8 @@ abstract class Passbook
     }
 
     /**
-     * @return array<int|string, mixed>
      * @throws MissingRequiredDataException
+     * @return array<int|string, mixed>
      */
     public function getData(): array
     {
@@ -317,6 +334,10 @@ abstract class Passbook
             $data['maxDistance'] = $this->maxDistance;
         }
 
+        if (isset($this->nfc)) {
+            $data['nfc'] = $this->nfc;
+        }
+
         if (isset($this->webServiceURL) && isset($this->authenticationToken)) {
             $data['webServiceURL'] = $this->webServiceURL;
             $data['authenticationToken'] = $this->authenticationToken;
@@ -332,6 +353,10 @@ abstract class Passbook
 
         if (isset($this->labelColor)) {
             $data['labelColor'] = $this->labelColor->toString();
+        }
+
+        if ($this->sharingProhibited) {
+            $data['sharingProhibited'] = $this->sharingProhibited;
         }
 
         if (isset($this->semantics)) {

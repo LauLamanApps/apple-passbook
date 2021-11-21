@@ -62,5 +62,4 @@ class BeaconTest extends TestCase
 
         self::assertEquals($expected, $beacon->toArray());
     }
-
 }

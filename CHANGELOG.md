@@ -3,6 +3,8 @@
 ### Unreleased
 - Add support for [Semantic Tag Data](https://developer.apple.com/documentation/walletpasses/semantictags)
 - Add support for [Beacons](https://developer.apple.com/documentation/walletpasses/pass/beacons)
+- Add support for [NFC](https://developer.apple.com/documentation/walletpasses/pass/nfc)
+- Add support for [sharingProhibited](https://developer.apple.com/documentation/walletpasses/pass)
 
 
 
