@@ -19,7 +19,7 @@ require_once '../../vendor/autoload.php';
 
 //-- Set up compiler and its dependencies
 $manifestGenerator = new ManifestGenerator();
-$signer = new Signer(__DIR__  . '/../../certificates/certificate.p12', '<CertificatePassword>');
+$signer = new Signer(__DIR__ . '/../../certificates/certificate.p12', '<CertificatePassword>');
 $compressor = new Compressor(new ZipArchive());
 
 $compiler = new Compiler($manifestGenerator, $signer, $compressor);
@@ -35,7 +35,7 @@ $passbook->setLogoText('Skyport Airways');
 $passbook->addLocation(new Location(37.6189722, -122.3748889));
 $passbook->setForegroundColor(new Rgb(22, 55, 110));
 $passbook->setBackgroundColor(new Rgb(50, 91, 185));
-$passbook->setRelevantDate(new DateTimeImmutable( '2012-07-22T14:25-08:00'));
+$passbook->setRelevantDate(new DateTimeImmutable('2012-07-22T14:25-08:00'));
 $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
 
 $barcode = new Barcode();

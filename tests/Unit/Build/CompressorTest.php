@@ -66,6 +66,5 @@ final class CompressorTest extends TestCase
 
         $generator = new Compressor($zipArchive);
         $generator->compress($passbook, $tempDir);
-
     }
 }

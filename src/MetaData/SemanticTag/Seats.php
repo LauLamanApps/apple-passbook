@@ -13,7 +13,7 @@ class Seats implements SemanticTag
 
     public function __construct(Seat $seat = null)
     {
-        if (isset($seat)){
+        if (isset($seat)) {
             $this->addSeat($seat);
         }
     }

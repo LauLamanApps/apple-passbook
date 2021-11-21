@@ -611,8 +611,7 @@ final class CouponPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new CouponPassbook(self::UUID);
-        ;
+        $passbook = new CouponPassbook(self::UUID);;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());

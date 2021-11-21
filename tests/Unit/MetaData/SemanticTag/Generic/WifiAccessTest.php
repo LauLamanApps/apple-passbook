@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Tests\Unit\MetaData\SemanticTag\Generic;
 
-use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiNetwork;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiAccess;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiNetwork;
 use PHPUnit\Framework\TestCase;
 
 class WifiAccessTest extends TestCase

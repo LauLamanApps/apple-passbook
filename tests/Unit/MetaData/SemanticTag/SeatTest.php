@@ -31,7 +31,7 @@ class SeatTest extends TestCase
 
     public function testNumber(): void
     {
-        $seat = new Seat(null, null,'<number>');
+        $seat = new Seat(null, null, '<number>');
 
         $data = $seat->getValue();
 
@@ -41,7 +41,7 @@ class SeatTest extends TestCase
 
     public function testRow(): void
     {
-        $seat = new Seat(null, null, null,'<row>');
+        $seat = new Seat(null, null, null, '<row>');
 
         $data = $seat->getValue();
 
@@ -51,7 +51,7 @@ class SeatTest extends TestCase
 
     public function testSection(): void
     {
-        $seat = new Seat(null, null, null,null, '<section>');
+        $seat = new Seat(null, null, null, null, '<section>');
 
         $data = $seat->getValue();
 
@@ -61,7 +61,7 @@ class SeatTest extends TestCase
 
     public function testType(): void
     {
-        $seat = new Seat(null, null, null, null, null,'<type>');
+        $seat = new Seat(null, null, null, null, null, '<type>');
 
         $data = $seat->getValue();
 

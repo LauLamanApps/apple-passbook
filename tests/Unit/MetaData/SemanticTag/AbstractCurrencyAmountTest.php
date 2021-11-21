@@ -14,7 +14,7 @@ class AbstractCurrencyAmountTest extends TestCase
 {
     public function testGetValueReturnsCurrencyArray(): void
     {
-        $semanticTag = new class('10.00','EUR') extends AbstractCurrencyAmount {
+        $semanticTag = new class('10.00', 'EUR') extends AbstractCurrencyAmount {
             public function getKey(): string
             {
                 return 'AbstractCurrencyAmount';
@@ -27,6 +27,4 @@ class AbstractCurrencyAmountTest extends TestCase
 
         self::assertSame($expectedArray, $semanticTag->getValue());
     }
-
-
 }

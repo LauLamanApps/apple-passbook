@@ -837,7 +837,6 @@ final class PassbookTest extends TestCase
      */
     public function testSetExpirationDate(): void
     {
-
         $expirationDate = new DateTimeImmutable('now');
 
         $passbook = $this->getValidPassbook();

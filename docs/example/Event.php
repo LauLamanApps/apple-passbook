@@ -18,7 +18,7 @@ require_once '../../vendor/autoload.php';
 
 //-- Set up compiler and its dependencies
 $manifestGenerator = new ManifestGenerator();
-$signer = new Signer(__DIR__  . '/../../certificates/certificate.p12', '<CertificatePassword>');
+$signer = new Signer(__DIR__ . '/../../certificates/certificate.p12', '<CertificatePassword>');
 $compressor = new Compressor(new ZipArchive());
 
 $compiler = new Compiler($manifestGenerator, $signer, $compressor);

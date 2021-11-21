@@ -6,5 +6,4 @@ namespace LauLamanApps\ApplePassbook\Build;
 
 class Notifier
 {
-
 }

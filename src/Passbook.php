@@ -206,8 +206,8 @@ abstract class Passbook
     }
 
     /**
-     * @return array<int|string, mixed>
      * @throws MissingRequiredDataException
+     * @return array<int|string, mixed>
      */
     public function getData(): array
     {
