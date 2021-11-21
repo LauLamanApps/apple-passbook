@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
+use LauLamanApps\ApplePassbook\MetaData\Beacon;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
@@ -240,6 +241,26 @@ final class PassbookTest extends TestCase
         ];
         self::assertSame($expectedBarcodeData, $data['barcode']);
         self::assertSame([$expectedBarcodeData], $data['barcodes']);
+    }
+
+    public function testAddBeacon(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('beacons', $data);
+
+        $beacon = $this->createMock(Beacon::class);
+        $beacon->expects($this->once())->method('toArray')->willReturn(['<beacon-1>']);
+
+        $passbook->addBeacon($beacon);
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('beacons', $data);
+
+        $expectedBeaconData = ['<beacon-1>'];
+
+        self::assertSame([$expectedBeaconData], $data['beacons']);
     }
 
     /**
@@ -794,6 +815,17 @@ final class PassbookTest extends TestCase
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('My Awesome organization');
         $passbook->getData();
+    }
+
+    public function testIsVoided(): void
+    {
+        $passbook = $this->getAnonymousPassbook();
+
+        self::assertFalse($passbook->isVoided());
+
+        $passbook->voided();
+
+        self::assertTrue($passbook->isVoided());
     }
 
     private function getAnonymousPassbook(): Passbook
