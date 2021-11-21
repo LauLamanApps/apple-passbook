@@ -11,6 +11,11 @@ use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\BoardingPass\Airline\FlightCode;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\BoardingPass\Airline\FlightNumber;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiAccess;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiNetwork;
 use LauLamanApps\ApplePassbook\Passbook;
 use LauLamanApps\ApplePassbook\Style\BarcodeFormat;
 use LauLamanApps\ApplePassbook\Style\Color\Hex;
@@ -799,11 +804,9 @@ final class PassbookTest extends TestCase
 
     private function getAnonymousPassbookWithConst(): Passbook
     {
-        $passbook = new class(self::UUID) extends Passbook {
+        return new class(self::UUID) extends Passbook {
             protected const TYPE = PassbookTest::ANONYMOUS_PASSBOOK_TYPE;
         };
-
-        return $passbook;
     }
 
     /**
@@ -847,5 +850,49 @@ final class PassbookTest extends TestCase
         $data = $passbook->getData();
         self::assertArrayHasKey('expirationDate', $data);
         self::assertSame($expirationDate->format(DateTimeInterface::W3C), $data['expirationDate']);
+    }
+
+    /**
+     * @covers \LauLamanApps\ApplePassbook\Passbook::addSemanticTag
+     * @covers \LauLamanApps\ApplePassbook\Passbook::__construct
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getFieldsData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::getGenericData
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setDescription
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setOrganizationName
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setPassTypeIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::setTeamIdentifier
+     * @covers \LauLamanApps\ApplePassbook\Passbook::validate
+     */
+    public function testAddSemanticTag(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('semantics', $data[self::ANONYMOUS_PASSBOOK_TYPE]);
+
+        $semanticTagMock1 = $this->createMock(SemanticTag::class);
+        $semanticTagMock1->expects($this->once())->method('getKey')->willReturn('<SemanticTag1Key>');
+        $semanticTagMock1->expects($this->once())->method('getValue')->willReturn('<SemanticTag1Value>');
+        $semanticTagMock2 = $this->createMock(SemanticTag::class);
+        $semanticTagMock2->expects($this->once())->method('getKey')->willReturn('<SemanticTag2Key>');
+        $semanticTagMock2->expects($this->once())->method('getValue')->willReturn('<SemanticTag2Value>');
+        $semanticTagMock3 = $this->createMock(SemanticTag::class);
+        $semanticTagMock3->expects($this->once())->method('getKey')->willReturn('<SemanticTag3Key>');
+        $semanticTagMock3->expects($this->once())->method('getValue')->willReturn('<SemanticTag3Value>');
+
+        $passbook->addSemanticTag($semanticTagMock1);
+        $passbook->addSemanticTag($semanticTagMock2);
+        $passbook->addSemanticTag($semanticTagMock3);
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('semantics', $data);
+
+        $expected = [
+            '<SemanticTag1Key>' => '<SemanticTag1Value>',
+            '<SemanticTag2Key>' => '<SemanticTag2Value>',
+            '<SemanticTag3Key>' => '<SemanticTag3Value>',
+        ];
+        self::assertEquals($expected, $data['semantics']);
     }
 }

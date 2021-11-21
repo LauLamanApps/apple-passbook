@@ -20,6 +20,6 @@ abstract class AbstractDate implements SemanticTag
 
     public function getValue(): string
     {
-        return $this->value->format(DateTimeInterface::W3C);
+        return $this->value->format(DateTimeInterface::ISO8601);
     }
 }

@@ -9,21 +9,21 @@ use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 use Werkspot\Enum\AbstractEnum;
 
 /**
- * @method static self Generic()
+ * @method static self generic()
  * @method bool isGeneric()
- * @method static self LivePerformance()
+ * @method static self livePerformance()
  * @method bool isLivePerformance()
- * @method static self Movie()
+ * @method static self movie()
  * @method bool isMovie()
- * @method static self Sports()
+ * @method static self sports()
  * @method bool isSports()
- * @method static self Conference()
+ * @method static self conference()
  * @method bool isConference()
- * @method static self Convention()
+ * @method static self convention()
  * @method bool isConvention()
- * @method static self Workshop()
+ * @method static self workshop()
  * @method bool isWorkshop()
- * @method static self SocialGathering()
+ * @method static self socialGathering()
  * @method bool isSocialGathering()
  */
 class EventTypeEnum extends AbstractEnum

@@ -6,6 +6,11 @@ namespace LauLamanApps\ApplePassbook\Tests\Unit\MetaData\Field;
 
 use LauLamanApps\ApplePassbook\Exception\InvalidArgumentException;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\BoardingPass\Airline\FlightCode;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\BoardingPass\Airline\FlightNumber;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiAccess;
+use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiNetwork;
 use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
 use PHPUnit\Framework\TestCase;
@@ -135,6 +140,38 @@ final class FieldTest extends TestCase
 
         $field = new Field();
         $field->setValue($type);
+    }
+
+    public function testAddSemanticTag(): void
+    {
+        $field = new Field('some_key', 'Some value');
+
+        $data = $field->getMetadata();
+        self::assertArrayNotHasKey('semantics', $data);
+
+        $semanticTagMock1 = $this->createMock(SemanticTag::class);
+        $semanticTagMock1->expects($this->once())->method('getKey')->willReturn('<SemanticTag1Key>');
+        $semanticTagMock1->expects($this->once())->method('getValue')->willReturn('<SemanticTag1Value>');
+        $semanticTagMock2 = $this->createMock(SemanticTag::class);
+        $semanticTagMock2->expects($this->once())->method('getKey')->willReturn('<SemanticTag2Key>');
+        $semanticTagMock2->expects($this->once())->method('getValue')->willReturn('<SemanticTag2Value>');
+        $semanticTagMock3 = $this->createMock(SemanticTag::class);
+        $semanticTagMock3->expects($this->once())->method('getKey')->willReturn('<SemanticTag3Key>');
+        $semanticTagMock3->expects($this->once())->method('getValue')->willReturn('<SemanticTag3Value>');
+
+        $field->addSemanticTag($semanticTagMock1);
+        $field->addSemanticTag($semanticTagMock2);
+        $field->addSemanticTag($semanticTagMock3);
+
+        $data = $field->getMetadata();
+        self::assertArrayHasKey('semantics', $data);
+
+        $expected = [
+            '<SemanticTag1Key>' => '<SemanticTag1Value>',
+            '<SemanticTag2Key>' => '<SemanticTag2Value>',
+            '<SemanticTag3Key>' => '<SemanticTag3Value>',
+        ];
+        self::assertEquals($expected, $data['semantics']);
     }
 
     /**

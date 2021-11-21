@@ -19,11 +19,6 @@ abstract class AbstractCurrencyAmount implements SemanticTag
         $this->currencyCode = $currencyCode;
     }
 
-    public function getKey(): string
-    {
-        return 'totalPrice';
-    }
-
     /**
      * @return array<string, string>
      */
