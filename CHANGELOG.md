@@ -2,6 +2,7 @@
 
 ### Unreleased
 - Add support for [Semantic Tag Data](https://developer.apple.com/documentation/walletpasses/semantictags)
+- Add support for [Beacons](https://developer.apple.com/documentation/walletpasses/pass/beacons)
 
 
 

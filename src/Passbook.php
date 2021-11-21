@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
+use LauLamanApps\ApplePassbook\MetaData\Beacon;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
@@ -19,45 +20,46 @@ abstract class Passbook
 {
     protected const TYPE = null;
 
-    private int $formatVersion = 1;
-    private string $passTypeIdentifier;
-    private string $serialNumber;
-    private string $teamIdentifier;
-    private string $organizationName;
-    private string $description;
-    private string $logoText;
-    /** @var Barcode[] */
-    private array $barcodes = [];
-    private DateTimeImmutable $relevantDate;
     private string $appLaunchURL;
     /** @var int[] */
     private array $associatedStoreIdentifiers = [];
-    private string $userInfo;
-    private DateTimeImmutable $expirationDate;
-    private bool $voided;
-    /** @var Location[] */
-    private array $locations = [];
-    private int $maxDistance;
-    private string $webServiceURL;
     private string $authenticationToken;
-    private Color $foregroundColor;
-    private Color $backgroundColor;
-    private Color $labelColor;
-    /** @var Image[] */
-    private array $images = [];
-    /** @var Field[] */
-    private array $headerFields = [];
-    /** @var Field[] */
-    private array $primaryFields = [];
     /** @var Field[] */
     private array $auxiliaryFields = [];
     /** @var Field[] */
-    private array $secondaryFields = [];
-    /** @var Field[] */
     private array $backFields = [];
-
+    private Color $backgroundColor;
+    /** @var Barcode[] */
+    private array $barcodes = [];
+    /** @var Beacon[] */
+    private array $beacons = [];
+    private string $description;
+    private DateTimeImmutable $expirationDate;
+    private Color $foregroundColor;
+    private int $formatVersion = 1;
+    /** @var Field[] */
+    private array $headerFields = [];
+    /** @var Image[] */
+    private array $images = [];
+    private Color $labelColor;
+    /** @var Location[] */
+    private array $locations = [];
+    private string $logoText;
+    private int $maxDistance;
+    private string $organizationName;
+    private string $passTypeIdentifier;
+    /** @var Field[] */
+    private array $primaryFields = [];
+    private DateTimeImmutable $relevantDate;
+    /** @var Field[] */
+    private array $secondaryFields = [];
     /** @var SemanticTag[] */
     private array $semantics;
+    private string $serialNumber;
+    private string $teamIdentifier;
+    private string $userInfo;
+    private bool $voided;
+    private string $webServiceURL;
 
     public function __construct(string $serialNumber)
     {
@@ -102,6 +104,11 @@ abstract class Passbook
     public function setBarcode(Barcode $barcode): void
     {
         $this->barcodes[] = $barcode;
+    }
+
+    public function addBeacon(Beacon $beacon): void
+    {
+        $this->beacons[] = $beacon;
     }
 
     public function addLocation(Location $location): void
@@ -192,7 +199,7 @@ abstract class Passbook
 
     public function isVoided(): bool
     {
-        return isset($this->voided);
+        return $this->voided;
     }
 
     public function hasPassTypeIdentifier(): bool
@@ -206,8 +213,8 @@ abstract class Passbook
     }
 
     /**
-     * @throws MissingRequiredDataException
      * @return array<int|string, mixed>
+     * @throws MissingRequiredDataException
      */
     public function getData(): array
     {
@@ -217,6 +224,33 @@ abstract class Passbook
         $data[static::TYPE] = $this->getFieldsData();
 
         return $data;
+    }
+
+    /**
+     * @throws LogicException
+     * @throws MissingRequiredDataException
+     */
+    public function validate(): void
+    {
+        if (static::TYPE === null) {
+            throw new LogicException('Please implement protected const TYPE in class.');
+        }
+
+        if (!isset($this->passTypeIdentifier)) {
+            throw new MissingRequiredDataException('Please specify the PassTypeIdentifier before requesting the manifest data.');
+        }
+
+        if (!isset($this->teamIdentifier)) {
+            throw new MissingRequiredDataException('Please specify the TeamIdentifier before requesting the manifest data.');
+        }
+
+        if (!isset($this->organizationName)) {
+            throw new MissingRequiredDataException('Please specify the OrganizationName before requesting the manifest data.');
+        }
+
+        if (!isset($this->description)) {
+            throw new MissingRequiredDataException('Please specify the Description before requesting the manifest data.');
+        }
     }
 
     /**
@@ -243,6 +277,10 @@ abstract class Passbook
             foreach ($this->barcodes as $barcode) {
                 $data['barcodes'][] = $barcode->toArray();
             }
+        }
+
+        foreach ($this->beacons as $beacon) {
+            $data['beacons'][] = $beacon->toArray();
         }
 
         if (isset($this->relevantDate)) {
@@ -337,32 +375,5 @@ abstract class Passbook
     public function getImages(): array
     {
         return $this->images;
-    }
-
-    /**
-     * @throws LogicException
-     * @throws MissingRequiredDataException
-     */
-    public function validate(): void
-    {
-        if (static::TYPE === null) {
-            throw new LogicException('Please implement protected const TYPE in class.');
-        }
-
-        if (!isset($this->passTypeIdentifier)) {
-            throw new MissingRequiredDataException('Please specify the PassTypeIdentifier before requesting the manifest data.');
-        }
-
-        if (!isset($this->teamIdentifier)) {
-            throw new MissingRequiredDataException('Please specify the TeamIdentifier before requesting the manifest data.');
-        }
-
-        if (!isset($this->organizationName)) {
-            throw new MissingRequiredDataException('Please specify the OrganizationName before requesting the manifest data.');
-        }
-
-        if (!isset($this->description)) {
-            throw new MissingRequiredDataException('Please specify the Description before requesting the manifest data.');
-        }
     }
 }
