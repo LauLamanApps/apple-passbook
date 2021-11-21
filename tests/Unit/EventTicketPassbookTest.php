@@ -612,8 +612,7 @@ final class EventTicketPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new EventTicketPassbook(self::UUID);
-        ;
+        $passbook = new EventTicketPassbook(self::UUID);;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());

@@ -667,8 +667,7 @@ final class BoardingPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new BoardingPassbook(self::UUID);
-        ;
+        $passbook = new BoardingPassbook(self::UUID);;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());
@@ -788,7 +787,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook->addLocation(new Location(37.6189722, -122.3748889));
         $passbook->setForegroundColor(new Rgb(22, 55, 110));
         $passbook->setBackgroundColor(new Rgb(50, 91, 185));
-        $passbook->setRelevantDate(new DateTimeImmutable( '2012-07-22T14:25-08:00'));
+        $passbook->setRelevantDate(new DateTimeImmutable('2012-07-22T14:25-08:00'));
         $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
 
         $barcode = new Barcode();

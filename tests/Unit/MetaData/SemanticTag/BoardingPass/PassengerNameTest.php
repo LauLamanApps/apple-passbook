@@ -111,5 +111,4 @@ class PassengerNameTest extends TestCase
 
         self::assertEquals(['givenName' => '<givenName>', 'nameSuffix' => '<nameSuffix>', 'familyName' => '<familyName>'], $semanticTag->getValue());
     }
-
 }

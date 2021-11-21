@@ -53,7 +53,7 @@ class Rgb implements Color
 
     private function isValid(int $value): void
     {
-        if ($value < 0 || $value > 255 ) {
+        if ($value < 0 || $value > 255) {
             throw new OutOfRangeException('Value out of range (0-255).');
         }
     }

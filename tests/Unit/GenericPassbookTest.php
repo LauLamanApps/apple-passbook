@@ -611,8 +611,7 @@ final class GenericPassbookTest extends TestCase
      */
     public function testHasTeamIdentifier(): void
     {
-        $passbook = new GenericPassbook(self::UUID);
-        ;
+        $passbook = new GenericPassbook(self::UUID);;
 
         self::assertFalse($passbook->hasPassTypeIdentifier());
         self::assertFalse($passbook->hasTeamIdentifier());

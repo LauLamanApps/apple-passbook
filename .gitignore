@@ -12,3 +12,4 @@ bin/
 infection.log
 certificates/*
 !certificates/AppleWWDRCA.pem
+tools

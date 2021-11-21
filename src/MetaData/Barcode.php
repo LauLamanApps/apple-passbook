@@ -22,7 +22,7 @@ class Barcode
             $this->message = $message;
         }
 
-        if ($altText){
+        if ($altText) {
             $this->altText = $altText;
         }
     }
