@@ -58,7 +58,7 @@ abstract class Passbook
     private string $serialNumber;
     private string $teamIdentifier;
     private string $userInfo;
-    private bool $voided;
+    private bool $voided = false;
     private string $webServiceURL;
 
     public function __construct(string $serialNumber)
@@ -303,7 +303,7 @@ abstract class Passbook
             $data['userInfo'] = $this->userInfo;
         }
 
-        if (isset($this->voided)) {
+        if ($this->voided) {
             $data['voided'] = $this->voided;
         }
 
