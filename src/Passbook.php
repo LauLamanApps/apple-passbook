@@ -38,6 +38,7 @@ abstract class Passbook
     private DateTimeImmutable $expirationDate;
     private Color $foregroundColor;
     private int $formatVersion = 1;
+    private string $groupingIdentifier;
     /** @var Field[] */
     private array $headerFields = [];
     /** @var Image[] */
@@ -59,6 +60,7 @@ abstract class Passbook
     private array $semantics;
     private string $serialNumber;
     private bool $sharingProhibited = false;
+    private bool $suppressStripShine = false;
     private string $teamIdentifier;
     private string $userInfo;
     private bool $voided = false;
@@ -144,6 +146,11 @@ abstract class Passbook
         $this->foregroundColor = $foregroundColor;
     }
 
+    public function setGroupingIdentifier(string $groupingIdentifier): void
+    {
+        $this->groupingIdentifier = $groupingIdentifier;
+    }
+
     public function setBackgroundColor(Color $backgroundColor): void
     {
         $this->backgroundColor = $backgroundColor;
@@ -212,6 +219,11 @@ abstract class Passbook
     public function prohibitSharing(): void
     {
         $this->sharingProhibited = true;
+    }
+
+    public function suppressStripShine(): void
+    {
+        $this->suppressStripShine = true;
     }
 
     public function isVoided(): bool
@@ -347,6 +359,10 @@ abstract class Passbook
             $data['foregroundColor'] = $this->foregroundColor->toString();
         }
 
+        if (isset($this->groupingIdentifier)) {
+            $data['groupingIdentifier'] = $this->groupingIdentifier;
+        }
+
         if (isset($this->backgroundColor)) {
             $data['backgroundColor'] = $this->backgroundColor->toString();
         }
@@ -357,6 +373,10 @@ abstract class Passbook
 
         if ($this->sharingProhibited) {
             $data['sharingProhibited'] = $this->sharingProhibited;
+        }
+
+        if ($this->suppressStripShine) {
+            $data['suppressStripShine'] = $this->suppressStripShine;
         }
 
         if (isset($this->semantics)) {
