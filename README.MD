@@ -47,6 +47,14 @@ $factory = new CompilerFactory();
 $compiler = $factory->getCompiler('<PathToCertificate>', '<CertificatePassword>');
 ```
 
+AppleWWDRA certificate.
+---
+Included ar 2 AppleWWDRCA certificates:
+ - AppleWWDRCA.pem - _Expires feb 3 2023_
+ - AppleWWDRCAG3.pem - _Expires feb 20 2030_
+
+By default AppleWWDRCA is used if you want to use the otherone you can do so by setting its file path as the 3rd option in the `CompilerFactory` or calling `setAppleWWDRCA()` on the `Signer` class for custom implementation
+
 Create Passbook
 ---
 ```php

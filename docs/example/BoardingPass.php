@@ -15,7 +15,7 @@ use LauLamanApps\ApplePassbook\Style\Color\Rgb;
 require_once '../../vendor/autoload.php';
 
 $factory = new CompilerFactory();
-$compiler = $factory->getCompiler(__DIR__ . '/../../certificates/certificate.p12', '<CertificatePassword>');
+$compiler = $factory->getCompiler(__DIR__ . '/../../certificates/certificate.p12', 'ea3eaa8e-d920-46d1-9a35-119c97c16122');
 
 //-- Build pass
 $passbook = new BoardingPassbook('gT6zrHkaW');
