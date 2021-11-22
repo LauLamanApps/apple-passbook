@@ -12,6 +12,7 @@ use LauLamanApps\ApplePassbook\MetaData\Beacon;
 use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
+use LauLamanApps\ApplePassbook\MetaData\Nfc;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag\BoardingPass\Airline\FlightCode;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag\BoardingPass\Airline\FlightNumber;
@@ -925,5 +926,40 @@ final class PassbookTest extends TestCase
             '<SemanticTag3Key>' => '<SemanticTag3Value>',
         ];
         self::assertEquals($expected, $data['semantics']);
+    }
+
+    public function testAddNfc(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('nfc', $data[self::ANONYMOUS_PASSBOOK_TYPE]);
+
+        $nfcMock =  $this->createMock(Nfc::class);
+        $nfcMock->expects($this->once())->method('toArray')->willReturn(['<NFC>']);
+
+        $passbook->setNfc($nfcMock);
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('nfc', $data);
+        self::assertEquals(['<NFC>'], $data['nfc']);
+    }
+
+    public function testAddNfcWhichRequireAuthenticationAlsoSetsProhibitSharing(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('sharingProhibited', $data[self::ANONYMOUS_PASSBOOK_TYPE]);
+
+        $nfcMock =  $this->createMock(Nfc::class);
+        $nfcMock->expects($this->once())->method('requiresAuthentication')->willReturn(true);
+        $nfcMock->expects($this->once())->method('toArray')->willReturn(['<NFC>']);
+
+        $passbook->setNfc($nfcMock);
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('sharingProhibited', $data);
+        self::assertTrue($data['sharingProhibited']);
     }
 }

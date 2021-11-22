@@ -18,7 +18,7 @@ final class LocationTest extends TestCase
             'longitude' => 5.1514097,
         ];
 
-        self::assertSame($expected, $location->toArray());
+        self::assertEquals($expected, $location->toArray());
     }
 
     public function testSetAltitude(): void
@@ -31,7 +31,7 @@ final class LocationTest extends TestCase
             'altitude' => -6.00
         ];
 
-        self::assertSame($expected, $location->toArray());
+        self::assertEquals($expected, $location->toArray());
 
         $location->setAltitude(0.00);
 
@@ -41,7 +41,7 @@ final class LocationTest extends TestCase
             'altitude' => 0.00
         ];
 
-        self::assertSame($expected, $location->toArray());
+        self::assertEquals($expected, $location->toArray());
     }
 
     public function testSetRelevantText(): void
@@ -55,6 +55,20 @@ final class LocationTest extends TestCase
             'relevantText' => 'Welcome to Almere Poort',
         ];
 
-        self::assertSame($expected, $location->toArray());
+        self::assertEquals($expected, $location->toArray());
+    }
+
+    public function testRelevantTextInConstructor(): void
+    {
+        $location = new Location(52.3494545, 5.1514097, -6.00, 'Welcome to Almere Poort');
+
+        $expected = [
+            'latitude' => 52.3494545,
+            'longitude' => 5.1514097,
+            'altitude' => -6.00,
+            'relevantText' => 'Welcome to Almere Poort',
+        ];
+
+        self::assertEquals($expected, $location->toArray());
     }
 }

@@ -6,6 +6,7 @@ namespace LauLamanApps\ApplePassbook\Tests\Unit\MetaData;
 
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\Style\BarcodeFormat;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 
 final class BarcodeTest extends TestCase
@@ -60,5 +61,15 @@ final class BarcodeTest extends TestCase
         ];
 
         self::assertSame($expected, $barcode->toArray());
+    }
+
+    public function testNoMessageThrowsLogicException()
+    {
+        $barcode = new Barcode();
+
+        self::expectException(LogicException::class);
+        self::expectExceptionMessage('no message specified');
+
+        $barcode->toArray();
     }
 }
