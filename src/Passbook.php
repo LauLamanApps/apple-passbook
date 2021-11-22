@@ -335,7 +335,7 @@ abstract class Passbook
         }
 
         if (isset($this->nfc)) {
-            $data['nfc'] = $this->nfc;
+            $data['nfc'] = $this->nfc->toArray();
         }
 
         if (isset($this->webServiceURL) && isset($this->authenticationToken)) {
