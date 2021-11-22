@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-use LauLamanApps\ApplePassbook\Build\Compiler;
-use LauLamanApps\ApplePassbook\Build\Compressor;
-use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
-use LauLamanApps\ApplePassbook\Build\Signer;
+use LauLamanApps\ApplePassbook\Build\CompilerFactory;
 use LauLamanApps\ApplePassbook\CouponPassbook;
 use LauLamanApps\ApplePassbook\MetaData\Barcode;
 use LauLamanApps\ApplePassbook\MetaData\Field\DateField;
@@ -18,12 +15,8 @@ use LauLamanApps\ApplePassbook\Style\DateStyle;
 
 require_once '../../vendor/autoload.php';
 
-//-- Set up compiler and its dependencies
-$manifestGenerator = new ManifestGenerator();
-$signer = new Signer(__DIR__ . '/../../certificates/certificate.p12', '<CertificatePassword>');
-$compressor = new Compressor(new ZipArchive());
-
-$compiler = new Compiler($manifestGenerator, $signer, $compressor);
+$factory = new CompilerFactory();
+$compiler = $factory->getCompiler(__DIR__ . '/../../certificates/certificate.p12', '<CertificatePassword>');
 
 //-- Build pass
 $passbook = new CouponPassbook('E5982H-I2');

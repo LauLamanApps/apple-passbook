@@ -41,17 +41,10 @@ Head over to the [Apple Developer Portal][AppleDeveloperPortal] to get yourself 
 Setup Compiler
 ---
 ```php
-use LauLamanApps\ApplePassbook\Build\Compiler;
-use LauLamanApps\ApplePassbook\Build\Compressor;
-use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
-use LauLamanApps\ApplePassbook\Build\Signer;
+use LauLamanApps\ApplePassbook\Build\CompilerFactory;
 
-$manifestGenerator = new ManifestGenerator();
-$signer = new Signer('<PathToCertificate>', '<CertificatePassword>');
-$compressor = new Compressor(new ZipArchive());
-
-$compiler = new Compiler($manifestGenerator, $signer, $compressor);
-
+$factory = new CompilerFactory();
+$compiler = $factory->getCompiler('<PathToCertificate>', '<CertificatePassword>');
 ```
 
 Create Passbook

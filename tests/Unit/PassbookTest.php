@@ -962,4 +962,46 @@ final class PassbookTest extends TestCase
         self::assertArrayHasKey('sharingProhibited', $data);
         self::assertTrue($data['sharingProhibited']);
     }
+
+    public function testProhibitSharing(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('sharingProhibited', $data);
+
+        $passbook->prohibitSharing();
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('sharingProhibited', $data);
+        self::assertTrue($data['sharingProhibited']);
+    }
+
+    public function testSuppressStripShine(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('suppressStripShine', $data);
+
+        $passbook->suppressStripShine();
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('suppressStripShine', $data);
+        self::assertTrue($data['suppressStripShine']);
+    }
+
+    public function testSetGroupingIdentifier(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('groupingIdentifier', $data);
+
+        $passbook->setGroupingIdentifier('ident-1234');
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('groupingIdentifier', $data);
+        self::assertSame('ident-1234', $data['groupingIdentifier']);
+    }
 }
