@@ -49,7 +49,18 @@ class Signer
             throw CertificateException::failedToReadPkcs12($path);
         }
 
-        $this->certificate = openssl_x509_read($data['cert']);
+        $certResource = openssl_x509_read($data['cert']);
+        if ($certResource === false) {
+            throw new CertificateException(sprintf('Failed to read certificate from "%s".', $path));
+        }
+
+        // check expiry
+        $expiry = $this->getCertificateExpiryFromResource($certResource);
+        if ($expiry !== null && $expiry < time()) {
+            throw new CertificateException(sprintf('Certificate "%s" expired on %s.', $path, date(DATE_ATOM, $expiry)));
+        }
+
+        $this->certificate = $certResource;
         $this->privateKey = openssl_pkey_get_private($data['pkey'], $password);
     }
 
@@ -99,5 +110,44 @@ class Signer
         $signature = base64_decode($signature);
 
         return $signature;
+    }
+
+    /**
+     * Return certificate expiry timestamp or null if unknown.
+     */
+    private function getCertificateExpiryFromResource($certResource): ?int
+    {
+        $parsed = openssl_x509_parse($certResource);
+        if ($parsed === false) {
+            return null;
+        }
+
+        if (isset($parsed['validTo_time_t'])) {
+            return (int) $parsed['validTo_time_t'];
+        }
+
+        if (isset($parsed['validTo'])) {
+            $ts = strtotime($parsed['validTo']);
+            return $ts === false ? null : $ts;
+        }
+
+        return null;
+    }
+
+    /**
+     * Public helpers for application-level checks
+     */
+    public function getCertificateExpiry(): ?int
+    {
+        if (!$this->certificate) {
+            return null;
+        }
+        return $this->getCertificateExpiryFromResource($this->certificate);
+    }
+
+    public function isCertificateExpired(): bool
+    {
+        $expiry = $this->getCertificateExpiry();
+        return $expiry !== null && $expiry < time();
     }
 }
