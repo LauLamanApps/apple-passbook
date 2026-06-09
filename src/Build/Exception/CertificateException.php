@@ -18,4 +18,9 @@ final class CertificateException extends Exception implements PassbookException
     {
         return new self(sprintf('Unable to read the certificate store from PKCS#12 file \'%s\'.', $file));
     }
+
+    public static function expired(string $file, int $expiry): self
+    {
+        return new self(sprintf('Certificate \'%s\' expired on %s.', $file, date(DATE_ATOM, $expiry)));
+    }
 }
