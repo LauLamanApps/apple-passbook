@@ -150,10 +150,13 @@ For the examples to work place the certificate P12 file in the `/certificates` f
 Example php scripts can be found in `docs/example`:
 
 - [BoardingPass](docs/example/BoardingPass.php)
+- [BoardingPass Advanced](docs/example/BoardingPassAdvanced.php) — semantic tags, action URLs, QR barcode, beacons
 - [Coupon](docs/example/Coupon.php)
 - [Event](docs/example/Event.php)
+- [Event Advanced](docs/example/EventAdvanced.php) — semantic tags, action URLs, NFC, expiration, sharing
 - [Generic](docs/example/Generic.php)
 - [StoreCard](docs/example/StoreCard.php)
+- [Push Notification](docs/example/PushNotification.php) — sending pass updates via APNs
 
 
 Credits
