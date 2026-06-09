@@ -25,12 +25,12 @@ final class BoardingPassbookTest extends TestCase
 
     public function testDefaults(): void
     {
-        $passbook = new BoardingPassbook(self::UUID, TransitType::air());
+        $passbook = new BoardingPassbook(self::UUID, TransitType::Air);
         $passbook->setPassTypeIdentifier('pass.com.anonymous');
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');
         $passbook->setDescription('Pass for LauLaman Apps');
-        $passbook->setTransitType(TransitType::air());
+        $passbook->setTransitType(TransitType::Air);
 
         $expected = [
             'formatVersion' => 1,
@@ -40,7 +40,7 @@ final class BoardingPassbookTest extends TestCase
             'organizationName' => 'LauLaman Apps',
             'description' => 'Pass for LauLaman Apps',
             'boardingPass' => [
-                'transitType' => TransitType::air()->getValue(),
+                'transitType' => TransitType::Air->value,
             ],
         ];
 
@@ -139,7 +139,7 @@ final class BoardingPassbookTest extends TestCase
 
         $barcode = new Barcode();
         $barcode->setMessage('barcode');
-        $barcode->setFormat(BarcodeFormat::code128());
+        $barcode->setFormat(BarcodeFormat::Code128);
 
         $passbook->setBarcode($barcode);
 
@@ -147,7 +147,7 @@ final class BoardingPassbookTest extends TestCase
         self::assertArrayHasKey('barcode', $data);
 
         $expectedBarcodeData = [
-            'format' => BarcodeFormat::code128()->getValue(),
+            'format' => BarcodeFormat::Code128->value,
             'message' => 'barcode',
             'messageEncoding' => 'iso-8859-1',
         ];
@@ -780,7 +780,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook = new BoardingPassbook('gT6zrHkaW');
         $passbook->setTeamIdentifier('A93A5CM278');
         $passbook->setPassTypeIdentifier('pass.com.apple.devpubs.example');
-        $passbook->setTransitType(TransitType::air());
+        $passbook->setTransitType(TransitType::Air);
         $passbook->setOrganizationName('Skyport Airways');
         $passbook->setDescription('Skyport Boarding Pass');
         $passbook->setLogoText('Skyport Airways');
@@ -791,7 +791,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook->setWebService('https://example.com/passes/', 'vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc');
 
         $barcode = new Barcode();
-        $barcode->setFormat(BarcodeFormat::pdf417());
+        $barcode->setFormat(BarcodeFormat::Pdf417);
         $barcode->setMessage('SFOJFK JOHN APPLESEED LH451 2012-07-22T14:25-08:00');
         $passbook->setBarcode($barcode);
 
@@ -967,7 +967,7 @@ final class BoardingPassbookTest extends TestCase
         $passbook->setTeamIdentifier('9X3HHK8VXA');
         $passbook->setOrganizationName('LauLaman Apps');
         $passbook->setDescription('Pass for LauLaman Apps');
-        $passbook->setTransitType(TransitType::air());
+        $passbook->setTransitType(TransitType::Air);
 
         return $passbook;
     }
