@@ -8,20 +8,17 @@ use LauLamanApps\ApplePassbook\Build\Exception\NotifierException;
 
 class Notifier
 {
-    private const APNS_PRODUCTION = 'https://api.push.apple.com';
-    private const APNS_SANDBOX = 'https://api.sandbox.push.apple.com';
-
-    private string $pemCertificatePath;
-
     /**
      * @throws NotifierException
      */
     public function __construct(
-        string $certificatePath,
-        #[\SensitiveParameter] string $certificatePassword,
-        private readonly bool $sandbox = false,
+        private readonly string $certificatePath,
+        #[\SensitiveParameter] private readonly ?string $certificatePassword = null,
+        private readonly ApnsEnvironment $environment = ApnsEnvironment::Production,
     ) {
-        $this->pemCertificatePath = $this->convertToPem($certificatePath, $certificatePassword);
+        if (!file_exists($this->certificatePath)) {
+            throw NotifierException::certificateNotFound($this->certificatePath);
+        }
     }
 
     /**
@@ -37,7 +34,7 @@ class Notifier
             throw NotifierException::missingCurl();
         }
 
-        $url = sprintf('%s/3/device/%s', $this->getApnsHost(), $pushToken);
+        $url = sprintf('%s/3/device/%s', $this->environment->value, $pushToken);
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [
@@ -46,10 +43,11 @@ class Notifier
             CURLOPT_POSTFIELDS => '{}',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSLCERT => $this->pemCertificatePath,
+            CURLOPT_SSLCERT => $this->certificatePath,
             CURLOPT_HTTPHEADER => [
                 'apns-push-type: alert',
             ],
+            ...$this->getCertificateOptions(),
         ]);
 
         $response = curl_exec($ch);
@@ -72,42 +70,23 @@ class Notifier
         }
     }
 
-    private function getApnsHost(): string
-    {
-        return $this->sandbox ? self::APNS_SANDBOX : self::APNS_PRODUCTION;
-    }
-
     /**
-     * Convert a P12 certificate to PEM format for use with cURL.
-     *
-     * @throws NotifierException
+     * @return array<int, mixed>
      */
-    private function convertToPem(string $certificatePath, string $certificatePassword): string
+    private function getCertificateOptions(): array
     {
-        if (!file_exists($certificatePath)) {
-            throw NotifierException::connectionFailed(sprintf('Certificate file not found: %s', $certificatePath));
+        $isP12 = str_ends_with(strtolower($this->certificatePath), '.p12');
+
+        $options = [];
+
+        if ($isP12) {
+            $options[CURLOPT_SSLCERTTYPE] = 'P12';
         }
 
-        $p12Content = file_get_contents($certificatePath);
-
-        if ($p12Content === false) {
-            throw NotifierException::connectionFailed(sprintf('Could not read certificate file: %s', $certificatePath));
+        if ($this->certificatePassword !== null) {
+            $options[CURLOPT_SSLCERTPASSWD] = $this->certificatePassword;
         }
 
-        $data = [];
-        if (!openssl_pkcs12_read($p12Content, $data, $certificatePassword)) {
-            throw NotifierException::connectionFailed('Failed to read PKCS12 certificate. Check the password.');
-        }
-
-        $pemPath = sys_get_temp_dir() . '/apple_passbook_push_' . md5($certificatePath) . '.pem';
-        $pemContent = $data['cert'] . "\n" . $data['pkey'];
-
-        if (file_put_contents($pemPath, $pemContent) === false) {
-            throw NotifierException::connectionFailed(sprintf('Could not write PEM file: %s', $pemPath));
-        }
-
-        chmod($pemPath, 0600);
-
-        return $pemPath;
+        return $options;
     }
 }
