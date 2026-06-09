@@ -155,6 +155,7 @@ Example php scripts can be found in `docs/example`:
 - [Event](docs/example/Event.php)
 - [Event Advanced](docs/example/EventAdvanced.php) — semantic tags, action URLs, NFC, expiration, sharing
 - [Generic](docs/example/Generic.php)
+- [Generic NFC](docs/example/GenericNfc.php) — employee badge with NFC door access, beacons, Wi-Fi, data detectors
 - [StoreCard](docs/example/StoreCard.php)
 - [StoreCard NFC](docs/example/StoreCardNfc.php) — NFC-enabled loyalty card with contactless authentication
 - [Push Notification](docs/example/PushNotification.php) — sending pass updates via APNs
