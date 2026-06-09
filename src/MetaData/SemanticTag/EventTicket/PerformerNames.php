@@ -11,7 +11,7 @@ class PerformerNames implements SemanticTag
     /** @var array<string> */
     private array $performerNames = [];
 
-    public function __construct(string $performerName = null)
+    public function __construct(?string $performerName = null)
     {
         if (isset($performerName)) {
             $this->addPerformer($performerName);

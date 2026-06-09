@@ -11,7 +11,7 @@ class ArtistIDs implements SemanticTag
     /** @var array<string> */
     private array $artistIDs = [];
 
-    public function __construct(string $artistID = null)
+    public function __construct(?string $artistID = null)
     {
         if (isset($artistID)) {
             $this->addArtistId($artistID);

@@ -11,7 +11,7 @@ class CompilerFactory
     public function getCompiler(
         string $certificateFilePath,
         #[\SensitiveParameter] string $certificatePassword,
-        string $appleWWDRCAFile = null
+        ?string $appleWWDRCAFile = null
     ): Compiler {
         $signer = new Signer($certificateFilePath, $certificatePassword);
         if ($appleWWDRCAFile !== null) {

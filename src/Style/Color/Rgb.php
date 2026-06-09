@@ -13,7 +13,7 @@ class Rgb implements Color
     private int $green = 0;
     private int $blue = 0;
 
-    public function __construct(int $red = null, int $green = null, int $blue = null)
+    public function __construct(?int $red = null, ?int $green = null, ?int $blue = null)
     {
         if ($red) {
             $this->setRed($red);
