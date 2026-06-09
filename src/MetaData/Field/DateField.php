@@ -50,7 +50,7 @@ class DateField extends Field
     }
 
     /**
-     * @return array<string>
+     * @return array<string, array<int|string, mixed>|bool|int|string>
      */
     public function getMetadata(): array
     {

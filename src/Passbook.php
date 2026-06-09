@@ -382,7 +382,7 @@ abstract class Passbook
             $data['voided'] = $this->voided;
         }
 
-        if (isset($this->locations)) {
+        if ($this->locations !== []) {
             foreach ($this->locations as $location) {
                 $data['locations'][] = $location->toArray();
             }

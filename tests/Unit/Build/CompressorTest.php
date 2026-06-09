@@ -38,10 +38,19 @@ final class CompressorTest extends TestCase
         $zipArchive = $this->createMock(ZipArchive::class);
         $zipArchive->expects($this->once())->method('open')->willReturn(true);
         $zipArchive->expects($this->once())->method('close');
-        $zipArchive->expects($this->exactly(3))->method('addFile')->withConsecutive(
+        $expectedCalls = [
             [$tempDir . Signer::FILENAME, Signer::FILENAME],
             [$tempDir . ManifestGenerator::FILENAME, ManifestGenerator::FILENAME],
-            ['/path/to/image.png', 'icon.png']
+            ['/path/to/image.png', 'icon.png'],
+        ];
+        $callIndex = 0;
+        $zipArchive->expects($this->exactly(3))->method('addFile')->willReturnCallback(
+            function (string $path, string $name) use (&$callIndex, $expectedCalls): bool {
+                [$expectedPath, $expectedName] = $expectedCalls[$callIndex++];
+                $this->assertSame($expectedPath, $path);
+                $this->assertSame($expectedName, $name);
+                return true;
+            }
         );
         $zipArchive->expects($this->once())->method('addFromString')->with(Compiler::PASS_DATA_FILE, '["<passbook_data>"]');
 
