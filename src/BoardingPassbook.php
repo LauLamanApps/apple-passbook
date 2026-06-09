@@ -27,7 +27,7 @@ class BoardingPassbook extends Passbook
     private string $transitProviderWebsiteURL;
     private string $upgradeURL;
 
-    public function __construct(string $serialNumber, TransitType $transitType = null)
+    public function __construct(string $serialNumber, ?TransitType $transitType = null)
     {
         parent::__construct($serialNumber);
 

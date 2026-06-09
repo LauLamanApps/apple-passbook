@@ -11,7 +11,7 @@ abstract class AbstractStringArray implements SemanticTag
     /** @var array<string> */
     private array $values = [];
 
-    public function __construct(string $value = null)
+    public function __construct(?string $value = null)
     {
         if ($value !== null) {
             $this->add($value);

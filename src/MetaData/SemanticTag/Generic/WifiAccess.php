@@ -11,7 +11,7 @@ class WifiAccess implements SemanticTag
     /** @var WifiNetwork[] */
     private array $wifiNetworks = [];
 
-    public function __construct(WifiNetwork $wifiNetwork = null)
+    public function __construct(?WifiNetwork $wifiNetwork = null)
     {
         if ($wifiNetwork) {
             $this->addWifiNetwork($wifiNetwork);
