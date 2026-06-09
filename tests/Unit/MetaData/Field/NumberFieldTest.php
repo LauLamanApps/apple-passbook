@@ -32,12 +32,12 @@ final class NumberFieldTest extends TestCase
     public function testSetDataDetectorTypes(): void
     {
         $field = new NumberField('some_key', 123);
-        $field->addDataDetectorType(DataDetector::address());
+        $field->addDataDetectorType(DataDetector::Address);
 
         $expected = [
             'key' => 'some_key',
             'value' => 123,
-            'dataDetectorTypes' => [DataDetector::address()->getValue()]
+            'dataDetectorTypes' => [DataDetector::Address->value]
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -60,12 +60,12 @@ final class NumberFieldTest extends TestCase
     public function testSetTextAlignment(): void
     {
         $field = new NumberField('some_key', 123);
-        $field->setTextAlignment(TextAlignment::center());
+        $field->setTextAlignment(TextAlignment::Center);
 
         $expected = [
             'key' => 'some_key',
             'value' => 123,
-            'textAlignment' => TextAlignment::center()->getValue()
+            'textAlignment' => TextAlignment::Center->value
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -102,12 +102,12 @@ final class NumberFieldTest extends TestCase
     public function testSetNumberStyle(): void
     {
         $field = new NumberField('some_key', 123);
-        $field->setNumberStyle(NumberStyle::decimal());
+        $field->setNumberStyle(NumberStyle::Decimal);
 
         $expected = [
             'key' => 'some_key',
             'value' => 123,
-            'numberStyle' => NumberStyle::decimal()->getValue(),
+            'numberStyle' => NumberStyle::Decimal->value,
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -120,7 +120,7 @@ final class NumberFieldTest extends TestCase
 
         $field = new NumberField('some_key', 123);
         $field->setCurrencyCode('EUR');
-        $field->setNumberStyle(NumberStyle::decimal());
+        $field->setNumberStyle(NumberStyle::Decimal);
     }
 
     public function testSetCurrencyCodeAfterSettingNumberStyleThrowsLogicException(): void
@@ -129,7 +129,7 @@ final class NumberFieldTest extends TestCase
         $this->expectExceptionMessage('You can not set both a \'currencyCode\' and a \'numberStyle\'. Please set only one of the 2.');
 
         $field = new NumberField('some_key', 123);
-        $field->setNumberStyle(NumberStyle::decimal());
+        $field->setNumberStyle(NumberStyle::Decimal);
         $field->setCurrencyCode('EUR');
     }
 

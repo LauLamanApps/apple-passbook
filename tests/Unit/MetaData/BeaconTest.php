@@ -24,11 +24,11 @@ class BeaconTest extends TestCase
         $uuid = Uuid::uuid4();
 
         $beacon = new Beacon($uuid);
-        $beacon->setMinorIdentifier('<minorIdentifier>');
+        $beacon->setMinorIdentifier(123);
 
         $expected = [
             'proximityUUID' => $uuid->toString(),
-            'minor' => '<minorIdentifier>'
+            'minor' => 123
         ];
 
         self::assertEquals($expected, $beacon->toArray());
@@ -39,11 +39,11 @@ class BeaconTest extends TestCase
         $uuid = Uuid::uuid4();
 
         $beacon = new Beacon($uuid);
-        $beacon->setMajorIdentifier('<majorIdentifier>');
+        $beacon->setMajorIdentifier(456);
 
         $expected = [
             'proximityUUID' => $uuid->toString(),
-            'major' => '<majorIdentifier>'
+            'major' => 456
         ];
 
         self::assertEquals($expected, $beacon->toArray());

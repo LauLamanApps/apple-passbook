@@ -20,6 +20,7 @@ class Field
     private string $changeMessage;
     private TextAlignment $textAlignment;
     private string $attributedValue;
+    private ?int $row = null;
 
     /** @var SemanticTag[] */
     private array $semantics;
@@ -66,7 +67,7 @@ class Field
 
     public function addDataDetectorType(DataDetector $dataDetector): void
     {
-        $this->dataDetectorTypes[$dataDetector->getValue()] = $dataDetector;
+        $this->dataDetectorTypes[$dataDetector->value] = $dataDetector;
     }
 
     public function setChangeMessage(string $changeMessage): void
@@ -82,6 +83,11 @@ class Field
     public function setAttributedValue(string $attributedValue): void
     {
         $this->attributedValue = $attributedValue;
+    }
+
+    public function setRow(int $row): void
+    {
+        $this->row = $row;
     }
 
     public function addSemanticTag(SemanticTag $semanticTag): void
@@ -105,7 +111,7 @@ class Field
 
         if (isset($this->dataDetectorTypes)) {
             foreach ($this->dataDetectorTypes as $dataDetector) {
-                $data['dataDetectorTypes'][] = (string) $dataDetector->getValue();
+                $data['dataDetectorTypes'][] = $dataDetector->value;
             }
         }
 
@@ -114,11 +120,15 @@ class Field
         }
 
         if (isset($this->textAlignment)) {
-            $data['textAlignment'] = (string) $this->textAlignment->getValue();
+            $data['textAlignment'] = $this->textAlignment->value;
         }
 
         if (isset($this->attributedValue)) {
             $data['attributedValue'] = $this->attributedValue;
+        }
+
+        if ($this->row !== null) {
+            $data['row'] = $this->row;
         }
 
         if (isset($this->semantics)) {

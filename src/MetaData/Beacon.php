@@ -8,8 +8,8 @@ use Ramsey\Uuid\UuidInterface;
 
 class Beacon
 {
-    private string $minorIdentifier;
-    private string $majorIdentifier;
+    private int $minorIdentifier;
+    private int $majorIdentifier;
     private UuidInterface $proximityUUID;
     private string $relevantText;
 
@@ -18,12 +18,12 @@ class Beacon
         $this->proximityUUID = $proximityUUID;
     }
 
-    public function setMinorIdentifier(string $minorIdentifier): void
+    public function setMinorIdentifier(int $minorIdentifier): void
     {
         $this->minorIdentifier = $minorIdentifier;
     }
 
-    public function setMajorIdentifier(string $majorIdentifier): void
+    public function setMajorIdentifier(int $majorIdentifier): void
     {
         $this->majorIdentifier = $majorIdentifier;
     }

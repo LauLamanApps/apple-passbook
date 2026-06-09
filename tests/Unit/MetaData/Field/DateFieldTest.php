@@ -32,12 +32,12 @@ final class DateFieldTest extends TestCase
     {
         $date = new DateTimeImmutable();
         $field = new DateField('some_key', $date);
-        $field->addDataDetectorType(DataDetector::address());
+        $field->addDataDetectorType(DataDetector::Address);
 
         $expected = [
             'key' => 'some_key',
             'value' => $date->format(DateTimeImmutable::W3C),
-            'dataDetectorTypes' => [DataDetector::address()->getValue()]
+            'dataDetectorTypes' => [DataDetector::Address->value]
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -62,12 +62,12 @@ final class DateFieldTest extends TestCase
     {
         $date = new DateTimeImmutable();
         $field = new DateField('some_key', $date);
-        $field->setTextAlignment(TextAlignment::center());
+        $field->setTextAlignment(TextAlignment::Center);
 
         $expected = [
             'key' => 'some_key',
             'value' => $date->format(DateTimeImmutable::W3C),
-            'textAlignment' => TextAlignment::center()->getValue()
+            'textAlignment' => TextAlignment::Center->value
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -92,12 +92,12 @@ final class DateFieldTest extends TestCase
     {
         $date = new DateTimeImmutable();
         $field = new DateField('some_key', $date);
-        $field->setDateStyle(DateStyle::full());
+        $field->setDateStyle(DateStyle::Full);
 
         $expected = [
             'key' => 'some_key',
             'value' => $date->format(DateTimeImmutable::W3C),
-            'dateStyle' => DateStyle::full()->getValue()
+            'dateStyle' => DateStyle::Full->value
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -107,12 +107,12 @@ final class DateFieldTest extends TestCase
     {
         $date = new DateTimeImmutable();
         $field = new DateField('some_key', $date);
-        $field->setTimeStyle(DateStyle::full());
+        $field->setTimeStyle(DateStyle::Full);
 
         $expected = [
             'key' => 'some_key',
             'value' => $date->format(DateTimeImmutable::W3C),
-            'timeStyle' => DateStyle::full()->getValue()
+            'timeStyle' => DateStyle::Full->value
         ];
 
         self::assertSame($expected, $field->getMetadata());
