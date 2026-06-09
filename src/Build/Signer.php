@@ -47,6 +47,11 @@ class Signer
             throw CertificateException::failedToReadPkcs12($path);
         }
 
+        $expiry = $this->getCertificateExpiry($certificate);
+        if ($expiry !== null && $expiry < time()) {
+            throw CertificateException::expired($path, $expiry);
+        }
+
         $this->certificate = $certificate;
         $this->privateKey = $privateKey;
     }
@@ -84,6 +89,17 @@ class Signer
         $signature = (string) file_get_contents($temporaryDirectory . self::FILENAME);
         $signature = $this->convertPEMtoDER($signature);
         file_put_contents($temporaryDirectory . self::FILENAME, $signature);
+    }
+
+    private function getCertificateExpiry(\OpenSSLCertificate $certificate): ?int
+    {
+        $parsed = openssl_x509_parse($certificate);
+
+        if ($parsed === false) {
+            return null;
+        }
+
+        return isset($parsed['validTo_time_t']) ? (int) $parsed['validTo_time_t'] : null;
     }
 
     private function convertPEMtoDER(string $signature): string
