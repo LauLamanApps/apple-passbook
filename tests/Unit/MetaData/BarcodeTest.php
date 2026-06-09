@@ -63,7 +63,7 @@ final class BarcodeTest extends TestCase
         self::assertSame($expected, $barcode->toArray());
     }
 
-    public function testNoMessageThrowsLogicException()
+    public function testNoMessageThrowsLogicException(): void
     {
         $barcode = new Barcode();
 

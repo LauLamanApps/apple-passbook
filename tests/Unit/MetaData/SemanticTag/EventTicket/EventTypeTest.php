@@ -21,6 +21,7 @@ class EventTypeTest extends TestCase
         self::assertSame($expectedValue, $semanticTag->getValue());
     }
 
+    /** @return array<string, array{EventTypeEnum, string}> */
     public static function getEnums(): array
     {
         return [
