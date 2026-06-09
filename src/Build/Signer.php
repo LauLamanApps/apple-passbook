@@ -10,35 +10,26 @@ class Signer
 {
     public const FILENAME = 'signature';
 
-    /**
-     * @var mixed
-     * in PHP 7.4 this is a resource, in PHP 8.0 this is a OpenSSLCertificate
-     */
-    private $certificate;
-
-    /**
-     * @var mixed
-     * in PHP 7.4 this is a resource, in PHP 8.0 this is a OpenSSLAsymmetricKey
-     */
-    private $privateKey;
+    private \OpenSSLCertificate $certificate;
+    private \OpenSSLAsymmetricKey $privateKey;
     private string $appleWWDRCA;
 
     /**
      * @throws CertificateException
      */
-    public function __construct(?string $certificatePath = null, ?string $password = null)
+    public function __construct(?string $certificatePath = null, #[\SensitiveParameter] ?string $password = null)
     {
         if ($certificatePath !== null && $password !== null) {
             $this->setCertificate($certificatePath, $password);
         }
 
-        $this->setAppleWWDRCA(__DIR__ . '/../../certificates/AppleWWDRCA.pem');
+        $this->setAppleWWDRCA(__DIR__ . '/../../certificates/AppleWWDRCAG3.pem');
     }
 
     /**
      * @throws CertificateException
      */
-    public function setCertificate(string $path, string $password): void
+    public function setCertificate(string $path, #[\SensitiveParameter] string $password): void
     {
         if (!file_exists($path)) {
             throw CertificateException::fileDoesNotExist($path);
