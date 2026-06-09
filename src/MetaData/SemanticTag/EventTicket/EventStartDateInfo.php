@@ -34,6 +34,7 @@ class EventStartDateInfo implements SemanticTag
         return 'eventStartDateInfo';
     }
 
+    /** @return array<string, string> */
     public function getValue(): array
     {
         $data = [
