@@ -167,7 +167,7 @@ final class NumberFieldTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    public function getNumeric(): array
+    public static function getNumeric(): array
     {
         return [
             'string: int' => ['123'],
@@ -180,7 +180,7 @@ final class NumberFieldTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    public function getNonNumeric(): array
+    public static function getNonNumeric(): array
     {
         return [
             'string' => ['some string'],

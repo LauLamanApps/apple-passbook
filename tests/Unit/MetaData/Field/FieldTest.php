@@ -191,7 +191,7 @@ final class FieldTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    public function getScalars(): array
+    public static function getScalars(): array
     {
         return [
             'string' => ['some string'],
@@ -205,7 +205,7 @@ final class FieldTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    public function getNonScalars(): array
+    public static function getNonScalars(): array
     {
         return [
             'null' => [null],
