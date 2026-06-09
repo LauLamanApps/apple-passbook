@@ -24,6 +24,8 @@ abstract class Passbook
     private string $appLaunchURL;
     /** @var int[] */
     private array $associatedStoreIdentifiers = [];
+    /** @var int[] */
+    private array $auxiliaryStoreIdentifiers = [];
     private string $authenticationToken;
     /** @var Field[] */
     private array $auxiliaryFields = [];
@@ -35,7 +37,9 @@ abstract class Passbook
     /** @var Beacon[] */
     private array $beacons = [];
     private string $description;
+    private string $eventLogoText;
     private DateTimeImmutable $expirationDate;
+    private Color $footerBackgroundColor;
     private Color $foregroundColor;
     private int $formatVersion = 1;
     private string $groupingIdentifier;
@@ -51,6 +55,8 @@ abstract class Passbook
     private ?Nfc $nfc = null;
     private string $organizationName;
     private string $passTypeIdentifier;
+    /** @var string[] */
+    private array $preferredStyleSchemes = [];
     /** @var Field[] */
     private array $primaryFields = [];
     private DateTimeImmutable $relevantDate;
@@ -60,8 +66,10 @@ abstract class Passbook
     private array $semantics;
     private string $serialNumber;
     private bool $sharingProhibited = false;
+    private bool $suppressHeaderDarkening = false;
     private bool $suppressStripShine = false;
     private string $teamIdentifier;
+    private bool $useAutomaticColors = false;
     private string $userInfo;
     private bool $voided = false;
     private string $webServiceURL;
@@ -94,6 +102,11 @@ abstract class Passbook
     public function setLogoText(string $logoText): void
     {
         $this->logoText = $logoText;
+    }
+
+    public function setEventLogoText(string $eventLogoText): void
+    {
+        $this->eventLogoText = $eventLogoText;
     }
 
     public function setRelevantDate(DateTimeImmutable $relevantDate): void
@@ -161,6 +174,21 @@ abstract class Passbook
         $this->labelColor = $labelColor;
     }
 
+    public function setFooterBackgroundColor(Color $footerBackgroundColor): void
+    {
+        $this->footerBackgroundColor = $footerBackgroundColor;
+    }
+
+    public function suppressHeaderDarkening(): void
+    {
+        $this->suppressHeaderDarkening = true;
+    }
+
+    public function useAutomaticColors(): void
+    {
+        $this->useAutomaticColors = true;
+    }
+
     public function addImage(Image $image): void
     {
         $this->images[] = $image;
@@ -199,6 +227,16 @@ abstract class Passbook
     public function addAssociatedStoreIdentifiers(int $associatedStoreIdentifiers): void
     {
         $this->associatedStoreIdentifiers[] = $associatedStoreIdentifiers;
+    }
+
+    public function addAuxiliaryStoreIdentifier(int $auxiliaryStoreIdentifier): void
+    {
+        $this->auxiliaryStoreIdentifiers[] = $auxiliaryStoreIdentifier;
+    }
+
+    public function addPreferredStyleScheme(string $scheme): void
+    {
+        $this->preferredStyleSchemes[] = $scheme;
     }
 
     public function addSemanticTag(SemanticTag $semanticTag): void
@@ -300,6 +338,10 @@ abstract class Passbook
             $data['logoText'] = $this->logoText;
         }
 
+        if (isset($this->eventLogoText)) {
+            $data['eventLogoText'] = $this->eventLogoText;
+        }
+
         if (count($this->barcodes) > 0) {
             $data['barcode'] = $this->barcodes[0]->toArray();
 
@@ -326,6 +368,10 @@ abstract class Passbook
 
         if (count($this->associatedStoreIdentifiers) > 0) {
             $data['associatedStoreIdentifiers'] = $this->associatedStoreIdentifiers;
+        }
+
+        if (count($this->auxiliaryStoreIdentifiers) > 0) {
+            $data['auxiliaryStoreIdentifiers'] = $this->auxiliaryStoreIdentifiers;
         }
 
         if (isset($this->userInfo)) {
@@ -371,12 +417,28 @@ abstract class Passbook
             $data['labelColor'] = $this->labelColor->toString();
         }
 
+        if (isset($this->footerBackgroundColor)) {
+            $data['footerBackgroundColor'] = $this->footerBackgroundColor->toString();
+        }
+
         if ($this->sharingProhibited) {
             $data['sharingProhibited'] = $this->sharingProhibited;
         }
 
         if ($this->suppressStripShine) {
             $data['suppressStripShine'] = $this->suppressStripShine;
+        }
+
+        if ($this->suppressHeaderDarkening) {
+            $data['suppressHeaderDarkening'] = $this->suppressHeaderDarkening;
+        }
+
+        if ($this->useAutomaticColors) {
+            $data['useAutomaticColors'] = $this->useAutomaticColors;
+        }
+
+        if (count($this->preferredStyleSchemes) > 0) {
+            $data['preferredStyleSchemes'] = $this->preferredStyleSchemes;
         }
 
         if (isset($this->semantics)) {
