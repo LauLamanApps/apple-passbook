@@ -11,11 +11,7 @@ build:
                     - php-scrutinizer-run
     environment:
         php:
-            version: 7.4
-    dependencies:
-        before:
-            # When updating the phpunit version make sure to also update it in the github workflow
-            - composer require phpunit/phpunit:^9.5 --dev --ignore-platform-reqs
+            version: 8.3
     tests:
         override:
             -
