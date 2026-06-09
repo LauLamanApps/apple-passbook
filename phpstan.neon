@@ -4,12 +4,4 @@ parameters:
     - src
     - tests
   ignoreErrors:
-    - message: '#Constant [a-zA-Z0-9\\_]+\:\:[a-zA-Z0-9\_]+ is unused#'
-      paths:
-        - src/MetaData/BoardingPass/TransitType.php
-        - src/MetaData/SemanticTag/EventTicket/EventTypeEnum.php
-        - src/Style/BarcodeFormat.php
-        - src/Style/DataDetector.php
-        - src/Style/DateStyle.php
-        - src/Style/NumberStyle.php
-        - src/Style/TextAlignment.php
+    - identifier: attribute.notFound
