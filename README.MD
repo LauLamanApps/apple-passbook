@@ -47,13 +47,13 @@ $factory = new CompilerFactory();
 $compiler = $factory->getCompiler('<PathToCertificate>', '<CertificatePassword>');
 ```
 
-AppleWWDRA certificate.
+AppleWWDRCA certificate.
 ---
-Included ar 2 AppleWWDRCA certificates:
- - AppleWWDRCA.pem - _Expires feb 3 2023_
- - AppleWWDRCAG3.pem - _Expires feb 20 2030_
+Included are 2 AppleWWDRCA certificates:
+ - AppleWWDRCAG3.pem - _Expires Feb 20 2030_ (default)
+ - AppleWWDRCAG6.pem - _Expires Mar 19 2036_
 
-By default AppleWWDRCA is used if you want to use the otherone you can do so by setting its file path as the 3rd option in the `CompilerFactory` or calling `setAppleWWDRCA()` on the `Signer` class for custom implementation
+By default AppleWWDRCAG3 is used. If you want to use G6 you can do so by setting its file path as the 3rd option in the `CompilerFactory` or calling `setAppleWWDRCA()` on the `Signer` class
 
 Create Passbook
 ---
@@ -80,7 +80,7 @@ $passbook->addLocation(new Location(37.6189722, -122.3748889));
 $passbook->addLocation(new Location(37.33182, -122.03118));
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setFormat(BarcodeFormat::Pdf417);
 $barcode->setMessage('123456789');
 $passbook->setBarcode($barcode);
 
@@ -113,6 +113,28 @@ header('Content-Disposition: filename="boardingpass.pkpass"');
 echo $compiler->compile($passbook);
 ```
 
+Push Notifications (updating passes)
+---
+When a pass is registered on a device via the [web service][AppleWebService], Apple provides a push token.
+You can use the `Notifier` to send a push notification that tells the device to fetch an updated version of the pass.
+
+```php
+use LauLamanApps\ApplePassbook\Build\Notifier;
+
+$notifier = new Notifier('<PathToCertificate>', '<CertificatePassword>');
+
+// Send a push notification to trigger a pass update
+$notifier->notify('<DevicePushToken>');
+```
+
+For sandbox/development environments, pass `true` as the third argument:
+
+```php
+$notifier = new Notifier('<PathToCertificate>', '<CertificatePassword>', sandbox: true);
+```
+
+> **Note:** The `ext-curl` extension with HTTP/2 support is required.
+
 Examples
 ---
 For the examples to work place the certificate P12 file in the `/certificates` folder and fill out the required information in the example scripts:
@@ -136,4 +158,5 @@ This package has been developed by [LauLaman][LauLaman].
 [act]: https://github.com/nektos/act
 [ApplePassbookApi]: https://developer.apple.com/documentation/passkit
 [AppleDeveloperPortal]: https://developer.apple.com/account/resources/certificates/list
+[AppleWebService]: https://developer.apple.com/documentation/walletpasses/adding-a-web-service-to-update-passes
 [LauLaman]: https://github.com/LauLaman

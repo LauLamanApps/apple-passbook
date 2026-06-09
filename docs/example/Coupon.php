@@ -33,7 +33,7 @@ $passbook->addLocation(new Location(37.6189722, -122.3748889));
 $passbook->addLocation(new Location(37.33182, -122.03118));
 
 $barcode = new Barcode();
-$barcode->setFormat(BarcodeFormat::pdf417());
+$barcode->setFormat(BarcodeFormat::Pdf417);
 $barcode->setMessage('123456789');
 $passbook->setBarcode($barcode);
 
@@ -48,7 +48,7 @@ $expires->setKey('expires');
 $expires->setLabel('EXPIRES');
 $expires->setDate(new DateTimeImmutable('2013-04-24T10:00-05:00'));
 $expires->isRelative();
-$expires->setDateStyle(DateStyle::short());
+$expires->setDateStyle(DateStyle::Short);
 $passbook->addAuxiliaryField($expires);
 
 $passbook->addImage(new LocalImage(__DIR__ . '/files/Coupon/icon.png'));
