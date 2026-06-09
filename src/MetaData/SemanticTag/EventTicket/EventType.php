@@ -23,6 +23,6 @@ class EventType implements SemanticTag
 
     public function getValue(): string
     {
-        return $this->eventType->getValue();
+        return $this->eventType->value;
     }
 }
