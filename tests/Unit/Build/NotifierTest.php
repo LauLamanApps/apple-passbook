@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Tests\Unit\Build;
 
+use LauLamanApps\ApplePassbook\Build\ApnsEnvironment;
 use LauLamanApps\ApplePassbook\Build\Exception\NotifierException;
 use LauLamanApps\ApplePassbook\Build\Notifier;
 use PHPUnit\Framework\TestCase;
@@ -27,70 +28,52 @@ class NotifierTest extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testConstructorThrowsOnInvalidCertificate(): void
+    public function testConstructorAcceptsP12File(): void
     {
-        $certPath = sys_get_temp_dir() . '/test_invalid_cert.p12';
-        file_put_contents($certPath, 'not-a-real-certificate');
+        $path = $this->createTempFile('.p12');
 
         try {
-            $this->expectException(NotifierException::class);
-            $this->expectExceptionMessage('Failed to read PKCS12 certificate');
-
-            new Notifier($certPath, 'wrong-password');
+            $notifier = new Notifier($path, 'password');
+            $this->assertInstanceOf(Notifier::class, $notifier);
         } finally {
-            unlink($certPath);
+            unlink($path);
         }
     }
 
     /**
      * @covers ::__construct
      */
-    public function testConstructorWithValidCertificateCreatesPemFile(): void
+    public function testConstructorAcceptsPemFile(): void
     {
-        $certPath = $this->createSelfSignedP12();
+        $path = $this->createTempFile('.pem');
 
         try {
-            $notifier = new Notifier($certPath, 'test-password');
+            $notifier = new Notifier($path);
             $this->assertInstanceOf(Notifier::class, $notifier);
-
-            $pemPath = sys_get_temp_dir() . '/apple_passbook_push_' . md5($certPath) . '.pem';
-            $this->assertFileExists($pemPath);
-
-            $pemContent = file_get_contents($pemPath);
-            $this->assertStringContainsString('-----BEGIN CERTIFICATE-----', $pemContent);
-            $this->assertStringContainsString('-----BEGIN PRIVATE KEY-----', $pemContent);
         } finally {
-            unlink($certPath);
+            unlink($path);
         }
     }
 
     /**
      * @covers ::__construct
      */
-    public function testConstructorAcceptsSandboxFlag(): void
+    public function testConstructorAcceptsEnvironment(): void
     {
-        $certPath = $this->createSelfSignedP12();
+        $path = $this->createTempFile('.p12');
 
         try {
-            $notifier = new Notifier($certPath, 'test-password', sandbox: true);
+            $notifier = new Notifier($path, 'password', ApnsEnvironment::Sandbox);
             $this->assertInstanceOf(Notifier::class, $notifier);
         } finally {
-            unlink($certPath);
+            unlink($path);
         }
     }
 
-    private function createSelfSignedP12(): string
+    private function createTempFile(string $extension): string
     {
-        $key = openssl_pkey_new([
-            'private_key_bits' => 2048,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
-        ]);
-
-        $csr = openssl_csr_new(['CN' => 'Test'], $key);
-        $cert = openssl_csr_sign($csr, null, $key, 1);
-
-        $path = sys_get_temp_dir() . '/test_passbook_cert_' . uniqid() . '.p12';
-        openssl_pkcs12_export_to_file($cert, $path, $key, 'test-password');
+        $path = sys_get_temp_dir() . '/test_passbook_cert_' . uniqid() . $extension;
+        file_put_contents($path, 'dummy-certificate-content');
 
         return $path;
     }

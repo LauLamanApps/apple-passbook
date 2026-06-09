@@ -9,6 +9,11 @@ use LauLamanApps\ApplePassbook\Exception\PassbookException;
 
 final class NotifierException extends Exception implements PassbookException
 {
+    public static function certificateNotFound(string $path): self
+    {
+        return new self(sprintf('Certificate file not found: %s', $path));
+    }
+
     public static function connectionFailed(string $reason): self
     {
         return new self(sprintf('Failed to connect to APNs: %s', $reason));

@@ -121,16 +121,22 @@ You can use the `Notifier` to send a push notification that tells the device to 
 ```php
 use LauLamanApps\ApplePassbook\Build\Notifier;
 
-$notifier = new Notifier('<PathToCertificate>', '<CertificatePassword>');
+// Using a .p12 certificate (as provided by Apple)
+$notifier = new Notifier('<PathToCertificate.p12>', '<CertificatePassword>');
+
+// Or using a .pem certificate
+$notifier = new Notifier('<PathToCertificate.pem>');
 
 // Send a push notification to trigger a pass update
 $notifier->notify('<DevicePushToken>');
 ```
 
-For sandbox/development environments, pass `true` as the third argument:
+For sandbox/development environments:
 
 ```php
-$notifier = new Notifier('<PathToCertificate>', '<CertificatePassword>', sandbox: true);
+use LauLamanApps\ApplePassbook\Build\ApnsEnvironment;
+
+$notifier = new Notifier('<PathToCertificate.p12>', '<CertificatePassword>', ApnsEnvironment::Sandbox);
 ```
 
 > **Note:** The `ext-curl` extension with HTTP/2 support is required.
