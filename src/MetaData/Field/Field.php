@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\MetaData\Field;
 
+use LauLamanApps\ApplePassbook\Exception\InvalidArgumentException;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
 use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
@@ -52,6 +53,10 @@ class Field
      */
     public function setValue($value): void
     {
+        if (!is_scalar($value)) {
+            throw new InvalidArgumentException('Value should be a scalar type.');
+        }
+
         $this->value = $value;
     }
 
