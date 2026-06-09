@@ -37,6 +37,11 @@ class Notifier
         $url = sprintf('%s/3/device/%s', $this->environment->value, $pushToken);
 
         $ch = curl_init($url);
+
+        if ($ch === false) {
+            throw NotifierException::connectionFailed('Failed to initialize cURL');
+        }
+
         curl_setopt_array($ch, [
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
             CURLOPT_POST => true,
@@ -53,7 +58,7 @@ class Notifier
         $response = curl_exec($ch);
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($response === false) {
+        if (!is_string($response)) {
             $error = curl_error($ch);
             curl_close($ch);
 
@@ -63,6 +68,7 @@ class Notifier
         curl_close($ch);
 
         if ($httpStatusCode !== 200) {
+            /** @var array{reason?: string} $body */
             $body = json_decode($response, true);
             $reason = $body['reason'] ?? 'Unknown';
 

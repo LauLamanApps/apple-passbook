@@ -40,8 +40,15 @@ class Signer
             throw CertificateException::failedToReadPkcs12($path);
         }
 
-        $this->certificate = openssl_x509_read($data['cert']);
-        $this->privateKey = openssl_pkey_get_private($data['pkey'], $password);
+        $certificate = openssl_x509_read($data['cert']);
+        $privateKey = openssl_pkey_get_private($data['pkey'], $password);
+
+        if ($certificate === false || $privateKey === false) {
+            throw CertificateException::failedToReadPkcs12($path);
+        }
+
+        $this->certificate = $certificate;
+        $this->privateKey = $privateKey;
     }
 
     /**
