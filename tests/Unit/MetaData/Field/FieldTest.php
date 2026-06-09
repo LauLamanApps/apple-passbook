@@ -58,12 +58,12 @@ final class FieldTest extends TestCase
     public function testSetDataDetectorTypes(): void
     {
         $field = new Field('some_key', 'Some value');
-        $field->addDataDetectorType(DataDetector::address());
+        $field->addDataDetectorType(DataDetector::Address);
 
         $expected = [
             'key' => 'some_key',
             'value' => 'Some value',
-            'dataDetectorTypes' => [DataDetector::address()->getValue()]
+            'dataDetectorTypes' => [DataDetector::Address->value]
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -86,12 +86,12 @@ final class FieldTest extends TestCase
     public function testSetTextAlignment(): void
     {
         $field = new Field('some_key', 'Some value');
-        $field->setTextAlignment(TextAlignment::center());
+        $field->setTextAlignment(TextAlignment::Center);
 
         $expected = [
             'key' => 'some_key',
             'value' => 'Some value',
-            'textAlignment' => TextAlignment::center()->getValue()
+            'textAlignment' => TextAlignment::Center->value
         ];
 
         self::assertSame($expected, $field->getMetadata());
@@ -106,6 +106,20 @@ final class FieldTest extends TestCase
             'key' => 'some_key',
             'value' => 'Some value',
             'attributedValue' => 'Some attribute value'
+        ];
+
+        self::assertSame($expected, $field->getMetadata());
+    }
+
+    public function testSetRow(): void
+    {
+        $field = new Field('some_key', 'Some value');
+        $field->setRow(1);
+
+        $expected = [
+            'key' => 'some_key',
+            'value' => 'Some value',
+            'row' => 1
         ];
 
         self::assertSame($expected, $field->getMetadata());
