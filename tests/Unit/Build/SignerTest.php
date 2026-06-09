@@ -51,6 +51,10 @@ class SignerTest extends TestCase
     {
         $path = $this->createExpiredP12();
 
+        if ($path === null) {
+            $this->markTestSkipped('OpenSSL CLI does not support -not_before/-not_after flags (requires OpenSSL 3.x).');
+        }
+
         try {
             $this->expectException(CertificateException::class);
             $this->expectExceptionMessage('expired on');
@@ -89,7 +93,7 @@ class SignerTest extends TestCase
         $signer->setAppleWWDRCA('/nonexistent/ca.pem');
     }
 
-    private function createExpiredP12(): string
+    private function createExpiredP12(): ?string
     {
         $keyFile = tempnam(sys_get_temp_dir(), 'key_');
         $certFile = tempnam(sys_get_temp_dir(), 'cert_');
@@ -106,7 +110,13 @@ class SignerTest extends TestCase
             escapeshellarg($certFile),
             escapeshellarg($startDate),
             escapeshellarg($endDate),
-        ));
+        ), $output, $certResult);
+
+        if ($certResult !== 0) {
+            @unlink($keyFile);
+            @unlink($certFile);
+            return null;
+        }
 
         exec(sprintf(
             'openssl pkcs12 -export -in %s -inkey %s -out %s -passout pass:test-password 2>&1',
