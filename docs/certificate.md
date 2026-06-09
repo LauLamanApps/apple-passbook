@@ -1,6 +1,6 @@
-#Convert a CER file into a P12 file
+# Convert a CER file into a P12 file
 
-Apple provides certificate files (CER files). To use these certificates with the Adobe PhoneGap Build service and the Push Notification plugin, you'll need to package them with their private keys in a Personal Information Exchange file (P12 file). Use the instructions below to package your CER file into a P12 file on a Mac.  
+Apple provides certificate files (CER files). To use these certificates with this library (e.g. for signing passes or sending push notifications), you'll need to package them with their private keys in a Personal Information Exchange file (P12 file). Use the instructions below to create a P12 file on a Mac.
 
 1. Open the **Keychain Access** application from the **Applications > Utilities** folder.
 2. Import the certificate file (CER file) by selecting **File > Import** and locating your CER file provided by Apple.
