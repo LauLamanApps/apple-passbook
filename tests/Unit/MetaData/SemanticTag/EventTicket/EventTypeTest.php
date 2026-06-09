@@ -24,14 +24,14 @@ class EventTypeTest extends TestCase
     public function getEnums()
     {
         return [
-            'generic' => [EventTypeEnum::generic(), 'PKEventTypeGeneric'],
-            'livePerformance' => [EventTypeEnum::livePerformance(), 'PKEventTypeLivePerformance'],
-            'movie' => [EventTypeEnum::movie(), 'PKEventTypeMovie'],
-            'sports' => [EventTypeEnum::sports(), 'PKEventTypeSports'],
-            'conference' => [EventTypeEnum::conference(), 'PKEventTypeConference'],
-            'convention' => [EventTypeEnum::convention(), 'PKEventTypeConvention'],
-            'workshop' => [EventTypeEnum::workshop(), 'PKEventTypeWorkshop'],
-            'socialGathering' => [EventTypeEnum::socialGathering(), 'PKEventTypeSocialGathering'],
+            'generic' => [EventTypeEnum::Generic, 'PKEventTypeGeneric'],
+            'livePerformance' => [EventTypeEnum::LivePerformance, 'PKEventTypeLivePerformance'],
+            'movie' => [EventTypeEnum::Movie, 'PKEventTypeMovie'],
+            'sports' => [EventTypeEnum::Sports, 'PKEventTypeSports'],
+            'conference' => [EventTypeEnum::Conference, 'PKEventTypeConference'],
+            'convention' => [EventTypeEnum::Convention, 'PKEventTypeConvention'],
+            'workshop' => [EventTypeEnum::Workshop, 'PKEventTypeWorkshop'],
+            'socialGathering' => [EventTypeEnum::SocialGathering, 'PKEventTypeSocialGathering'],
         ];
     }
 }
