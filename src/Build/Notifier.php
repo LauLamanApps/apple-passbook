@@ -34,6 +34,10 @@ class Notifier
             throw NotifierException::missingCurl();
         }
 
+        if ($pushToken === '' || !ctype_xdigit($pushToken)) {
+            throw NotifierException::invalidPushToken();
+        }
+
         $url = sprintf('%s/3/device/%s', $this->environment->value, $pushToken);
 
         $ch = curl_init($url);

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace LauLamanApps\ApplePassbook\Tests\Unit;
 
+use DateTimeImmutable;
 use LauLamanApps\ApplePassbook\GenericPassbook;
+use LauLamanApps\ApplePassbook\MetaData\RelevantDate;
+use LauLamanApps\ApplePassbook\MetaData\UpcomingPassInformationEntry;
 use LauLamanApps\ApplePassbook\Style\Color\Rgb;
 use PHPUnit\Framework\TestCase;
 
@@ -94,6 +97,71 @@ final class PassbookNewPropertiesTest extends TestCase
         $data = $passbook->getData();
         self::assertArrayHasKey('auxiliaryStoreIdentifiers', $data);
         self::assertSame([123456], $data['auxiliaryStoreIdentifiers']);
+    }
+
+    public function testRelevantDates(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('relevantDates', $data);
+
+        $passbook->addRelevantDate(RelevantDate::forDate(new DateTimeImmutable('2026-07-07T20:00:00+02:00')));
+        $passbook->addRelevantDate(RelevantDate::forInterval(
+            new DateTimeImmutable('2026-08-01T18:00:00+02:00'),
+            new DateTimeImmutable('2026-08-01T23:00:00+02:00')
+        ));
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('relevantDates', $data);
+        self::assertSame(
+            [
+                ['date' => '2026-07-07T20:00:00+02:00'],
+                ['startDate' => '2026-08-01T18:00:00+02:00', 'endDate' => '2026-08-01T23:00:00+02:00'],
+            ],
+            $data['relevantDates']
+        );
+    }
+
+    public function testSuppressStripShine(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('suppressStripShine', $data);
+
+        $passbook->suppressStripShine();
+
+        $data = $passbook->getData();
+        self::assertTrue($data['suppressStripShine']);
+
+        $passbook->suppressStripShine(false);
+
+        $data = $passbook->getData();
+        self::assertFalse($data['suppressStripShine']);
+    }
+
+    public function testUpcomingPassInformation(): void
+    {
+        $passbook = $this->getValidPassbook();
+
+        $data = $passbook->getData();
+        self::assertArrayNotHasKey('upcomingPassInformation', $data);
+
+        $passbook->addUpcomingPassInformation(new UpcomingPassInformationEntry('event-123', 'Summer Concert'));
+
+        $data = $passbook->getData();
+        self::assertArrayHasKey('upcomingPassInformation', $data);
+        self::assertSame(
+            [
+                [
+                    'identifier' => 'event-123',
+                    'name' => 'Summer Concert',
+                    'type' => 'event',
+                ],
+            ],
+            $data['upcomingPassInformation']
+        );
     }
 
     private function getValidPassbook(): GenericPassbook

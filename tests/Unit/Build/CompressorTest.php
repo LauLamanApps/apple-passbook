@@ -11,18 +11,14 @@ use LauLamanApps\ApplePassbook\Build\ManifestGenerator;
 use LauLamanApps\ApplePassbook\Build\Signer;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\Passbook;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ZipArchive;
 
-/**
- * @coversDefaultClass \LauLamanApps\ApplePassbook\Build\Compressor
- */
+#[CoversClass(Compressor::class)]
+#[CoversClass(ZipException::class)]
 final class CompressorTest extends TestCase
 {
-    /**
-     * @covers \LauLamanApps\ApplePassbook\Build\Compressor::compress
-     * @covers \LauLamanApps\ApplePassbook\Build\Compressor::__construct
-     */
     public function testCompress(): void
     {
         $tempDir = '/tmp/passbook/';
@@ -58,11 +54,39 @@ final class CompressorTest extends TestCase
         $generator->compress($passbook, $tempDir);
     }
 
-    /**
-     * @covers \LauLamanApps\ApplePassbook\Build\Compressor::compress
-     * @covers \LauLamanApps\ApplePassbook\Build\Compressor::__construct
-     * @covers \LauLamanApps\ApplePassbook\Build\Exception\ZipException::canNotOpenZip
-     */
+    public function testImageFilenameWithDirectoryPartsThrowsException(): void
+    {
+        $this->expectException(ZipException::class);
+        $this->expectExceptionMessage('Image filename \'../evil.png\' is not allowed in a pass archive.');
+
+        $this->compressWithImageFilename('../evil.png');
+    }
+
+    public function testImageFilenameCollidingWithReservedNameThrowsException(): void
+    {
+        $this->expectException(ZipException::class);
+        $this->expectExceptionMessage('Image filename \'manifest.json\' is not allowed in a pass archive.');
+
+        $this->compressWithImageFilename('manifest.json');
+    }
+
+    private function compressWithImageFilename(string $filename): void
+    {
+        $image = $this->createMock(Image::class);
+        $image->method('getPath')->willReturn('/path/to/image.png');
+        $image->method('getFilename')->willReturn($filename);
+
+        $passbook = $this->createMock(Passbook::class);
+        $passbook->method('getData')->willReturn(['<passbook_data>']);
+        $passbook->method('getImages')->willReturn([$image]);
+
+        $zipArchive = $this->createMock(ZipArchive::class);
+        $zipArchive->method('open')->willReturn(true);
+
+        $compressor = new Compressor($zipArchive);
+        $compressor->compress($passbook, '/tmp/passbook/');
+    }
+
     public function testCantOpenZipArchiveThrowsException(): void
     {
         $this->expectException(ZipException::class);

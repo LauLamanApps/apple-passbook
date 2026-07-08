@@ -42,7 +42,8 @@
         "ramsey/uuid": "^3 || ^4"
     },
     "suggest": {
-        "laulamanapps/apple-passbook-bundle": "^2.0"
+        "laulamanapps/apple-passbook-bundle": "Symfony integration incl. the Apple PassKit web service endpoints (^2.0)",
+        "laulamanapps/apple-passbook-laravel": "Laravel integration incl. the Apple PassKit web service endpoints (^1.0)"
     },
     "config": {
         "bin-dir": "bin"

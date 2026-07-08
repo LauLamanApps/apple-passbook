@@ -10,9 +10,13 @@ class Signer
 {
     public const FILENAME = 'signature';
 
+    private const CERTIFICATE_DIRECTORY = __DIR__ . '/../../certificates/';
+    private const DEFAULT_WWDR_CA = self::CERTIFICATE_DIRECTORY . 'AppleWWDRCAG3.pem';
+
     private \OpenSSLCertificate $certificate;
     private \OpenSSLAsymmetricKey $privateKey;
-    private string $appleWWDRCA;
+    private string $appleWWDRCA = self::DEFAULT_WWDR_CA;
+    private bool $appleWWDRCAExplicitlySet = false;
 
     /**
      * @throws CertificateException
@@ -22,8 +26,6 @@ class Signer
         if ($certificatePath !== null && $password !== null) {
             $this->setCertificate($certificatePath, $password);
         }
-
-        $this->setAppleWWDRCA(__DIR__ . '/../../certificates/AppleWWDRCAG3.pem');
     }
 
     /**
@@ -54,6 +56,10 @@ class Signer
 
         $this->certificate = $certificate;
         $this->privateKey = $privateKey;
+
+        if (!$this->appleWWDRCAExplicitlySet) {
+            $this->autoSelectAppleWWDRCA($certificate);
+        }
     }
 
     /**
@@ -65,30 +71,64 @@ class Signer
             throw CertificateException::fileDoesNotExist($path);
         }
         $this->appleWWDRCA = $path;
+        $this->appleWWDRCAExplicitlySet = true;
     }
 
+    public function getAppleWWDRCA(): string
+    {
+        return $this->appleWWDRCA;
+    }
+
+    /**
+     * @throws CertificateException
+     */
     public function sign(string $temporaryDirectory): void
     {
-        $manifestFile = $temporaryDirectory . ManifestGenerator::FILENAME;
+        if (!isset($this->certificate) || !isset($this->privateKey)) {
+            throw CertificateException::noCertificateConfigured();
+        }
 
-        $openSslArguments = [
+        $manifestFile = $temporaryDirectory . ManifestGenerator::FILENAME;
+        $signatureFile = $temporaryDirectory . self::FILENAME;
+
+        $signed = openssl_pkcs7_sign(
             $manifestFile,
-            $temporaryDirectory . self::FILENAME,
+            $signatureFile,
             $this->certificate,
             $this->privateKey,
             [],
-            PKCS7_BINARY | PKCS7_DETACHED
-        ];
+            PKCS7_BINARY | PKCS7_DETACHED,
+            $this->appleWWDRCA
+        );
 
-        if ($this->appleWWDRCA) {
-            $openSslArguments[] = $this->appleWWDRCA;
+        $signature = $signed ? file_get_contents($signatureFile) : false;
+        if ($signature === false || $signature === '') {
+            throw CertificateException::signingFailed();
         }
 
-        call_user_func_array('openssl_pkcs7_sign', $openSslArguments);
-
-        $signature = (string) file_get_contents($temporaryDirectory . self::FILENAME);
         $signature = $this->convertPEMtoDER($signature);
-        file_put_contents($temporaryDirectory . self::FILENAME, $signature);
+        file_put_contents($signatureFile, $signature);
+    }
+
+    /**
+     * Selects the bundled Apple WWDR intermediate certificate matching the
+     * issuer of the pass type identifier certificate (e.g. G3, G4, G6).
+     */
+    private function autoSelectAppleWWDRCA(\OpenSSLCertificate $certificate): void
+    {
+        $parsed = openssl_x509_parse($certificate);
+        if ($parsed === false || !isset($parsed['issuer']['OU']) || !is_string($parsed['issuer']['OU'])) {
+            return;
+        }
+
+        if (preg_match('/^G\d+$/', $parsed['issuer']['OU']) !== 1) {
+            return;
+        }
+
+        $bundledCertificate = self::CERTIFICATE_DIRECTORY . sprintf('AppleWWDRCA%s.pem', $parsed['issuer']['OU']);
+        if (file_exists($bundledCertificate)) {
+            $this->appleWWDRCA = $bundledCertificate;
+        }
     }
 
     private function getCertificateExpiry(\OpenSSLCertificate $certificate): ?int

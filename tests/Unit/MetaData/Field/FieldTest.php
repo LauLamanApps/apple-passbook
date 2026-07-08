@@ -13,6 +13,7 @@ use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiAccess;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag\Generic\WifiNetwork;
 use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -126,10 +127,9 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @dataProvider getScalars
-     *
      * @param mixed $type
      */
+    #[DataProvider('getScalars')]
     public function testAcceptsScalarTypes($type): void
     {
         $field = new Field('some_key', $type);
@@ -143,10 +143,9 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @dataProvider getNonScalars
-     *
      * @param mixed $type
      */
+    #[DataProvider('getNonScalars')]
     public function testDoesNotAcceptNonScalarTypes($type): void
     {
         $this->expectException(InvalidArgumentException::class);

@@ -1,6 +1,6 @@
 Apple Passbook
 ===============
-This package provides a simple OOP integration of the [Apple Passbook API][ApplePassbookApi] for your PHP project.
+This package provides a simple OOP integration of the [Apple Wallet passes (PassKit) API][ApplePassbookApi] for your PHP project.
 
 [![GithubCi](https://github.com/LauLamanApps/apple-passbook/workflows/CI/badge.svg)](https://github.com/LauLamanApps/apple-passbook/actions?query=workflow%3ACI)
 [![Build Status](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/badges/build.png?b=master)](https://scrutinizer-ci.com/g/LauLamanApps/apple-passbook/build-status/master)
@@ -17,10 +17,18 @@ With [composer](http://packagist.org), add:
 $ composer require laulamanapps/apple-passbook
 ```
 
-Or if your using Symfony install [laulamanapps/apple-passbook-bundle](https://github.com/LauLamanApps/apple-passbook-bundle):
+Or use one of the framework integrations, which also implement the Apple PassKit web service endpoints for pass updates:
+
+If you're using **Symfony**, install [laulamanapps/apple-passbook-bundle](https://github.com/LauLamanApps/apple-passbook-bundle):
 
 ```bash
 $ composer require laulamanapps/apple-passbook-bundle
+```
+
+If you're using **Laravel**, install [laulamanapps/apple-passbook-laravel](https://github.com/LauLamanApps/apple-passbook-laravel):
+
+```bash
+$ composer require laulamanapps/apple-passbook-laravel
 ```
 
 Run Tests
@@ -49,11 +57,16 @@ $compiler = $factory->getCompiler('<PathToCertificate>', '<CertificatePassword>'
 
 AppleWWDRCA certificate.
 ---
-Included are 2 AppleWWDRCA certificates:
- - AppleWWDRCAG3.pem - _Expires Feb 20 2030_ (default)
+Included are 4 AppleWWDRCA intermediate certificates:
+ - AppleWWDRCAG3.pem - _Expires Feb 20 2030_ (fallback default)
+ - AppleWWDRCAG4.pem - _Expires Dec 10 2030_
+ - AppleWWDRCAG5.pem - _Expires Dec 10 2030_
  - AppleWWDRCAG6.pem - _Expires Mar 19 2036_
 
-By default AppleWWDRCAG3 is used. If you want to use G6 you can do so by setting its file path as the 3rd option in the `CompilerFactory` or calling `setAppleWWDRCA()` on the `Signer` class
+The `Signer` automatically selects the bundled intermediate that matches the issuer of your
+pass type identifier certificate (G3–G6), so in most cases no configuration is needed.
+To override the selection, set a file path as the 3rd option of the `CompilerFactory`
+or call `setAppleWWDRCA()` on the `Signer` class.
 
 Create Passbook
 ---

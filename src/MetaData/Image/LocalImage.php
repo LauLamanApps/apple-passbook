@@ -23,11 +23,15 @@ class LocalImage implements Image
         }
 
         $this->path = $path;
-        $this->filename = $filename ?? basename($path);
+        $this->setFilename($filename ?? basename($path));
     }
 
     public function setFilename(string $filename): void
     {
+        if ($filename === '' || basename($filename) !== $filename) {
+            throw new LogicException(sprintf('Image filename \'%s\' must be a plain file name without directory parts.', $filename));
+        }
+
         $this->filename = $filename;
     }
 

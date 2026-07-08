@@ -12,13 +12,13 @@ class ManifestGenerator
 
     public function generate(Passbook $passbook, string $temporaryDirectory): void
     {
-        $manifest = [Compiler::PASS_DATA_FILE => $this->hash((string) json_encode($passbook->getData()))];
+        $manifest = [Compiler::PASS_DATA_FILE => $this->hash(json_encode($passbook->getData(), JSON_THROW_ON_ERROR))];
 
         foreach ($passbook->getImages() as $file) {
             $manifest[$file->getFilename()] = $this->hash($file->getContents());
         }
 
-        file_put_contents($temporaryDirectory . '/' . self::FILENAME, json_encode($manifest));
+        file_put_contents($temporaryDirectory . '/' . self::FILENAME, json_encode($manifest, JSON_THROW_ON_ERROR));
     }
 
     private function hash(string $data): string

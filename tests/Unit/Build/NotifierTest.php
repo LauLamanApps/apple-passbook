@@ -7,16 +7,12 @@ namespace LauLamanApps\ApplePassbook\Tests\Unit\Build;
 use LauLamanApps\ApplePassbook\Build\ApnsEnvironment;
 use LauLamanApps\ApplePassbook\Build\Exception\NotifierException;
 use LauLamanApps\ApplePassbook\Build\Notifier;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \LauLamanApps\ApplePassbook\Build\Notifier
- */
+#[CoversClass(Notifier::class)]
 class NotifierTest extends TestCase
 {
-    /**
-     * @covers ::__construct
-     */
     public function testConstructorThrowsOnMissingCertificate(): void
     {
         $this->expectException(NotifierException::class);
@@ -25,9 +21,6 @@ class NotifierTest extends TestCase
         new Notifier('/nonexistent/certificate.p12', 'password');
     }
 
-    /**
-     * @covers ::__construct
-     */
     public function testConstructorAcceptsP12File(): void
     {
         $path = $this->createTempFile('.p12');
@@ -40,9 +33,6 @@ class NotifierTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::__construct
-     */
     public function testConstructorAcceptsPemFile(): void
     {
         $path = $this->createTempFile('.pem');
@@ -55,9 +45,6 @@ class NotifierTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::__construct
-     */
     public function testConstructorAcceptsEnvironment(): void
     {
         $path = $this->createTempFile('.p12');
@@ -65,6 +52,36 @@ class NotifierTest extends TestCase
         try {
             $notifier = new Notifier($path, 'password', ApnsEnvironment::Sandbox);
             $this->assertInstanceOf(Notifier::class, $notifier);
+        } finally {
+            unlink($path);
+        }
+    }
+
+    public function testNotifyThrowsOnNonHexadecimalPushToken(): void
+    {
+        $path = $this->createTempFile('.pem');
+
+        try {
+            $this->expectException(NotifierException::class);
+            $this->expectExceptionMessage('push token is invalid');
+
+            $notifier = new Notifier($path);
+            $notifier->notify('../not-a-token');
+        } finally {
+            unlink($path);
+        }
+    }
+
+    public function testNotifyThrowsOnEmptyPushToken(): void
+    {
+        $path = $this->createTempFile('.pem');
+
+        try {
+            $this->expectException(NotifierException::class);
+            $this->expectExceptionMessage('push token is invalid');
+
+            $notifier = new Notifier($path);
+            $notifier->notify('');
         } finally {
             unlink($path);
         }

@@ -13,7 +13,9 @@ use LauLamanApps\ApplePassbook\MetaData\Field\Field;
 use LauLamanApps\ApplePassbook\MetaData\Image;
 use LauLamanApps\ApplePassbook\MetaData\Location;
 use LauLamanApps\ApplePassbook\MetaData\Nfc;
+use LauLamanApps\ApplePassbook\MetaData\RelevantDate;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag;
+use LauLamanApps\ApplePassbook\MetaData\UpcomingPassInformationEntry;
 use LauLamanApps\ApplePassbook\Style\Color;
 use LogicException;
 
@@ -60,6 +62,8 @@ abstract class Passbook
     /** @var Field[] */
     private array $primaryFields = [];
     private DateTimeImmutable $relevantDate;
+    /** @var RelevantDate[] */
+    private array $relevantDates = [];
     /** @var Field[] */
     private array $secondaryFields = [];
     /** @var SemanticTag[] */
@@ -67,8 +71,10 @@ abstract class Passbook
     private string $serialNumber;
     private bool $sharingProhibited = false;
     private bool $suppressHeaderDarkening = false;
-    private bool $suppressStripShine = false;
+    private ?bool $suppressStripShine = null;
     private string $teamIdentifier;
+    /** @var UpcomingPassInformationEntry[] */
+    private array $upcomingPassInformation = [];
     private bool $useAutomaticColors = false;
     private string $userInfo;
     private bool $voided = false;
@@ -109,9 +115,17 @@ abstract class Passbook
         $this->eventLogoText = $eventLogoText;
     }
 
+    /**
+     * @deprecated The relevantDate pass key is deprecated by Apple. Use addRelevantDate() instead.
+     */
     public function setRelevantDate(DateTimeImmutable $relevantDate): void
     {
         $this->relevantDate = $relevantDate;
+    }
+
+    public function addRelevantDate(RelevantDate $relevantDate): void
+    {
+        $this->relevantDates[] = $relevantDate;
     }
 
     public function setExpirationDate(DateTimeImmutable $expirationDate): void
@@ -259,9 +273,14 @@ abstract class Passbook
         $this->sharingProhibited = true;
     }
 
-    public function suppressStripShine(): void
+    public function suppressStripShine(bool $suppressStripShine = true): void
     {
-        $this->suppressStripShine = true;
+        $this->suppressStripShine = $suppressStripShine;
+    }
+
+    public function addUpcomingPassInformation(UpcomingPassInformationEntry $entry): void
+    {
+        $this->upcomingPassInformation[] = $entry;
     }
 
     public function isVoided(): bool
@@ -358,6 +377,10 @@ abstract class Passbook
             $data['relevantDate'] = $this->relevantDate->format(DateTimeInterface::W3C);
         }
 
+        foreach ($this->relevantDates as $relevantDate) {
+            $data['relevantDates'][] = $relevantDate->toArray();
+        }
+
         if (isset($this->expirationDate)) {
             $data['expirationDate'] = $this->expirationDate->format(DateTimeInterface::W3C);
         }
@@ -425,7 +448,7 @@ abstract class Passbook
             $data['sharingProhibited'] = $this->sharingProhibited;
         }
 
-        if ($this->suppressStripShine) {
+        if ($this->suppressStripShine !== null) {
             $data['suppressStripShine'] = $this->suppressStripShine;
         }
 
@@ -445,6 +468,10 @@ abstract class Passbook
             foreach ($this->semantics as $tag) {
                 $data['semantics'][$tag->getKey()] = $tag->getValue();
             }
+        }
+
+        foreach ($this->upcomingPassInformation as $entry) {
+            $data['upcomingPassInformation'][] = $entry->toArray();
         }
 
         return $data;

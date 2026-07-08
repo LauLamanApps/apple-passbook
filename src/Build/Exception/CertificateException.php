@@ -23,4 +23,14 @@ final class CertificateException extends Exception implements PassbookException
     {
         return new self(sprintf('Certificate \'%s\' expired on %s.', $file, date(DATE_ATOM, $expiry)));
     }
+
+    public static function noCertificateConfigured(): self
+    {
+        return new self('No certificate configured. Call setCertificate() before signing.');
+    }
+
+    public static function signingFailed(): self
+    {
+        return new self('Failed to create the PKCS#7 signature for the manifest.');
+    }
 }
