@@ -11,8 +11,6 @@ bin/
 .phpunit.cache
 infection.log
 certificates/*
-!certificates/AppleWWDRCAG3.cer
-!certificates/AppleWWDRCAG3.pem
-!certificates/AppleWWDRCAG6.cer
-!certificates/AppleWWDRCAG6.pem
+!certificates/AppleWWDRCAG*.cer
+!certificates/AppleWWDRCAG*.pem
 tools
