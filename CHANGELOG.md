@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.0.1
+- Fix: the AppleWWDRCAG4/G5 intermediates announced in 2.0.0 were missing from the release (excluded by the `certificates/*` gitignore rule); the gitignore now whitelists all `AppleWWDRCAG*` files
+
 ### 2.0.0
 - **Breaking:** Require PHP 8.1+
 - **Breaking:** Convert style classes to native PHP enums (`BarcodeFormat`, `DataDetector`, `DateStyle`, `NumberStyle`, `TextAlignment`, `TransitType`, `EventTypeEnum`)
