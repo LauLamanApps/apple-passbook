@@ -13,4 +13,9 @@ final class ZipException extends Exception implements PassbookException
     {
         return new self(sprintf('Can not open file \'%s\' with ZipArchive. Error code %s.', $file, $errorCode));
     }
+
+    public static function invalidImageFilename(string $filename): self
+    {
+        return new self(sprintf('Image filename \'%s\' is not allowed in a pass archive.', $filename));
+    }
 }

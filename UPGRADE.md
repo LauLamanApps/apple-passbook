@@ -96,7 +96,32 @@ $beacon->setMajorIdentifier(123);
 
 ## AppleWWDRCA Certificate
 
-The expired `AppleWWDRCA.pem` (expired Feb 2023) has been removed. The `Signer` now defaults to `AppleWWDRCAG3.pem`. A new `AppleWWDRCAG6.pem` (expires Mar 2036) is also bundled. If you were explicitly passing the path to `AppleWWDRCA.pem`, update it to `AppleWWDRCAG3.pem` (or `AppleWWDRCAG6.pem`) or remove the argument to use the new default.
+The expired `AppleWWDRCA.pem` (expired Feb 2023) has been removed. The G3, G4, G5 and G6
+intermediates are now bundled, and the `Signer` auto-selects the one matching the issuer of your
+pass type identifier certificate (with `AppleWWDRCAG3.pem` as fallback default). If you were
+explicitly passing the path to `AppleWWDRCA.pem`, remove the argument to use auto-selection, or
+pass the path of the intermediate you need to override it.
+
+## relevantDate is deprecated
+
+Apple deprecated the singular `relevantDate` key. `setRelevantDate()` still works but is
+deprecated; use the new `relevantDates` array instead:
+
+```php
+use LauLamanApps\ApplePassbook\MetaData\RelevantDate;
+
+$passbook->addRelevantDate(RelevantDate::forDate(new DateTimeImmutable('2026-08-01T20:00:00+02:00')));
+// or an explicit relevancy window:
+$passbook->addRelevantDate(RelevantDate::forInterval($start, $end));
+```
+
+## Stricter validation
+
+- Image filenames must be plain file names: `LocalImage` and the `Compressor` now reject names
+  containing directory separators or colliding with `pass.json`, `manifest.json`, or `signature`.
+- `Notifier::notify()` rejects non-hexadecimal push tokens with a `NotifierException`.
+- Signing failures (`openssl_pkcs7_sign`) and signing without a configured certificate now throw
+  a `CertificateException` instead of silently producing a corrupt pass.
 
 ## Signer
 

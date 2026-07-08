@@ -10,6 +10,7 @@ use LauLamanApps\ApplePassbook\Style\DataDetector;
 use LauLamanApps\ApplePassbook\Style\NumberStyle;
 use LauLamanApps\ApplePassbook\Style\TextAlignment;
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -134,10 +135,9 @@ final class NumberFieldTest extends TestCase
     }
 
     /**
-     * @dataProvider getNumeric
-     *
      * @param mixed $type
      */
+    #[DataProvider('getNumeric')]
     public function testAcceptsNumericTypes($type): void
     {
         $field = new NumberField('some_key', $type);
@@ -151,10 +151,9 @@ final class NumberFieldTest extends TestCase
     }
 
     /**
-     * @dataProvider getNonNumeric
-     *
      * @param mixed $type
      */
+    #[DataProvider('getNonNumeric')]
     public function testDoesNotAcceptNonNumericTypes($type): void
     {
         $this->expectException(InvalidArgumentException::class);

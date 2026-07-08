@@ -6,16 +6,12 @@ namespace LauLamanApps\ApplePassbook\Tests\Unit\Build;
 
 use LauLamanApps\ApplePassbook\Build\Exception\CertificateException;
 use LauLamanApps\ApplePassbook\Build\Signer;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \LauLamanApps\ApplePassbook\Build\Signer
- */
+#[CoversClass(Signer::class)]
 class SignerTest extends TestCase
 {
-    /**
-     * @covers ::setCertificate
-     */
     public function testSetCertificateThrowsOnMissingFile(): void
     {
         $this->expectException(CertificateException::class);
@@ -25,9 +21,6 @@ class SignerTest extends TestCase
         $signer->setCertificate('/nonexistent/cert.p12', 'password');
     }
 
-    /**
-     * @covers ::setCertificate
-     */
     public function testSetCertificateThrowsOnInvalidPkcs12(): void
     {
         $path = sys_get_temp_dir() . '/test_invalid_cert_' . uniqid() . '.p12';
@@ -44,9 +37,6 @@ class SignerTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::setCertificate
-     */
     public function testSetCertificateThrowsOnExpiredCertificate(): void
     {
         $path = $this->createExpiredP12();
@@ -66,9 +56,6 @@ class SignerTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::setCertificate
-     */
     public function testSetCertificateAcceptsValidCertificate(): void
     {
         $path = $this->createValidP12();
@@ -82,15 +69,72 @@ class SignerTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::setAppleWWDRCA
-     */
     public function testSetAppleWWDRCAThrowsOnMissingFile(): void
     {
         $this->expectException(CertificateException::class);
 
         $signer = new Signer();
         $signer->setAppleWWDRCA('/nonexistent/ca.pem');
+    }
+
+    public function testSignThrowsWhenNoCertificateConfigured(): void
+    {
+        $this->expectException(CertificateException::class);
+        $this->expectExceptionMessage('No certificate configured');
+
+        $signer = new Signer();
+        $signer->sign(sys_get_temp_dir() . '/');
+    }
+
+    public function testDefaultAppleWWDRCAIsG3(): void
+    {
+        $signer = new Signer();
+
+        self::assertStringEndsWith('AppleWWDRCAG3.pem', $signer->getAppleWWDRCA());
+    }
+
+    public function testAppleWWDRCAIsAutoSelectedFromCertificateIssuer(): void
+    {
+        $path = $this->createValidP12(['CN' => 'Valid Test', 'OU' => 'G6']);
+
+        try {
+            $signer = new Signer();
+            $signer->setCertificate($path, 'test-password');
+
+            self::assertStringEndsWith('AppleWWDRCAG6.pem', $signer->getAppleWWDRCA());
+        } finally {
+            unlink($path);
+        }
+    }
+
+    public function testAppleWWDRCAKeepsDefaultWhenIssuerIsUnknown(): void
+    {
+        $path = $this->createValidP12();
+
+        try {
+            $signer = new Signer();
+            $signer->setCertificate($path, 'test-password');
+
+            self::assertStringEndsWith('AppleWWDRCAG3.pem', $signer->getAppleWWDRCA());
+        } finally {
+            unlink($path);
+        }
+    }
+
+    public function testExplicitlySetAppleWWDRCAIsNotOverriddenByAutoSelection(): void
+    {
+        $customCa = __DIR__ . '/../../../certificates/AppleWWDRCAG4.pem';
+        $path = $this->createValidP12(['CN' => 'Valid Test', 'OU' => 'G6']);
+
+        try {
+            $signer = new Signer();
+            $signer->setAppleWWDRCA($customCa);
+            $signer->setCertificate($path, 'test-password');
+
+            self::assertSame($customCa, $signer->getAppleWWDRCA());
+        } finally {
+            unlink($path);
+        }
     }
 
     private function createExpiredP12(): ?string
@@ -131,12 +175,15 @@ class SignerTest extends TestCase
         return $p12File;
     }
 
-    private function createValidP12(): string
+    /**
+     * @param array<string, string> $dn
+     */
+    private function createValidP12(array $dn = ['CN' => 'Valid Test']): string
     {
         $key = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
         self::assertNotFalse($key);
 
-        $csr = openssl_csr_new(['CN' => 'Valid Test'], $key);
+        $csr = openssl_csr_new($dn, $key);
         self::assertInstanceOf(\OpenSSLCertificateSigningRequest::class, $csr);
 
         $cert = openssl_csr_sign($csr, null, $key, 365);

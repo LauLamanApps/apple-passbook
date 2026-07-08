@@ -33,13 +33,27 @@ class Compressor
 
         $this->zipArchive->addFile($temporaryDirectory . Signer::FILENAME, Signer::FILENAME);
         $this->zipArchive->addFile($temporaryDirectory . ManifestGenerator::FILENAME, ManifestGenerator::FILENAME);
-        $this->zipArchive->addFromString(Compiler::PASS_DATA_FILE, (string) json_encode($passbook->getData()));
+        $this->zipArchive->addFromString(Compiler::PASS_DATA_FILE, json_encode($passbook->getData(), JSON_THROW_ON_ERROR));
 
         foreach ($passbook->getImages() as $image) {
             /** @var Image $image */
-            $this->zipArchive->addFile($image->getPath(), $image->getFilename());
+            $this->zipArchive->addFile($image->getPath(), $this->validateFilename($image->getFilename()));
         }
 
         $this->zipArchive->close();
+    }
+
+    /**
+     * @throws ZipException
+     */
+    private function validateFilename(string $filename): string
+    {
+        $reserved = [Signer::FILENAME, ManifestGenerator::FILENAME, Compiler::PASS_DATA_FILE, self::FILENAME];
+
+        if ($filename === '' || basename($filename) !== $filename || in_array($filename, $reserved, true)) {
+            throw ZipException::invalidImageFilename($filename);
+        }
+
+        return $filename;
     }
 }

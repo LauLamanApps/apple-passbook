@@ -28,4 +28,9 @@ final class NotifierException extends Exception implements PassbookException
     {
         return new self('The cURL extension with HTTP/2 support is required to send push notifications.');
     }
+
+    public static function invalidPushToken(): self
+    {
+        return new self('The push token is invalid; expected a hexadecimal APNs device token.');
+    }
 }

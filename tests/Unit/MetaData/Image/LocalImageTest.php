@@ -38,6 +38,24 @@ final class LocalImageTest extends TestCase
         $this->assertSame('logo.png', $localImage->getFilename());
     }
 
+    public function testSetFilenameWithDirectoryPartsThrowsException(): void
+    {
+        $localImage = new LocalImage($this->getFilePath('valid_1px_red.png'));
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('must be a plain file name without directory parts');
+
+        $localImage->setFilename('../evil.png');
+    }
+
+    public function testConstructWithFilenameContainingDirectoryPartsThrowsException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('must be a plain file name without directory parts');
+
+        new LocalImage($this->getFilePath('valid_1px_red.png'), 'foo/icon.png');
+    }
+
     public function testNonExistingFileThrowsException(): void
     {
         $file = $this->getFilePath('non_existing.png');

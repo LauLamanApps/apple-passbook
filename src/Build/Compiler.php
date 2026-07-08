@@ -8,6 +8,7 @@ use LauLamanApps\ApplePassbook\Build\Exception\ZipException;
 use LauLamanApps\ApplePassbook\Exception\MissingRequiredDataException;
 use LauLamanApps\ApplePassbook\Passbook;
 use Ramsey\Uuid\Uuid;
+use RuntimeException;
 
 class Compiler
 {
@@ -83,11 +84,11 @@ class Compiler
      */
     private function validate(Passbook $passbook): void
     {
-        if (isset($this->passTypeIdentifier) && $passbook->hasPassTypeIdentifier() === false) {
+        if (!isset($this->passTypeIdentifier) && $passbook->hasPassTypeIdentifier() === false) {
             throw new MissingRequiredDataException('PassTypeIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
         }
 
-        if (isset($this->teamIdentifier) && $passbook->hasTeamIdentifier() === false) {
+        if (!isset($this->teamIdentifier) && $passbook->hasTeamIdentifier() === false) {
             throw new MissingRequiredDataException('TeamIdentifier is unknown. Either specify it on the passbook and/or specify it in the compiler.');
         }
     }
@@ -96,7 +97,9 @@ class Compiler
     {
         $dir = sprintf('%s/passbook_%s/', sys_get_temp_dir(), Uuid::uuid4()->toString());
 
-        mkdir($dir);
+        if (!mkdir($dir, 0700) && !is_dir($dir)) {
+            throw new RuntimeException(sprintf('Could not create temporary directory \'%s\'.', $dir));
+        }
 
         return $dir;
     }

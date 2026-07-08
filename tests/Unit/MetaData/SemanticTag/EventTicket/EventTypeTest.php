@@ -6,13 +6,12 @@ namespace LauLamanApps\ApplePassbook\Tests\Unit\MetaData\SemanticTag\EventTicket
 
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag\EventTicket\EventType;
 use LauLamanApps\ApplePassbook\MetaData\SemanticTag\EventTicket\EventTypeEnum;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class EventTypeTest extends TestCase
 {
-    /**
-     * @dataProvider getEnums
-     */
+    #[DataProvider('getEnums')]
     public function testSemanticTag(EventTypeEnum $enum, string $expectedValue): void
     {
         $semanticTag = new EventType($enum);
@@ -21,7 +20,9 @@ class EventTypeTest extends TestCase
         self::assertSame($expectedValue, $semanticTag->getValue());
     }
 
-    /** @return array<string, array{EventTypeEnum, string}> */
+    /**
+     * @return array<string, mixed>
+     */
     public static function getEnums(): array
     {
         return [
